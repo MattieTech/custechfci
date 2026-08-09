@@ -190,13 +190,13 @@ function initSearch() {
 }
 
 function getBase() {
-  var parts = window.location.pathname.split('/').filter(function(p){ return p !== ''; });
-  var file  = parts[parts.length - 1] || '';
-  if (!file.includes('.html')) return '';
-  var depth = parts.length - 1;
-  var base  = '';
-  for (var i = 0; i < depth; i++) base += '../';
-  return base;
+  var path = window.location.pathname.replace(/\\/g, '/');
+  if (path.includes('/pages/contacts/') || path.includes('/pages/departments/')) {
+    return '../../';
+  } else if (path.includes('/pages/')) {
+    return '../';
+  }
+  return '';
 }
 
 
