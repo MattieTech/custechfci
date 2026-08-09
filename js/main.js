@@ -342,7 +342,7 @@ function calcCGPA() {
   if (!totUnits) { alert('Please enter at least one course with units and a grade.'); return; }
 
   var cgpa   = (totPts / totUnits).toFixed(2);
-  var cls    = parseFloat(cgpa) >= 4.50 ? 'First Class Honours 🎉' :
+  var cls    = parseFloat(cgpa) >= 4.50 ? 'First Class Honours' :
                parseFloat(cgpa) >= 3.50 ? 'Second Class Upper' :
                parseFloat(cgpa) >= 2.50 ? 'Second Class Lower' :
                parseFloat(cgpa) >= 1.50 ? 'Third Class' :
