@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resources | FCI Student Guide</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="page-body">
+  <div id="headerSlot"></div>
+  <div class="page-hero">
+    <div class="breadcrumb"><a href="../index.html">Home</a><i class="fas fa-chevron-right"></i>Resources</div>
+    <h1 class="page-hero-title"><i class="fas fa-book-open"></i> Resources</h1>
+    <p class="page-hero-sub">Tools, calculators, and study materials to support your academic journey.</p>
+  </div>
+  <section class="section">
+    <div class="section-inner">
+      <div class="res-tabs fade-in">
+        <button class="res-tab" data-panel="panel-cgpa"><i class="fas fa-calculator"></i> CGPA Calculator</button>
+        <button class="res-tab" data-panel="panel-age"><i class="fas fa-birthday-cake"></i> Age Calculator</button>
+        <button class="res-tab" data-panel="panel-materials"><i class="fas fa-folder-open"></i> Study Materials</button>
+        <button class="res-tab" data-panel="panel-calendar"><i class="fas fa-calendar-alt"></i> Academic Calendar</button>
+      </div>
+
+      <!-- CGPA Panel -->
+      <div class="res-panel" id="panel-cgpa">
+        <div class="cgpa-layout fade-in">
+          <div class="calc-card">
+            <h3><i class="fas fa-calculator"></i> CGPA Calculator</h3>
+            <p class="calc-desc">Enter your courses, credit units, and grades. Maximum CGPA at CUSTECH is <strong>5.0</strong>.</p>
+            <div class="col-headers">
+              <span>Course Name</span><span>Units</span><span>Grade</span><span></span>
+            </div>
+            <div id="courseRows"></div>
+            <button class="add-row-btn" onclick="addCourseRow()"><i class="fas fa-plus-circle"></i> Add Course</button>
+            <div class="calc-actions">
+              <button class="btn btn-brown" onclick="calcCGPA()"><i class="fas fa-equals"></i> Calculate CGPA</button>
+              <button class="btn btn-primary" onclick="clearCGPA()"><i class="fas fa-rotate-left"></i> Clear All</button>
+            </div>
+            <div class="cgpa-result" id="cgpaResult">
+              <div class="cgpa-result-label">Your CGPA</div>
+              <div class="cgpa-number" id="cgpaNumber">0.00</div>
+              <div class="cgpa-class" id="cgpaClass">---</div>
+            </div>
+          </div>
+          <div class="cgpa-right">
+            <div class="scale-card">
+              <h3><i class="fas fa-list"></i> Grade Scale</h3>
+              <div class="scale-row"><span>A &mdash; 70 to 100</span><strong>5.0 points</strong></div>
+              <div class="scale-row"><span>B &mdash; 60 to 69</span><strong>4.0 points</strong></div>
+              <div class="scale-row"><span>C &mdash; 50 to 59</span><strong>3.0 points</strong></div>
+              <div class="scale-row"><span>D &mdash; 45 to 49</span><strong>2.0 points</strong></div>
+              <div class="scale-row"><span>E &mdash; 40 to 44</span><strong>1.0 point</strong></div>
+              <div class="scale-row"><span>F &mdash; 0 to 39</span><strong>0.0 points</strong></div>
+            </div>
+            <div class="scale-card">
+              <h3><i class="fas fa-award"></i> Classification</h3>
+              <div class="scale-row"><span>4.50 &ndash; 5.00</span><strong>First Class</strong></div>
+              <div class="scale-row"><span>3.50 &ndash; 4.49</span><strong>2nd Class Upper</strong></div>
+              <div class="scale-row"><span>2.50 &ndash; 3.49</span><strong>2nd Class Lower</strong></div>
+              <div class="scale-row"><span>1.50 &ndash; 2.49</span><strong>Third Class</strong></div>
+              <div class="scale-row"><span>1.00 &ndash; 1.49</span><strong>Pass</strong></div>
+              <div class="scale-row"><span>Below 1.00</span><strong>Fail</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Age Panel -->
+      <div class="res-panel" id="panel-age">
+        <div class="calc-card age-wrap fade-in">
+          <h3><i class="fas fa-birthday-cake"></i> Age Calculator</h3>
+          <p class="calc-desc">Enter your date of birth to find out your exact age today.</p>
+          <label class="form-label" for="dobInput">Your Date of Birth</label>
+          <input class="calc-input" type="date" id="dobInput">
+          <div class="calc-actions">
+            <button class="btn btn-brown" onclick="calcAge()"><i class="fas fa-calendar-check"></i> Calculate My Age</button>
+          </div>
+          <div class="age-result" id="ageResult"></div>
+        </div>
+      </div>
+
+      <!-- Materials Panel -->
+      <div class="res-panel" id="panel-materials">
+        <div class="section-header fade-in">
+          <span class="section-label">Academic Resources</span>
+          <h2 class="section-title" style="font-size:26px">Study Materials</h2>
+        </div>
+        <h4 class="materials-heading fade-in"><i class="fas fa-file-pdf"></i> Past Questions</h4>
+        <div class="pdf-grid fade-in">
+          <div class="pdf-card" onclick="window.open('https:t.me/mattie_tech', '_blank')"><div class="pdf-icon"><i class="fas fa-file-pdf"></i></div><div class="pdf-info"><h4>100 Level Past Questions</h4><p>PDF &middot; click me to download</p></div><i class="fas fa-download pdf-dl"></i></div>
+          <div class="pdf-card" onclick="window.open('https:t.me/mattie_tech', '_blank')"><div class="pdf-icon"><i class="fas fa-file-pdf"></i></div><div class="pdf-info"><h4>200 Level Past Questions</h4><p>PDF &middot; click me to download</p></div><i class="fas fa-download pdf-dl"></i></div>
+          <div class="pdf-card"onclick="window.open('https:t.me/mattie_tech', '_blank')"><div class="pdf-icon"><i class="fas fa-file-pdf"></i></div><div class="pdf-info"><h4>300 Level Past Questions</h4><p>PDF &middot; click me to download</p></div><i class="fas fa-download pdf-dl"></i></div>
+          <div class="pdf-card"onclick="window.open('https:t.me/mattie_tech', '_blank')"><div class="pdf-icon"><i class="fas fa-file-pdf"></i></div><div class="pdf-info"><h4>400 Level Past Questions</h4><p>PDF &middot; click me to download</p></div><i class="fas fa-download pdf-dl"></i></div>
+        </div>
+        <h4 class="materials-heading fade-in"><i class="fas fa-book"></i> Lecture Notes</h4>
+        <div class="pdf-grid fade-in">
+          <div class="pdf-card"><div class="pdf-icon pdf-icon-blue"><i class="fas fa-file-alt"></i></div><div class="pdf-info"><h4>Introduction to Programming</h4><p>Computer Science &middot; 100 Level</p></div><i class="fas fa-download pdf-dl"></i></div>
+          <div class="pdf-card"><div class="pdf-icon pdf-icon-green"><i class="fas fa-file-alt"></i></div><div class="pdf-info"><h4>Data Structures &amp; Algorithms</h4><p>Computer Science &middot; 200 Level</p></div><i class="fas fa-download pdf-dl"></i></div>
+          <div class="pdf-card"><div class="pdf-icon pdf-icon-purple"><i class="fas fa-file-alt"></i></div><div class="pdf-info"><h4>Network Security Fundamentals</h4><p>Cyber Security &middot; 200 Level</p></div><i class="fas fa-download pdf-dl"></i></div>
+          <div class="pdf-card"><div class="pdf-icon pdf-icon-orange"><i class="fas fa-file-alt"></i></div><div class="pdf-info"><h4>Software Design Patterns</h4><p>Software Engineering &middot; 300 Level</p></div><i class="fas fa-download pdf-dl"></i></div>
+        </div>
+      </div>
+
+      <!-- Calendar Panel -->
+      <div class="res-panel" id="panel-calendar">
+        <div class="section-header fade-in">
+          <span class="section-label">Official Schedule</span>
+          <h2 class="section-title" style="font-size:26px">Academic Calendar</h2>
+        </div>
+        <div class="calendar-layout fade-in">
+          <div class="pdf-grid">
+            <div class="pdf-card"><div class="pdf-icon"><i class="fas fa-file-pdf"></i></div><div class="pdf-info"><h4>Academic Calendar 2025/2026</h4><p>Official CUSTECH &middot; PDF</p></div><i class="fas fa-download pdf-dl"></i></div>
+            <div class="pdf-card"><div class="pdf-icon"><i class="fas fa-file-pdf"></i></div><div class="pdf-info"><h4>Examination Timetable</h4><p>Current semester &middot; PDF</p></div><i class="fas fa-download pdf-dl"></i></div>
+          </div>
+          <div class="scale-card">
+            <h3><i class="fas fa-clock"></i> Key Academic Dates</h3>
+            <div class="scale-row"><span>Resumption</span><strong>23/03/2026</strong></div>
+            <div class="scale-row"><span>Course Reg. Deadline</span><strong>Not Specific</strong></div>
+            <div class="scale-row"><span>Second Semester Exams</span><strong>Coming Soon</strong></div>
+            <div class="scale-row"><span>2nd Semester Begins</span><strong>23/03/2026</strong></div>
+            <div class="scale-row"><span>End of Session</span><strong>Coming Soon</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div id="footerSlot"></div>
+  <div id="annSlot"></div>
+  <script src="../js/components.js"></script>
+  <script src="../js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      initResTabs();
+      clearCGPA();
+    });
+  </script>
+</body>
+</html>
