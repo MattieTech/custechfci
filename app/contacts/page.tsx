@@ -186,41 +186,19 @@ export default function ContactsPage() {
             Select your academic level to view direct phone numbers and WhatsApp links for class representatives.
           </p>
 
-          {/* Stand-alone Faculty Rep Card */}
-          <div className="bg-gradient-to-r from-brand-900 via-brand-950 to-brand-900 text-white p-6 rounded-2xl border border-brand-800 shadow-md mb-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div>
-              <span className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-0.5 rounded-full bg-brand-800 text-brand-200 border border-brand-700/60 mb-2">
-                <ShieldCheck size={13} className="text-emerald-400" /> Stand-alone Faculty Executive
+          {/* Hierarchy Guide Banner */}
+          <div className="bg-brand-100/60 dark:bg-brand-900/50 p-5 rounded-2xl border border-brand-200/80 dark:border-brand-800/80 mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="space-y-1">
+              <span className="text-xs font-semibold text-brand-700 dark:text-brand-300 uppercase tracking-wider block">
+                Level-Specific Representation
               </span>
-              <h3 className="text-xl sm:text-2xl font-bold font-serif text-white">
-                Faculty Representative
-              </h3>
-              <p className="text-xs sm:text-sm text-brand-200 mt-1 max-w-xl">
-                Official student liaison across all 5 departments and all academic levels (100L – 400L) in FCI.
+              <p className="text-xs sm:text-sm text-brand-800 dark:text-brand-200">
+                Each academic level features its own <strong>Faculty Representative</strong> as well as <strong>Course Representatives</strong> and <strong>Assistant Course Representatives</strong> for every accredited department.
               </p>
             </div>
-
-            <div className="flex flex-wrap items-center gap-3">
-              <div className="bg-brand-800/80 border border-brand-700 px-3.5 py-2 rounded-xl flex items-center gap-2 text-white">
-                <Phone size={15} className="text-brand-300" />
-                <span className="font-mono text-sm font-bold">09054177365</span>
-              </div>
-              <a
-                href="https://wa.me/2349054177365"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#1ebd5a] text-white text-xs sm:text-sm font-semibold shadow-sm transition-colors"
-              >
-                <MessageSquare size={15} /> WhatsApp
-              </a>
-              <a
-                href="tel:09054177365"
-                className="inline-flex items-center justify-center p-2.5 rounded-xl border border-brand-700 bg-brand-800 hover:bg-brand-700 text-white transition-colors"
-                title="Call Faculty Representative"
-              >
-                <Phone size={15} />
-              </a>
-            </div>
+            <span className="shrink-0 text-xs font-medium text-brand-600 dark:text-brand-400 bg-white dark:bg-brand-950 px-3 py-1.5 rounded-lg border border-brand-200 dark:border-brand-800 shadow-sm">
+              Select Your Level Below
+            </span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

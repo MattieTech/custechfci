@@ -192,3 +192,4 @@ export const ALL_CALENDAR_EVENTS: CalendarEvent[] = [
   ...FIRST_SEMESTER_EVENTS,
   ...SECOND_SEMESTER_EVENTS,
 ];
+

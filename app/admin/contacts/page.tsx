@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { createClient } from '@/lib/supabase/client';
 import { toast } from 'sonner';
 import {
   Plus,
@@ -17,6 +16,9 @@ import {
   CheckCircle2,
   ExternalLink,
   Users,
+  Building2,
+  Award,
+  UserCheck
 } from 'lucide-react';
 import {
   loadCommunityGroups,
@@ -24,29 +26,18 @@ import {
   type ClassGroup,
   DEFAULT_COMMUNITY_GROUPS,
 } from '@/lib/community-groups';
-
-type Contact = {
-  id: string;
-  name: string;
-  role: string;
-  phone: string | null;
-  whatsapp_url: string | null;
-  level: number | null;
-  department_name: string | null;
-};
-
-const DEPARTMENTS = [
-  'Computer Science',
-  'Software Engineering',
-  'Information Technology (IFT)',
-  'Cyber Security',
-  'Library & Information Science',
-  'General Faculty',
-];
+import {
+  loadLevelRepresentatives,
+  saveLevelRepresentativesLocally,
+  type LevelRepresentatives,
+  type DepartmentRepresentatives,
+  DEFAULT_LEVEL_REPRESENTATIVES,
+  FCI_DEPARTMENTS,
+  formatWhatsAppUrl,
+} from '@/lib/contacts-data';
 
 export default function ContactsAdminPage() {
-  const supabase = createClient();
-  const [activeMainTab, setActiveMainTab] = useState<'groups' | 'reps'>('groups');
+  const [activeMainTab, setActiveMainTab] = useState<'groups' | 'reps'>('reps');
 
   // Groups State
   const [groups, setGroups] = useState<ClassGroup[]>([]);
@@ -56,7 +47,7 @@ export default function ContactsAdminPage() {
 
   // Group Form
   const [groupName, setGroupName] = useState('');
-  const [groupDept, setGroupDept] = useState(DEPARTMENTS[0]);
+  const [groupDept, setGroupDept] = useState(FCI_DEPARTMENTS[0]);
   const [groupLevel, setGroupLevel] = useState('100');
   const [groupRepName, setGroupRepName] = useState('');
   const [groupWaLink, setGroupWaLink] = useState('');
@@ -64,52 +55,47 @@ export default function ContactsAdminPage() {
   const [groupMemberEstimate, setGroupMemberEstimate] = useState('100+ students');
   const [groupIsVerified, setGroupIsVerified] = useState(true);
 
-  // Reps State
-  const [contacts, setContacts] = useState<Contact[]>([]);
-  const [loadingContacts, setLoadingContacts] = useState(true);
-  const [isSubmittingRep, setIsSubmittingRep] = useState(false);
-  const [showRepModal, setShowRepModal] = useState(false);
-  const [editingRepId, setEditingRepId] = useState<string | null>(null);
+  // Representatives State
+  const [levelReps, setLevelReps] = useState<LevelRepresentatives[]>(DEFAULT_LEVEL_REPRESENTATIVES);
+  const [loadingReps, setLoadingReps] = useState(true);
+  const [selectedAdminLevel, setSelectedAdminLevel] = useState<number>(200);
 
-  // Rep Form State
-  const [repName, setRepName] = useState('');
-  const [repRole, setRepRole] = useState('course_rep');
-  const [repPhone, setRepPhone] = useState('');
-  const [repWhatsappUrl, setRepWhatsappUrl] = useState('');
-  const [repLevel, setRepLevel] = useState('100');
-  const [repDepartmentName, setRepDepartmentName] = useState(DEPARTMENTS[0]);
+  // Faculty Rep Edit Modal State
+  const [showFacultyModal, setShowFacultyModal] = useState(false);
+  const [facLevel, setFacLevel] = useState<number>(200);
+  const [facName, setFacName] = useState('');
+  const [facPhone, setFacPhone] = useState('');
+  const [facWhatsapp, setFacWhatsapp] = useState('');
 
-  // Load Groups
+  // Department Reps Edit Modal State
+  const [showDeptModal, setShowDeptModal] = useState(false);
+  const [deptLevel, setDeptLevel] = useState<number>(200);
+  const [deptName, setDeptName] = useState('');
+  const [courseRepName, setCourseRepName] = useState('');
+  const [courseRepPhone, setCourseRepPhone] = useState('');
+  const [courseRepWhatsapp, setCourseRepWhatsapp] = useState('');
+  const [asstRepName, setAsstRepName] = useState('');
+  const [asstRepPhone, setAsstRepPhone] = useState('');
+  const [asstRepWhatsapp, setAsstRepWhatsapp] = useState('');
+
+  // Load Groups and Representatives
   useEffect(() => {
     loadCommunityGroups().then((res) => {
       setGroups(res);
       setLoadingGroups(false);
     });
-  }, []);
 
-  // Load Contacts
-  const fetchContacts = async () => {
-    setLoadingContacts(true);
-    try {
-      const { data, error } = await supabase.from('contacts').select('*').order('level', { ascending: true });
-      if (error) throw error;
-      setContacts(data || []);
-    } catch (error: any) {
-      // Fallback
-    } finally {
-      setLoadingContacts(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchContacts();
+    loadLevelRepresentatives().then((res) => {
+      setLevelReps(res);
+      setLoadingReps(false);
+    });
   }, []);
 
   // --- Group Handlers ---
   const handleOpenAddGroup = () => {
     setEditingGroupId(null);
     setGroupName('');
-    setGroupDept(DEPARTMENTS[0]);
+    setGroupDept(FCI_DEPARTMENTS[0]);
     setGroupLevel('100');
     setGroupRepName('Course Rep');
     setGroupWaLink('https://chat.whatsapp.com/');
@@ -193,88 +179,105 @@ export default function ContactsAdminPage() {
     toast.success('Reset to official defaults completed');
   };
 
-  // --- Rep Handlers ---
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    setRepPhone(val);
-    if (val) {
-      const digits = val.replace(/\D/g, '');
-      const waNumber = digits.startsWith('0') ? `234${digits.substring(1)}` : digits;
-      setRepWhatsappUrl(`https://wa.me/${waNumber}`);
-    } else {
-      setRepWhatsappUrl('');
-    }
+  // --- Representatives Handlers ---
+  const currentActiveLevelData = levelReps.find((lr) => lr.level === selectedAdminLevel) || levelReps[0];
+
+  const handleOpenEditFacultyRep = (levelNum: number) => {
+    const lvl = levelReps.find((lr) => lr.level === levelNum);
+    if (!lvl) return;
+    setFacLevel(levelNum);
+    setFacName(lvl.faculty_rep.name);
+    setFacPhone(lvl.faculty_rep.phone);
+    setFacWhatsapp(lvl.faculty_rep.whatsapp);
+    setShowFacultyModal(true);
   };
 
-  const handleSubmitRep = async (e: React.FormEvent) => {
+  const handleSaveFacultyRep = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!repName) {
-      toast.error('Name is required');
+    if (!facName.trim()) {
+      toast.error('Faculty Representative name is required');
       return;
     }
 
-    setIsSubmittingRep(true);
-    try {
-      const payload = {
-        name: repName,
-        role: repRole,
-        phone: repPhone || null,
-        whatsapp_url: repWhatsappUrl || null,
-        level: repRole === 'faculty_rep' ? null : parseInt(repLevel),
-        department_name: repDepartmentName,
-      };
-
-      if (editingRepId) {
-        const { error } = await supabase.from('contacts').update(payload).eq('id', editingRepId);
-        if (error) throw error;
-        toast.success('Representative updated successfully');
-      } else {
-        const { error } = await supabase.from('contacts').insert(payload);
-        if (error) throw error;
-        toast.success('Representative added successfully');
+    const updated = levelReps.map((lr) => {
+      if (lr.level === facLevel) {
+        return {
+          ...lr,
+          faculty_rep: {
+            name: facName.trim(),
+            phone: facPhone.trim(),
+            whatsapp: facWhatsapp.trim() || formatWhatsAppUrl(facPhone.trim()),
+          },
+        };
       }
+      return lr;
+    });
 
-      setShowRepModal(false);
-      resetRepForm();
-      fetchContacts();
-    } catch (error: any) {
-      toast.error('Submission failed', { description: error.message });
-    } finally {
-      setIsSubmittingRep(false);
+    setLevelReps(updated);
+    await saveLevelRepresentativesLocally(updated);
+    setShowFacultyModal(false);
+    toast.success(`${facLevel} Level Faculty Representative updated successfully`);
+  };
+
+  const handleOpenEditDepartmentReps = (levelNum: number, dept: DepartmentRepresentatives) => {
+    setDeptLevel(levelNum);
+    setDeptName(dept.department);
+    setCourseRepName(dept.course_rep.name);
+    setCourseRepPhone(dept.course_rep.phone);
+    setCourseRepWhatsapp(dept.course_rep.whatsapp);
+    setAsstRepName(dept.assistant_rep.name);
+    setAsstRepPhone(dept.assistant_rep.phone);
+    setAsstRepWhatsapp(dept.assistant_rep.whatsapp);
+    setShowDeptModal(true);
+  };
+
+  const handleSaveDepartmentReps = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!courseRepName.trim() && !asstRepName.trim()) {
+      toast.error('Representative name is required');
+      return;
     }
+
+    const updated = levelReps.map((lr) => {
+      if (lr.level === deptLevel) {
+        const updatedDepts = lr.departments.map((d) => {
+          if (d.department === deptName) {
+            return {
+              ...d,
+              course_rep: {
+                name: courseRepName.trim() || `${deptName} Course Rep`,
+                phone: courseRepPhone.trim(),
+                whatsapp: courseRepWhatsapp.trim() || formatWhatsAppUrl(courseRepPhone.trim()),
+              },
+              assistant_rep: {
+                name: asstRepName.trim() || `${deptName} Assistant Rep`,
+                phone: asstRepPhone.trim(),
+                whatsapp: asstRepWhatsapp.trim() || formatWhatsAppUrl(asstRepPhone.trim()),
+              },
+            };
+          }
+          return d;
+        });
+        return { ...lr, departments: updatedDepts };
+      }
+      return lr;
+    });
+
+    setLevelReps(updated);
+    await saveLevelRepresentativesLocally(updated);
+    setShowDeptModal(false);
+    toast.success(`${deptName} (${deptLevel}L) representatives updated successfully`);
   };
 
-  const resetRepForm = () => {
-    setRepName('');
-    setRepRole('course_rep');
-    setRepPhone('');
-    setRepWhatsappUrl('');
-    setRepLevel('100');
-    setRepDepartmentName(DEPARTMENTS[0]);
-    setEditingRepId(null);
-  };
+  const handleResetLevelReps = async () => {
+    if (!window.confirm(`Reset all representatives for ${selectedAdminLevel} Level to defaults?`)) return;
+    const defaultForLevel = DEFAULT_LEVEL_REPRESENTATIVES.find((lr) => lr.level === selectedAdminLevel);
+    if (!defaultForLevel) return;
 
-  const handleEditRep = (contact: Contact) => {
-    setRepName(contact.name);
-    setRepRole(contact.role);
-    setRepPhone(contact.phone || '');
-    setRepWhatsappUrl(contact.whatsapp_url || '');
-    setRepLevel(contact.level ? contact.level.toString() : '100');
-    setRepDepartmentName(contact.department_name || DEPARTMENTS[0]);
-    setEditingRepId(contact.id);
-    setShowRepModal(true);
-  };
-
-  const handleDeleteRep = async (id: string) => {
-    if (!window.confirm('Delete this contact?')) return;
-    try {
-      const { error } = await supabase.from('contacts').delete().eq('id', id);
-      if (error) throw error;
-      toast.success('Contact removed');
-      setContacts(contacts.filter((c) => c.id !== id));
-    } catch (error: any) {
-      toast.error('Delete failed', { description: error.message });
-    }
+    const updated = levelReps.map((lr) => (lr.level === selectedAdminLevel ? defaultForLevel : lr));
+    setLevelReps(updated);
+    await saveLevelRepresentativesLocally(updated);
+    toast.success(`${selectedAdminLevel} Level reset to defaults`);
   };
 
   return (
@@ -283,10 +286,10 @@ export default function ContactsAdminPage() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold font-heading text-brand-900 dark:text-brand-50">
-            Contacts & Community Groups
+            Contacts &amp; Leadership Directory
           </h1>
           <p className="text-xs sm:text-sm text-brand-600 dark:text-brand-400 mt-1">
-            Manage official class WhatsApp links, Telegram communities, and course reps directory.
+            Manage level-specific Faculty Representatives, departmental Course &amp; Assistant Reps, and WhatsApp groups.
           </p>
         </div>
 
@@ -299,7 +302,7 @@ export default function ContactsAdminPage() {
                 title="Restore default placeholder links"
               >
                 <RotateCcw size={14} />
-                <span>Reset Placeholders</span>
+                <span>Reset Groups</span>
               </button>
               <button
                 onClick={handleOpenAddGroup}
@@ -311,14 +314,12 @@ export default function ContactsAdminPage() {
             </>
           ) : (
             <button
-              onClick={() => {
-                resetRepForm();
-                setShowRepModal(true);
-              }}
-              className="flex items-center gap-2 px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-sm font-semibold transition-colors shadow-sm"
+              onClick={handleResetLevelReps}
+              className="flex items-center gap-1.5 px-3 py-2 border border-brand-200 dark:border-brand-700 hover:bg-brand-50 dark:hover:bg-brand-800 text-brand-700 dark:text-brand-300 rounded-lg text-xs font-semibold transition-colors"
+              title="Restore official default reps for this level"
             >
-              <Plus size={18} />
-              <span>Add Course Rep</span>
+              <RotateCcw size={14} />
+              <span>Reset {selectedAdminLevel}L Defaults</span>
             </button>
           )}
         </div>
@@ -326,17 +327,6 @@ export default function ContactsAdminPage() {
 
       {/* Main Tabs */}
       <div className="flex border-b border-brand-200 dark:border-brand-800 gap-6">
-        <button
-          onClick={() => setActiveMainTab('groups')}
-          className={`pb-3 text-sm font-semibold border-b-2 transition-all flex items-center gap-2 cursor-pointer ${
-            activeMainTab === 'groups'
-              ? 'border-brand-600 text-brand-600 dark:border-brand-400 dark:text-brand-400 font-bold'
-              : 'border-transparent text-brand-500 hover:text-brand-800 dark:hover:text-brand-300'
-          }`}
-        >
-          <MessageSquare size={16} />
-          <span>Department & Class WhatsApp Groups ({groups.length})</span>
-        </button>
         <button
           onClick={() => setActiveMainTab('reps')}
           className={`pb-3 text-sm font-semibold border-b-2 transition-all flex items-center gap-2 cursor-pointer ${
@@ -346,11 +336,183 @@ export default function ContactsAdminPage() {
           }`}
         >
           <Users size={16} />
-          <span>Course Representatives ({contacts.length})</span>
+          <span>Faculty &amp; Departmental Course Reps (By Level)</span>
+        </button>
+
+        <button
+          onClick={() => setActiveMainTab('groups')}
+          className={`pb-3 text-sm font-semibold border-b-2 transition-all flex items-center gap-2 cursor-pointer ${
+            activeMainTab === 'groups'
+              ? 'border-brand-600 text-brand-600 dark:border-brand-400 dark:text-brand-400 font-bold'
+              : 'border-transparent text-brand-500 hover:text-brand-800 dark:hover:text-brand-300'
+          }`}
+        >
+          <MessageSquare size={16} />
+          <span>Department &amp; Class WhatsApp Groups ({groups.length})</span>
         </button>
       </div>
 
-      {/* TAB 1: WhatsApp Groups */}
+      {/* TAB 1: Level Representatives Directory */}
+      {activeMainTab === 'reps' && (
+        <div className="space-y-6">
+          {/* Level Switcher Subtabs */}
+          <div className="flex items-center gap-2 bg-brand-100/60 dark:bg-brand-900/60 p-1.5 rounded-2xl border border-brand-200/80 dark:border-brand-800">
+            {[100, 200, 300, 400].map((lvl) => (
+              <button
+                key={lvl}
+                onClick={() => setSelectedAdminLevel(lvl)}
+                className={`flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+                  selectedAdminLevel === lvl
+                    ? 'bg-white dark:bg-brand-800 text-brand-900 dark:text-brand-50 shadow-sm ring-1 ring-brand-200 dark:ring-brand-700'
+                    : 'text-brand-600 dark:text-brand-400 hover:text-brand-900 dark:hover:text-brand-200'
+                }`}
+              >
+                {lvl} Level
+              </button>
+            ))}
+          </div>
+
+          {loadingReps ? (
+            <div className="flex justify-center p-12">
+              <Loader2 className="animate-spin text-brand-600" size={32} />
+            </div>
+          ) : currentActiveLevelData ? (
+            <div className="space-y-6">
+              {/* SECTION 1: Level-Specific Faculty Representative */}
+              <div className="bg-gradient-to-r from-brand-900 via-brand-950 to-brand-900 text-white rounded-2xl border border-brand-800 p-6 shadow-md flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div>
+                  <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-brand-800 text-brand-200 text-xs font-semibold mb-2 border border-brand-700">
+                    <ShieldCheck size={13} className="text-emerald-400" />
+                    <span>{selectedAdminLevel} Level Faculty Representative</span>
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-bold font-serif text-white">
+                    {currentActiveLevelData.faculty_rep.name}
+                  </h3>
+                  <div className="flex flex-wrap items-center gap-4 text-xs text-brand-200 mt-2 font-mono">
+                    <span className="flex items-center gap-1.5">
+                      <Phone size={13} className="text-brand-400" />
+                      {currentActiveLevelData.faculty_rep.phone || 'No phone set'}
+                    </span>
+                    {currentActiveLevelData.faculty_rep.whatsapp ? (
+                      <a
+                        href={currentActiveLevelData.faculty_rep.whatsapp}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-emerald-400 hover:underline flex items-center gap-1"
+                      >
+                        <MessageSquare size={13} /> WhatsApp URL
+                      </a>
+                    ) : null}
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => handleOpenEditFacultyRep(selectedAdminLevel)}
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand-700 hover:bg-brand-600 text-white text-xs sm:text-sm font-semibold transition-colors shadow-sm self-start md:self-center"
+                >
+                  <Edit size={15} />
+                  <span>Edit Faculty Rep</span>
+                </button>
+              </div>
+
+              {/* SECTION 2: Departmental Course & Assistant Reps */}
+              <div className="space-y-4">
+                <div className="flex justify-between items-center pb-2 border-b border-brand-200 dark:border-brand-800">
+                  <div>
+                    <h3 className="text-lg font-bold text-brand-900 dark:text-brand-100 font-serif">
+                      Departmental Representatives ({selectedAdminLevel} Level)
+                    </h3>
+                    <p className="text-xs text-brand-500">
+                      Manage Course Representatives and Assistant Course Representatives for each accredited department.
+                    </p>
+                  </div>
+                  <span className="text-xs font-medium text-brand-500">
+                    {currentActiveLevelData.departments.length} Departments
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  {currentActiveLevelData.departments.map((dept) => (
+                    <div
+                      key={dept.department}
+                      className="bg-white dark:bg-brand-900 rounded-2xl border border-brand-200 dark:border-brand-800 shadow-sm p-5 flex flex-col justify-between hover:border-brand-400 dark:hover:border-brand-700 transition-all"
+                    >
+                      <div>
+                        {/* Header */}
+                        <div className="flex items-center justify-between pb-3 mb-3 border-b border-brand-100 dark:border-brand-800">
+                          <div className="flex items-center gap-2">
+                            <Building2 size={16} className="text-brand-600 dark:text-brand-400" />
+                            <h4 className="font-bold text-brand-900 dark:text-brand-100 text-base">
+                              {dept.department}
+                            </h4>
+                          </div>
+                          <button
+                            onClick={() => handleOpenEditDepartmentReps(selectedAdminLevel, dept)}
+                            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold bg-brand-100 hover:bg-brand-200 dark:bg-brand-800 dark:hover:bg-brand-700 text-brand-800 dark:text-brand-200 transition-colors"
+                          >
+                            <Edit size={13} /> Edit Reps
+                          </button>
+                        </div>
+
+                        {/* Dual Reps Display */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          {/* Course Rep */}
+                          <div className="p-3.5 rounded-xl bg-brand-50/70 dark:bg-brand-950/70 border border-brand-100 dark:border-brand-800/80">
+                            <div className="flex items-center gap-1 text-[11px] font-bold text-brand-700 dark:text-brand-300 mb-1">
+                              <UserCheck size={12} /> Course Representative
+                            </div>
+                            <p className="font-semibold text-sm text-brand-950 dark:text-brand-100 truncate">
+                              {dept.course_rep.name}
+                            </p>
+                            <p className="text-xs text-brand-500 font-mono mt-1">
+                              {dept.course_rep.phone || 'No phone'}
+                            </p>
+                            {dept.course_rep.whatsapp ? (
+                              <a
+                                href={dept.course_rep.whatsapp}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 text-[11px] text-emerald-600 dark:text-emerald-400 hover:underline mt-2 font-medium"
+                              >
+                                <MessageSquare size={11} /> Test WhatsApp
+                              </a>
+                            ) : null}
+                          </div>
+
+                          {/* Assistant Rep */}
+                          <div className="p-3.5 rounded-xl bg-brand-50/70 dark:bg-brand-950/70 border border-brand-100 dark:border-brand-800/80">
+                            <div className="flex items-center gap-1 text-[11px] font-bold text-indigo-700 dark:text-indigo-300 mb-1">
+                              <Award size={12} /> Assistant Course Rep
+                            </div>
+                            <p className="font-semibold text-sm text-brand-950 dark:text-brand-100 truncate">
+                              {dept.assistant_rep.name}
+                            </p>
+                            <p className="text-xs text-brand-500 font-mono mt-1">
+                              {dept.assistant_rep.phone || 'No phone'}
+                            </p>
+                            {dept.assistant_rep.whatsapp ? (
+                              <a
+                                href={dept.assistant_rep.whatsapp}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 text-[11px] text-emerald-600 dark:text-emerald-400 hover:underline mt-2 font-medium"
+                              >
+                                <MessageSquare size={11} /> Test WhatsApp
+                              </a>
+                            ) : null}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ) : null}
+        </div>
+      )}
+
+      {/* TAB 2: WhatsApp Groups */}
       {activeMainTab === 'groups' && (
         <div className="space-y-4">
           <div className="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60 p-4 rounded-xl text-xs text-amber-900 dark:text-amber-200">
@@ -424,53 +586,239 @@ export default function ContactsAdminPage() {
         </div>
       )}
 
-      {/* TAB 2: Course Representatives */}
-      {activeMainTab === 'reps' && (
-        <div>
-          {loadingContacts ? (
-            <div className="flex justify-center p-12">
-              <Loader2 className="animate-spin text-brand-600" size={32} />
+      {/* Modal: Edit Faculty Representative */}
+      {showFacultyModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
+          <div className="bg-white dark:bg-brand-900 rounded-2xl w-full max-w-md shadow-2xl border border-brand-200 dark:border-brand-800 my-8">
+            <div className="p-5 border-b border-brand-200 dark:border-brand-800 flex justify-between items-center">
+              <h2 className="text-lg font-bold font-heading text-brand-900 dark:text-brand-100">
+                Edit {facLevel}L Faculty Representative
+              </h2>
+              <button onClick={() => setShowFacultyModal(false)} className="text-brand-400 hover:text-brand-600">
+                <XCircle size={22} />
+              </button>
             </div>
-          ) : contacts.length === 0 ? (
-            <div className="py-12 text-center text-brand-500 bg-white dark:bg-brand-900 rounded-lg border border-brand-200 dark:border-brand-800">
-              No contacts found. Click "Add Course Rep" to create one.
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {contacts.map((contact) => (
-                <div
-                  key={contact.id}
-                  className="bg-white dark:bg-brand-900 rounded-xl shadow-sm border border-brand-200 dark:border-brand-800 p-5 flex flex-col justify-between"
+
+            <form onSubmit={handleSaveFacultyRep} className="p-6 space-y-4">
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-brand-700 dark:text-brand-300 mb-1">
+                  Level
+                </label>
+                <input
+                  type="text"
+                  disabled
+                  value={`${facLevel} Level`}
+                  className="w-full px-3 py-2 rounded-lg border border-brand-200 dark:border-brand-700 bg-brand-50 dark:bg-brand-950/50 text-sm text-brand-600 font-medium"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-brand-700 dark:text-brand-300 mb-1">
+                  Faculty Rep Name *
+                </label>
+                <input
+                  required
+                  type="text"
+                  placeholder="e.g. John Doe (Faculty Rep)"
+                  value={facName}
+                  onChange={(e) => setFacName(e.target.value)}
+                  className="w-full px-3 py-2 rounded-lg border border-brand-200 dark:border-brand-700 bg-white dark:bg-brand-950 text-sm focus:ring-2 focus:ring-brand-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-brand-700 dark:text-brand-300 mb-1">
+                  Phone Number
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. 09054177365"
+                  value={facPhone}
+                  onChange={(e) => {
+                    setFacPhone(e.target.value);
+                    if (!facWhatsapp || facWhatsapp.includes('wa.me')) {
+                      setFacWhatsapp(formatWhatsAppUrl(e.target.value));
+                    }
+                  }}
+                  className="w-full px-3 py-2 rounded-lg border border-brand-200 dark:border-brand-700 bg-white dark:bg-brand-950 text-sm focus:ring-2 focus:ring-brand-500 font-mono"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-brand-700 dark:text-brand-300 mb-1">
+                  WhatsApp Direct URL
+                </label>
+                <input
+                  type="url"
+                  placeholder="https://wa.me/2349054177365"
+                  value={facWhatsapp}
+                  onChange={(e) => setFacWhatsapp(e.target.value)}
+                  className="w-full px-3 py-2 rounded-lg border border-brand-200 dark:border-brand-700 bg-white dark:bg-brand-950 text-sm focus:ring-2 focus:ring-brand-500 font-mono text-xs"
+                />
+              </div>
+
+              <div className="pt-4 flex items-center justify-end gap-3 border-t border-brand-100 dark:border-brand-800">
+                <button
+                  type="button"
+                  onClick={() => setShowFacultyModal(false)}
+                  className="px-4 py-2 border border-brand-200 dark:border-brand-700 rounded-lg text-xs font-semibold text-brand-700 dark:text-brand-300 hover:bg-brand-50 dark:hover:bg-brand-800"
                 >
-                  <div className="flex justify-between items-start mb-2">
-                    <div>
-                      <h3 className="font-bold text-brand-900 dark:text-brand-50">{contact.name}</h3>
-                      <p className="text-xs text-brand-500 capitalize">{contact.role.replace('_', ' ')}</p>
-                    </div>
-                    <div className="flex gap-1">
-                      <button onClick={() => handleEditRep(contact)} className="text-brand-500 hover:text-brand-700 p-1">
-                        <Edit size={16} />
-                      </button>
-                      <button onClick={() => handleDeleteRep(contact.id)} className="text-red-500 hover:text-red-700 p-1">
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-                  </div>
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-xs font-semibold shadow-sm transition-colors"
+                >
+                  Save Faculty Rep
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
-                  <div className="text-xs text-brand-700 dark:text-brand-300 mb-2">
-                    {contact.department_name} {contact.level ? `• ${contact.level}L` : ''}
-                  </div>
-
-                  {contact.phone && (
-                    <div className="flex items-center gap-2 text-xs text-brand-600 dark:text-brand-400 pt-2 border-t border-brand-100 dark:border-brand-800">
-                      <Phone size={13} />
-                      <span>{contact.phone}</span>
-                    </div>
-                  )}
-                </div>
-              ))}
+      {/* Modal: Edit Department Course & Assistant Reps */}
+      {showDeptModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
+          <div className="bg-white dark:bg-brand-900 rounded-2xl w-full max-w-xl shadow-2xl border border-brand-200 dark:border-brand-800 my-8">
+            <div className="p-5 border-b border-brand-200 dark:border-brand-800 flex justify-between items-center">
+              <div>
+                <h2 className="text-lg font-bold font-heading text-brand-900 dark:text-brand-100">
+                  Edit Department Representatives
+                </h2>
+                <p className="text-xs text-brand-500">
+                  {deptName} &bull; {deptLevel} Level
+                </p>
+              </div>
+              <button onClick={() => setShowDeptModal(false)} className="text-brand-400 hover:text-brand-600">
+                <XCircle size={22} />
+              </button>
             </div>
-          )}
+
+            <form onSubmit={handleSaveDepartmentReps} className="p-6 space-y-6">
+              {/* Part 1: Course Representative */}
+              <div className="p-4 rounded-xl bg-brand-50/60 dark:bg-brand-950/60 border border-brand-200/80 dark:border-brand-800 space-y-3">
+                <span className="text-xs font-bold text-brand-800 dark:text-brand-200 flex items-center gap-1.5 uppercase tracking-wider">
+                  <UserCheck size={14} /> Course Representative
+                </span>
+
+                <div>
+                  <label className="block text-xs font-medium text-brand-600 dark:text-brand-400 mb-1">
+                    Course Rep Name
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Jane Doe"
+                    value={courseRepName}
+                    onChange={(e) => setCourseRepName(e.target.value)}
+                    className="w-full px-3 py-2 rounded-lg border border-brand-200 dark:border-brand-700 bg-white dark:bg-brand-950 text-sm focus:ring-2 focus:ring-brand-500"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-medium text-brand-600 dark:text-brand-400 mb-1">
+                      Phone Number
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 08012345678"
+                      value={courseRepPhone}
+                      onChange={(e) => {
+                        setCourseRepPhone(e.target.value);
+                        if (!courseRepWhatsapp || courseRepWhatsapp.includes('wa.me')) {
+                          setCourseRepWhatsapp(formatWhatsAppUrl(e.target.value));
+                        }
+                      }}
+                      className="w-full px-3 py-2 rounded-lg border border-brand-200 dark:border-brand-700 bg-white dark:bg-brand-950 text-sm font-mono focus:ring-2 focus:ring-brand-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-brand-600 dark:text-brand-400 mb-1">
+                      WhatsApp URL
+                    </label>
+                    <input
+                      type="url"
+                      placeholder="https://wa.me/..."
+                      value={courseRepWhatsapp}
+                      onChange={(e) => setCourseRepWhatsapp(e.target.value)}
+                      className="w-full px-3 py-2 rounded-lg border border-brand-200 dark:border-brand-700 bg-white dark:bg-brand-950 text-xs font-mono focus:ring-2 focus:ring-brand-500"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Part 2: Assistant Course Representative */}
+              <div className="p-4 rounded-xl bg-brand-50/60 dark:bg-brand-950/60 border border-brand-200/80 dark:border-brand-800 space-y-3">
+                <span className="text-xs font-bold text-indigo-700 dark:text-indigo-300 flex items-center gap-1.5 uppercase tracking-wider">
+                  <Award size={14} /> Assistant Course Representative
+                </span>
+
+                <div>
+                  <label className="block text-xs font-medium text-brand-600 dark:text-brand-400 mb-1">
+                    Assistant Rep Name
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Alex Smith"
+                    value={asstRepName}
+                    onChange={(e) => setAsstRepName(e.target.value)}
+                    className="w-full px-3 py-2 rounded-lg border border-brand-200 dark:border-brand-700 bg-white dark:bg-brand-950 text-sm focus:ring-2 focus:ring-brand-500"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-medium text-brand-600 dark:text-brand-400 mb-1">
+                      Phone Number
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 08087654321"
+                      value={asstRepPhone}
+                      onChange={(e) => {
+                        setAsstRepPhone(e.target.value);
+                        if (!asstRepWhatsapp || asstRepWhatsapp.includes('wa.me')) {
+                          setAsstRepWhatsapp(formatWhatsAppUrl(e.target.value));
+                        }
+                      }}
+                      className="w-full px-3 py-2 rounded-lg border border-brand-200 dark:border-brand-700 bg-white dark:bg-brand-950 text-sm font-mono focus:ring-2 focus:ring-brand-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-brand-600 dark:text-brand-400 mb-1">
+                      WhatsApp URL
+                    </label>
+                    <input
+                      type="url"
+                      placeholder="https://wa.me/..."
+                      value={asstRepWhatsapp}
+                      onChange={(e) => setAsstRepWhatsapp(e.target.value)}
+                      className="w-full px-3 py-2 rounded-lg border border-brand-200 dark:border-brand-700 bg-white dark:bg-brand-950 text-xs font-mono focus:ring-2 focus:ring-brand-500"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-4 flex items-center justify-end gap-3 border-t border-brand-100 dark:border-brand-800">
+                <button
+                  type="button"
+                  onClick={() => setShowDeptModal(false)}
+                  className="px-4 py-2 border border-brand-200 dark:border-brand-700 rounded-lg text-xs font-semibold text-brand-700 dark:text-brand-300 hover:bg-brand-50 dark:hover:bg-brand-800"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-xs font-semibold shadow-sm transition-colors"
+                >
+                  Save Department Reps
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       )}
 
@@ -512,7 +860,7 @@ export default function ContactsAdminPage() {
                     onChange={(e) => setGroupDept(e.target.value)}
                     className="w-full px-3 py-2 rounded-lg border border-brand-200 dark:border-brand-700 bg-white dark:bg-brand-950 text-sm focus:ring-2 focus:ring-brand-500"
                   >
-                    {DEPARTMENTS.map((d) => (
+                    {[...FCI_DEPARTMENTS, 'General Faculty'].map((d) => (
                       <option key={d} value={d}>
                         {d}
                       </option>
@@ -599,155 +947,27 @@ export default function ContactsAdminPage() {
                     type="checkbox"
                     checked={groupIsVerified}
                     onChange={(e) => setGroupIsVerified(e.target.checked)}
-                    className="rounded border-brand-300 text-brand-600 focus:ring-brand-500 w-4 h-4"
+                    className="rounded text-brand-600 focus:ring-brand-500 w-4 h-4"
                   />
-                  <span className="text-xs font-semibold text-brand-800 dark:text-brand-200">
-                    Display "Verified Faculty Group" badge
+                  <span className="text-xs font-semibold text-brand-700 dark:text-brand-300">
+                    Display Verified Faculty Badge
                   </span>
                 </label>
               </div>
 
-              <div className="pt-4 flex justify-end gap-3 border-t border-brand-200 dark:border-brand-800">
+              <div className="pt-4 flex items-center justify-end gap-3 border-t border-brand-100 dark:border-brand-800">
                 <button
                   type="button"
                   onClick={() => setShowGroupModal(false)}
-                  className="px-4 py-2 border border-brand-200 dark:border-brand-700 rounded-lg text-sm text-brand-700 dark:text-brand-300 hover:bg-brand-50"
+                  className="px-4 py-2 border border-brand-200 dark:border-brand-700 rounded-lg text-xs font-semibold text-brand-700 dark:text-brand-300 hover:bg-brand-50 dark:hover:bg-brand-800"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-sm font-semibold transition-colors shadow-sm"
+                  className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-xs font-semibold shadow-sm transition-colors"
                 >
                   Save Group
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* Modal: Add/Edit Course Rep */}
-      {showRepModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
-          <div className="bg-white dark:bg-brand-900 rounded-2xl w-full max-w-lg shadow-2xl border border-brand-200 dark:border-brand-800 my-8">
-            <div className="p-5 border-b border-brand-200 dark:border-brand-800 flex justify-between items-center">
-              <h2 className="text-lg font-bold font-heading text-brand-900 dark:text-brand-100">
-                {editingRepId ? 'Edit Representative' : 'Add Representative'}
-              </h2>
-              <button onClick={() => setShowRepModal(false)} className="text-brand-400 hover:text-brand-600">
-                <XCircle size={22} />
-              </button>
-            </div>
-
-            <form onSubmit={handleSubmitRep} className="p-6 space-y-4">
-              <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-brand-700 dark:text-brand-300 mb-1">
-                  Name *
-                </label>
-                <input
-                  required
-                  type="text"
-                  value={repName}
-                  onChange={(e) => setRepName(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg border border-brand-200 dark:border-brand-700 bg-white dark:bg-brand-950 text-sm focus:ring-2 focus:ring-brand-500"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-brand-700 dark:text-brand-300 mb-1">
-                    Role *
-                  </label>
-                  <select
-                    required
-                    value={repRole}
-                    onChange={(e) => setRepRole(e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg border border-brand-200 dark:border-brand-700 bg-white dark:bg-brand-950 text-sm focus:ring-2 focus:ring-brand-500"
-                  >
-                    <option value="course_rep">Course Rep</option>
-                    <option value="faculty_rep">Faculty Rep</option>
-                  </select>
-                </div>
-
-                {repRole === 'course_rep' && (
-                  <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-brand-700 dark:text-brand-300 mb-1">
-                      Level *
-                    </label>
-                    <select
-                      required
-                      value={repLevel}
-                      onChange={(e) => setRepLevel(e.target.value)}
-                      className="w-full px-3 py-2 rounded-lg border border-brand-200 dark:border-brand-700 bg-white dark:bg-brand-950 text-sm focus:ring-2 focus:ring-brand-500"
-                    >
-                      <option value="100">100 Level</option>
-                      <option value="200">200 Level</option>
-                      <option value="300">300 Level</option>
-                      <option value="400">400 Level</option>
-                    </select>
-                  </div>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-brand-700 dark:text-brand-300 mb-1">
-                  Department
-                </label>
-                <select
-                  value={repDepartmentName}
-                  onChange={(e) => setRepDepartmentName(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg border border-brand-200 dark:border-brand-700 bg-white dark:bg-brand-950 text-sm focus:ring-2 focus:ring-brand-500"
-                >
-                  {DEPARTMENTS.map((dept) => (
-                    <option key={dept} value={dept}>
-                      {dept}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-brand-700 dark:text-brand-300 mb-1">
-                  Phone Number
-                </label>
-                <input
-                  type="text"
-                  value={repPhone}
-                  onChange={handlePhoneChange}
-                  placeholder="08012345678"
-                  className="w-full px-3 py-2 rounded-lg border border-brand-200 dark:border-brand-700 bg-white dark:bg-brand-950 text-sm focus:ring-2 focus:ring-brand-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-brand-700 dark:text-brand-300 mb-1">
-                  WhatsApp Direct URL
-                </label>
-                <input
-                  type="url"
-                  value={repWhatsappUrl}
-                  onChange={(e) => setRepWhatsappUrl(e.target.value)}
-                  placeholder="https://wa.me/2348012345678"
-                  className="w-full px-3 py-2 rounded-lg border border-brand-200 dark:border-brand-700 bg-white dark:bg-brand-950 text-sm focus:ring-2 focus:ring-brand-500"
-                />
-              </div>
-
-              <div className="pt-4 flex justify-end gap-3 border-t border-brand-200 dark:border-brand-800">
-                <button
-                  type="button"
-                  onClick={() => setShowRepModal(false)}
-                  className="px-4 py-2 border border-brand-200 dark:border-brand-700 rounded-lg text-sm text-brand-700 dark:text-brand-300 hover:bg-brand-50"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={isSubmittingRep}
-                  className="flex items-center gap-2 px-5 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-sm font-semibold transition-colors disabled:opacity-50 shadow-sm"
-                >
-                  {isSubmittingRep ? <Loader2 size={16} className="animate-spin" /> : null}
-                  <span>{isSubmittingRep ? 'Saving...' : 'Save Representative'}</span>
                 </button>
               </div>
             </form>
@@ -757,4 +977,3 @@ export default function ContactsAdminPage() {
     </div>
   );
 }
-

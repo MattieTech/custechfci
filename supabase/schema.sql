@@ -179,6 +179,20 @@ CREATE TABLE IF NOT EXISTS public.community_groups (
 CREATE INDEX IF NOT EXISTS idx_community_groups_dept ON public.community_groups(department);
 CREATE INDEX IF NOT EXISTS idx_community_groups_level ON public.community_groups(level);
 
+-- ============================================
+-- 9. LEVEL_REPRESENTATIVES (Hierarchy: Level -> Faculty Rep & Departmental Reps)
+-- ============================================
+CREATE TABLE IF NOT EXISTS public.level_representatives (
+  level INTEGER PRIMARY KEY CHECK (level IN (100, 200, 300, 400)),
+  faculty_rep JSONB NOT NULL,
+  departments JSONB NOT NULL,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+ALTER TABLE public.level_representatives ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow public read-only access on level_representatives" ON public.level_representatives FOR SELECT USING (true);
+CREATE POLICY "Allow authenticated admins to insert/update level_representatives" ON public.level_representatives FOR ALL TO authenticated USING (true);
+
 -- ROW LEVEL SECURITY POLICIES
 -- ============================================
 
