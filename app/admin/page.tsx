@@ -9,6 +9,7 @@ import {
   Users,
   TrendingUp,
   Clock,
+  UserCheck,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -17,6 +18,7 @@ interface Stats {
   announcements: number;
   upcomingExams: number;
   contacts: number;
+  admins: number;
 }
 
 export default function AdminDashboardPage() {
@@ -25,6 +27,7 @@ export default function AdminDashboardPage() {
     announcements: 0,
     upcomingExams: 0,
     contacts: 0,
+    admins: 0,
   });
   const [loading, setLoading] = useState(true);
 
@@ -35,7 +38,7 @@ export default function AdminDashboardPage() {
   async function loadStats() {
     const supabase = createClient();
 
-    const [materialsRes, announcementsRes, timetableRes, contactsRes] =
+    const [materialsRes, announcementsRes, timetableRes, contactsRes, profilesRes] =
       await Promise.all([
         supabase.from('materials').select('id', { count: 'exact', head: true }),
         supabase
@@ -45,6 +48,7 @@ export default function AdminDashboardPage() {
           .from('exam_timetable')
           .select('id', { count: 'exact', head: true }),
         supabase.from('contacts').select('id', { count: 'exact', head: true }),
+        supabase.from('profiles').select('id', { count: 'exact', head: true }),
       ]);
 
     setStats({
@@ -52,11 +56,19 @@ export default function AdminDashboardPage() {
       announcements: announcementsRes.count || 0,
       upcomingExams: timetableRes.count || 0,
       contacts: contactsRes.count || 0,
+      admins: profilesRes.count || 0,
     });
     setLoading(false);
   }
 
   const statCards = [
+    {
+      label: 'Portal Admins & Reps',
+      value: stats.admins,
+      icon: UserCheck,
+      href: '/admin/users',
+      color: 'text-indigo-600 bg-indigo-50 dark:bg-indigo-950/30',
+    },
     {
       label: 'Total Materials',
       value: stats.materials,
@@ -134,6 +146,20 @@ export default function AdminDashboardPage() {
           Quick Actions
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <Link
+            href="/admin/users"
+            className="flex items-center gap-3 p-4 rounded-lg border border-brand-200 dark:border-brand-800 hover:bg-brand-50 dark:hover:bg-brand-800/50 transition-colors bg-brand-50/40 dark:bg-brand-950/40"
+          >
+            <UserCheck className="w-5 h-5 text-indigo-600" />
+            <div>
+              <div className="text-sm font-medium text-brand-900 dark:text-brand-100">
+                Onboard Reps &amp; Staff
+              </div>
+              <div className="text-xs text-brand-500 dark:text-brand-400">
+                Add reps &amp; lecturers as portal admins
+              </div>
+            </div>
+          </Link>
           <Link
             href="/admin/materials"
             className="flex items-center gap-3 p-4 rounded-lg border border-brand-200 dark:border-brand-800 hover:bg-brand-50 dark:hover:bg-brand-800/50 transition-colors"

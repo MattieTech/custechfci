@@ -15,10 +15,12 @@ import {
   X,
   GraduationCap,
   ChevronRight,
+  UserCheck,
 } from 'lucide-react';
 
 const adminNavItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/admin/users', label: 'Onboard Reps & Staff', icon: UserCheck },
   { href: '/admin/materials', label: 'Materials', icon: FileText },
   { href: '/admin/announcements', label: 'Announcements', icon: Megaphone },
   { href: '/admin/timetable', label: 'Timetable', icon: CalendarDays },
