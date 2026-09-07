@@ -50,11 +50,11 @@ type Material = {
   course_title: string | null;
   level: number | null;
   semester: number | null;
-  type: string;
+  material_type: string;
+  type?: string;
   session: string | null;
   file_url: string;
   file_name: string;
-  file_type: string | null;
   file_size: number | null;
   is_published: boolean;
   created_at: string;
@@ -267,6 +267,7 @@ export default function ResourcesPage() {
       }
       if (materialTypeFilter) {
         query = query.eq("type", materialTypeFilter);
+        query = query.eq("material_type", materialTypeFilter);
       }
 
       const { data, error } = await query;
@@ -293,25 +294,26 @@ export default function ResourcesPage() {
       return;
     }
 
-    if (contribFile.size > 10 * 1024 * 1024) {
-      toast.error("File size cannot exceed 10MB");
+    if (contribFile.size > 15 * 1024 * 1024) {
+      toast.error("File size cannot exceed 15MB");
       return;
     }
 
     setContribSubmitting(true);
     try {
-      const fileExt = contribFile.name.split(".").pop();
-      const fileName = `student_${Date.now()}_${Math.random().toString(36).substring(2, 8)}.${fileExt}`;
+      const uploadFormData = new FormData();
+      uploadFormData.append("file", contribFile);
+      uploadFormData.append("bucket", "materials");
 
-      const { error: uploadError } = await supabase.storage
-        .from("materials")
-        .upload(fileName, contribFile);
+      const uploadRes = await fetch("/api/upload", {
+        method: "POST",
+        body: uploadFormData,
+      });
 
-      if (uploadError) throw uploadError;
-
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from("materials").getPublicUrl(fileName);
+      const uploadData = await uploadRes.json();
+      if (!uploadRes.ok || !uploadData.url) {
+        throw new Error(uploadData.error || "Failed to upload file to storage");
+      }
 
       const { error: insertError } = await supabase.from("materials").insert({
         title: contribTitle.trim(),
@@ -320,12 +322,11 @@ export default function ResourcesPage() {
         course_title: contribCourseTitle.trim() || null,
         level: parseInt(contribLevel),
         semester: parseInt(contribSemester),
-        type: contribType,
+        material_type: contribType,
         session: "2025/2026",
-        file_url: publicUrl,
-        file_name: contribFile.name,
-        file_type: contribFile.type || null,
-        file_size: contribFile.size,
+        file_url: uploadData.url,
+        file_name: uploadData.fileName || contribFile.name,
+        file_size: uploadData.size || contribFile.size,
         is_published: false, // Pending admin review
       });
 
@@ -806,7 +807,7 @@ export default function ResourcesPage() {
                       <div>
                         <div className="flex items-start justify-between gap-2 mb-2">
                           <span className="px-2.5 py-0.5 rounded text-[11px] font-semibold uppercase tracking-wider bg-brand-100 dark:bg-brand-800 text-brand-800 dark:text-brand-200">
-                            {item.type.replace("_", " ")}
+                            {(item.material_type || item.type || "material").replace("_", " ")}
                           </span>
                           {item.level && (
                             <span className="text-xs font-medium text-brand-500">{item.level}L</span>

@@ -1,5 +1,5 @@
 export const SITE_CONFIG = {
-  name: 'FCI Student Guide',
+  name: 'CUSTECH FCI',
   description: 'Official student portal for the Faculty of Computing and Informatics at CUSTECH Osara.',
   university: 'Confluence University of Science and Technology (CUSTECH) Osara',
 };

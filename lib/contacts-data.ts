@@ -394,3 +394,4 @@ export function formatWhatsAppUrl(phone: string): string {
   const waNumber = digits.startsWith('0') ? `234${digits.substring(1)}` : digits;
   return `https://wa.me/${waNumber}`;
 }
+

@@ -12,9 +12,15 @@ import { PwaRegister } from '@/components/pwa-register';
 export const metadata: Metadata = {
   manifest: '/manifest.json',
   themeColor: '#7A5A42',
+  applicationName: 'CUSTECH FCI',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'CUSTECH FCI',
+  },
   title: {
-    template: '%s | FCI Student Guide',
-    default: 'FCI Student Guide | CUSTECH Osara',
+    template: '%s | CUSTECH FCI',
+    default: 'CUSTECH FCI | Faculty of Computing and Informatics',
   },
   description: 'Official student portal for the Faculty of Computing and Informatics at CUSTECH Osara.',
   icons: {

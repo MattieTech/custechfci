@@ -28,11 +28,11 @@ type Material = {
   course_title: string | null;
   level: number | null;
   semester: number | null;
-  type: string;
+  material_type: string;
+  type?: string;
   session: string | null;
   file_url: string;
   file_name: string;
-  file_type: string | null;
   file_size: number | null;
   is_published: boolean;
   created_at: string;
@@ -60,7 +60,7 @@ export default function MaterialsAdminPage() {
   const [sessionStr, setSessionStr] = useState('2025/2026');
   const [file, setFile] = useState<File | null>(null);
 
-  const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+  const MAX_FILE_SIZE = 15 * 1024 * 1024; // 15MB
 
   const fetchMaterials = async () => {
     setLoading(true);
@@ -71,7 +71,7 @@ export default function MaterialsAdminPage() {
         query = query.eq('level', parseInt(levelFilter));
       }
       if (typeFilter) {
-        query = query.eq('type', typeFilter);
+        query = query.eq('material_type', typeFilter);
       }
 
       const { data, error } = await query;
@@ -95,36 +95,38 @@ export default function MaterialsAdminPage() {
       return;
     }
     if (file.size > MAX_FILE_SIZE) {
-      toast.error('File size exceeds 10MB limit');
+      toast.error('File size exceeds 15MB limit');
       return;
     }
 
     setIsUploading(true);
     try {
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Math.random()}.${fileExt}`;
-      const filePath = `${fileName}`;
+      const uploadFormData = new FormData();
+      uploadFormData.append('file', file);
+      uploadFormData.append('bucket', 'materials');
 
-      const { error: uploadError } = await supabase.storage.from('materials').upload(filePath, file);
-      if (uploadError) throw uploadError;
+      const uploadRes = await fetch('/api/upload', {
+        method: 'POST',
+        body: uploadFormData,
+      });
 
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from('materials').getPublicUrl(filePath);
+      const uploadData = await uploadRes.json();
+      if (!uploadRes.ok || !uploadData.url) {
+        throw new Error(uploadData.error || 'Failed to upload file to storage');
+      }
 
       const { error: insertError } = await supabase.from('materials').insert({
-        title,
-        description,
-        course_code: courseCode || null,
-        course_title: courseTitle || null,
+        title: title.trim(),
+        description: description.trim() || null,
+        course_code: courseCode ? courseCode.trim().toUpperCase() : null,
+        course_title: courseTitle ? courseTitle.trim() : null,
         level: parseInt(level),
         semester: parseInt(semester),
-        type: materialType,
+        material_type: materialType,
         session: sessionStr,
-        file_url: publicUrl,
-        file_name: file.name,
-        file_type: file.type || null,
-        file_size: file.size,
+        file_url: uploadData.url,
+        file_name: uploadData.fileName || file.name,
+        file_size: uploadData.size || file.size,
         is_published: true,
       });
 
@@ -184,6 +186,11 @@ export default function MaterialsAdminPage() {
         const fileName = pathParts[pathParts.length - 1];
         if (fileName) {
           await supabase.storage.from('materials').remove([fileName]);
+          await fetch('/api/upload', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ path: fileName, bucket: 'materials' }),
+          });
         }
       } catch (e) {
         console.error('Error deleting file from storage', e);
@@ -338,7 +345,7 @@ export default function MaterialsAdminPage() {
                         </div>
                       </td>
                       <td className="px-6 py-4 capitalize text-brand-700 dark:text-brand-300">
-                        {material.type.replace('_', ' ')}
+                        {(material.material_type || material.type || 'material').replace('_', ' ')}
                       </td>
                       <td className="px-6 py-4 text-brand-700 dark:text-brand-300">{material.level}L</td>
                       <td className="px-6 py-4">

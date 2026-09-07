@@ -1,6 +1,8 @@
 {
   "name": "FCI Student Guide — CUSTECH Osara",
   "short_name": "FCI Guide",
+  "name": "CUSTECH FCI",
+  "short_name": "CUSTECH FCI",
   "description": "Official student portal for the Faculty of Computing and Informatics at CUSTECH Osara.",
   "start_url": "/",
   "id": "/",

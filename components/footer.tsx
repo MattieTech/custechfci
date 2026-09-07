@@ -49,6 +49,11 @@ export function Footer() {
             <li><Link href="/#guide" className="text-brand-300 hover:text-brand-100 transition-colors text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 rounded-sm">Faculty Regulations</Link></li>
             <li><Link href="/#guide" className="text-brand-300 hover:text-brand-100 transition-colors text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 rounded-sm">Exam Protocols</Link></li>
             <li><Link href="/contacts" className="text-brand-300 hover:text-brand-100 transition-colors text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 rounded-sm">Department Reps</Link></li>
+            <li><Link href="/#guide" className="text-brand-300 hover:text-brand-100 transition-colors text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 rounded-sm">Exam Protocols &amp; Conduct</Link></li>
+            <li><Link href="/about" className="text-brand-300 hover:text-brand-100 transition-colors text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 rounded-sm">About Faculty &amp; Leadership</Link></li>
+            <li><Link href="/resources?tab=cgpa" className="text-brand-300 hover:text-brand-100 transition-colors text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 rounded-sm">CGPA &amp; Grading System</Link></li>
+            <li><Link href="/contacts" className="text-brand-300 hover:text-brand-100 transition-colors text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 rounded-sm">Department &amp; Faculty Reps</Link></li>
+            <li><Link href="https://custech.edu.ng" target="_blank" rel="noopener noreferrer" className="text-brand-300 hover:text-brand-100 transition-colors text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 rounded-sm">Student Portal / Registration</Link></li>
             <li><Link href="/admin/login" className="text-brand-300 hover:text-brand-100 transition-colors text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 rounded-sm">Admin Portal</Link></li>
           </ul>
         </div>
