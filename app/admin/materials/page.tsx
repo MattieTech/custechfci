@@ -34,6 +34,7 @@ type Material = {
   file_url: string;
   file_name: string;
   file_size: number | null;
+  download_count?: number;
   is_published: boolean;
   created_at: string;
 };
@@ -238,7 +239,7 @@ export default function MaterialsAdminPage() {
       </div>
 
       {/* Tabs: All vs Pending Review */}
-      <div className="flex border-b border-brand-200 dark:border-brand-800 gap-4">
+      <div className="flex flex-wrap items-center border-b border-brand-200 dark:border-brand-800 gap-4">
         <button
           onClick={() => setActiveTab('all')}
           className={`pb-3 text-sm font-semibold border-b-2 transition-all cursor-pointer ${
@@ -264,6 +265,11 @@ export default function MaterialsAdminPage() {
             </span>
           )}
         </button>
+
+        <div className="sm:ml-auto flex items-center gap-1.5 text-xs text-brand-700 dark:text-brand-300 font-semibold px-3 py-1.5 bg-brand-100/80 dark:bg-brand-800/80 rounded-lg mb-2">
+          <Eye size={13} className="text-brand-500" />
+          <span>{materials.reduce((sum, m) => sum + (m.download_count || 0), 0)} Total Views &amp; Reads</span>
+        </div>
       </div>
 
       {/* Filter and Search Bar */}
@@ -317,9 +323,10 @@ export default function MaterialsAdminPage() {
             <table className="w-full text-left text-sm">
               <thead className="bg-brand-50/75 dark:bg-brand-800 text-brand-700 dark:text-brand-200 border-b border-brand-200 dark:border-brand-700">
                 <tr>
-                  <th className="px-6 py-4 font-semibold">Title & Course</th>
+                  <th className="px-6 py-4 font-semibold">Title &amp; Course</th>
                   <th className="px-6 py-4 font-semibold">Type</th>
                   <th className="px-6 py-4 font-semibold">Level</th>
+                  <th className="px-6 py-4 font-semibold">Views</th>
                   <th className="px-6 py-4 font-semibold">Status</th>
                   <th className="px-6 py-4 font-semibold">Date</th>
                   <th className="px-6 py-4 font-semibold text-right">Actions</th>
@@ -328,7 +335,7 @@ export default function MaterialsAdminPage() {
               <tbody className="divide-y divide-brand-100 dark:divide-brand-800">
                 {filteredMaterials.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="px-6 py-12 text-center text-brand-500">
+                    <td colSpan={7} className="px-6 py-12 text-center text-brand-500">
                       {activeTab === 'pending'
                         ? 'No pending student submissions waiting for review!'
                         : 'No study materials found.'}
@@ -348,6 +355,12 @@ export default function MaterialsAdminPage() {
                         {(material.material_type || material.type || 'material').replace('_', ' ')}
                       </td>
                       <td className="px-6 py-4 text-brand-700 dark:text-brand-300">{material.level}L</td>
+                      <td className="px-6 py-4 text-xs font-semibold text-brand-700 dark:text-brand-300">
+                        <span className="flex items-center gap-1">
+                          <Eye size={13} className="text-brand-400" />
+                          <span>{material.download_count || 0}</span>
+                        </span>
+                      </td>
                       <td className="px-6 py-4">
                         <button
                           onClick={() => togglePublish(material.id, material.is_published)}

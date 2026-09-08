@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -22,6 +22,7 @@ import {
   Check,
   type LucideIcon,
 } from 'lucide-react';
+import { CountdownWidget } from '@/components/countdown-widget';
 
 type TimetableType = 'lecture' | 'ca_test' | 'exam';
 
@@ -327,6 +328,15 @@ export default function TimetablePage() {
 
       {/* Main Content Area */}
       <div className="container mx-auto max-w-6xl px-4 md:px-6 py-8 flex-grow">
+        {/* Academic Countdown Banner */}
+        <CountdownWidget
+          key={activeTab}
+          variant="banner"
+          defaultMilestoneId={activeTab === 'exam' ? 'sem1-exam' : 'sem1-ca'}
+          showSelector={false}
+          className="mb-6 print:hidden"
+        />
+
         {/* Controls: Department & Level Selector & Search */}
         <div className="bg-white dark:bg-brand-900 rounded-2xl shadow-sm border border-brand-200 dark:border-brand-800 p-4 sm:p-5 mb-8 print:hidden flex flex-col gap-4">
           <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">

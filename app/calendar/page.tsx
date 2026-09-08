@@ -25,6 +25,7 @@ import {
   ISSUED_BY,
   CalendarEvent,
 } from "@/lib/academic-calendar";
+import { CountdownWidget } from "@/components/countdown-widget";
 
 export default function CalendarPage() {
   const [selectedSemester, setSelectedSemester] = useState<1 | 2>(1);
@@ -102,6 +103,12 @@ export default function CalendarPage() {
 
       {/* Main Content Area */}
       <div className="container mx-auto px-4 md:px-6 py-8 flex-grow space-y-8">
+        {/* Academic Countdown Widget */}
+        <CountdownWidget
+          variant="hero"
+          defaultMilestoneId={selectedSemester === 1 ? "sem1-exam" : "sem2-resumption"}
+        />
+
         {/* Semester Selector & Overview Stats */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           <div className="lg:col-span-3 bg-white dark:bg-brand-900 p-6 rounded-2xl border border-brand-200 dark:border-brand-800 shadow-sm flex flex-col justify-between">

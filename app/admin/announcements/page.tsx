@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { toast } from 'sonner';
-import { Plus, Trash2, Edit, Loader2, CheckCircle2, XCircle } from 'lucide-react';
+import { Plus, Trash2, Edit, Loader2, CheckCircle2, XCircle, BellRing, Send } from 'lucide-react';
 
 type Announcement = {
   id: string;
@@ -30,6 +30,14 @@ export default function AnnouncementsAdminPage() {
   const [category, setCategory] = useState('general');
   const [isImportant, setIsImportant] = useState(false);
   const [isPublished, setIsPublished] = useState(true);
+  const [sendPush, setSendPush] = useState(true);
+
+  // Standalone Push Broadcast Modal State
+  const [showBroadcastModal, setShowBroadcastModal] = useState(false);
+  const [broadcastTitle, setBroadcastTitle] = useState('');
+  const [broadcastBody, setBroadcastBody] = useState('');
+  const [broadcastUrl, setBroadcastUrl] = useState('/announcements');
+  const [isBroadcasting, setIsBroadcasting] = useState(false);
 
   const fetchAnnouncements = async () => {
     setLoading(true);
@@ -78,6 +86,27 @@ export default function AnnouncementsAdminPage() {
         const { error } = await supabase.from('announcements').insert(payload);
         if (error) throw error;
         toast.success('Announcement created successfully');
+
+        // Broadcast Web Push to students if enabled
+        if (isPublished && sendPush) {
+          fetch('/api/notifications/send', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              title: `📢 ${title}`,
+              body: content.length > 120 ? `${content.substring(0, 117)}...` : content,
+              url: '/announcements',
+              tag: `announcement-${Date.now()}`,
+            }),
+          })
+            .then((r) => r.json())
+            .then((resData) => {
+              if (resData.sentCount > 0) {
+                toast.info(`🔔 Push notification delivered to ${resData.sentCount} active subscriber(s)!`);
+              }
+            })
+            .catch(() => {});
+        }
       }
 
       setShowModal(false);
@@ -90,12 +119,48 @@ export default function AnnouncementsAdminPage() {
     }
   };
 
+  const handleCustomBroadcast = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!broadcastTitle || !broadcastBody) {
+      toast.error('Title and message are required for push broadcast');
+      return;
+    }
+
+    setIsBroadcasting(true);
+    try {
+      const res = await fetch('/api/notifications/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: broadcastTitle,
+          body: broadcastBody,
+          url: broadcastUrl || '/announcements',
+          tag: `broadcast-${Date.now()}`,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to send broadcast');
+
+      toast.success('Push notification broadcasted!', {
+        description: `Delivered to ${data.sentCount} active device(s).`,
+      });
+      setShowBroadcastModal(false);
+      setBroadcastTitle('');
+      setBroadcastBody('');
+    } catch (error: any) {
+      toast.error('Broadcast failed', { description: error.message });
+    } finally {
+      setIsBroadcasting(false);
+    }
+  };
+
   const resetForm = () => {
     setTitle('');
     setContent('');
     setCategory('general');
     setIsImportant(false);
     setIsPublished(true);
+    setSendPush(true);
     setEditingId(null);
   };
 
@@ -140,15 +205,28 @@ export default function AnnouncementsAdminPage() {
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold font-playfair text-brand-900 dark:text-brand-50">Announcements</h1>
-        <button
-          onClick={() => { resetForm(); setShowModal(true); }}
-          className="flex items-center gap-2 px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-md transition-colors"
-        >
-          <Plus size={20} />
-          <span>New Announcement</span>
-        </button>
+      <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6">
+        <div>
+          <h1 className="text-2xl font-bold font-playfair text-brand-900 dark:text-brand-50">Announcements</h1>
+          <p className="text-xs text-brand-500">Manage faculty announcements and student push alerts</p>
+        </div>
+        <div className="flex items-center gap-2.5">
+          <button
+            onClick={() => setShowBroadcastModal(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-md text-sm font-medium transition-colors shadow-sm"
+            title="Send an instant Web Push alert to all subscribed devices"
+          >
+            <BellRing size={16} />
+            <span>Send Push Alert</span>
+          </button>
+          <button
+            onClick={() => { resetForm(); setShowModal(true); }}
+            className="flex items-center gap-2 px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-md text-sm font-medium transition-colors shadow-sm"
+          >
+            <Plus size={18} />
+            <span>New Announcement</span>
+          </button>
+        </div>
       </div>
 
       {loading ? (
@@ -264,7 +342,7 @@ export default function AnnouncementsAdminPage() {
                 </select>
               </div>
               
-              <div className="flex gap-6 pt-2">
+              <div className="flex flex-wrap gap-6 pt-2">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="checkbox"
@@ -283,6 +361,18 @@ export default function AnnouncementsAdminPage() {
                   />
                   <span className="text-sm font-medium">Publish Immediately</span>
                 </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={sendPush}
+                    onChange={(e) => setSendPush(e.target.checked)}
+                    className="rounded border-brand-300 text-amber-600 focus:ring-amber-500"
+                  />
+                  <span className="text-sm font-medium flex items-center gap-1.5 text-amber-600 dark:text-amber-400">
+                    <BellRing size={14} />
+                    Push Notify Devices
+                  </span>
+                </label>
               </div>
 
               <div className="pt-4 flex justify-end gap-3">
@@ -300,6 +390,103 @@ export default function AnnouncementsAdminPage() {
                 >
                   {isSubmitting ? <Loader2 size={18} className="animate-spin" /> : null}
                   <span>{isSubmitting ? 'Saving...' : 'Save Announcement'}</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Broadcast Custom Push Notification Modal */}
+      {showBroadcastModal && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-brand-900 rounded-xl max-w-lg w-full p-6 shadow-xl border border-brand-200 dark:border-brand-800">
+            <div className="flex items-center justify-between mb-4 border-b border-brand-100 dark:border-brand-800 pb-3">
+              <div className="flex items-center gap-2">
+                <div className="p-2 rounded-lg bg-amber-100 dark:bg-amber-950 text-amber-600">
+                  <BellRing size={20} />
+                </div>
+                <div>
+                  <h2 className="text-lg font-bold text-brand-950 dark:text-brand-50">
+                    Send Instant Web Push Alert
+                  </h2>
+                  <p className="text-xs text-brand-500">
+                    Delivered in background to all students with notifications enabled
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowBroadcastModal(false)}
+                className="text-brand-400 hover:text-brand-600"
+              >
+                &times;
+              </button>
+            </div>
+
+            <form onSubmit={handleCustomBroadcast} className="space-y-4">
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-400 mb-1">
+                  Notification Title *
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g., 📢 Urgent: Exam Hall Relocation"
+                  value={broadcastTitle}
+                  onChange={(e) => setBroadcastTitle(e.target.value)}
+                  className="w-full px-3 py-2 text-sm rounded-lg border border-brand-200 dark:border-brand-800 bg-transparent focus:ring-2 focus:ring-amber-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-400 mb-1">
+                  Alert Message / Body *
+                </label>
+                <textarea
+                  required
+                  rows={3}
+                  placeholder="e.g., CSC 201 Examination has been rescheduled to Hall B at 10:00 AM."
+                  value={broadcastBody}
+                  onChange={(e) => setBroadcastBody(e.target.value)}
+                  className="w-full px-3 py-2 text-sm rounded-lg border border-brand-200 dark:border-brand-800 bg-transparent focus:ring-2 focus:ring-amber-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-brand-600 dark:text-brand-400 mb-1">
+                  Action Link URL
+                </label>
+                <input
+                  type="text"
+                  placeholder="/timetable or /announcements"
+                  value={broadcastUrl}
+                  onChange={(e) => setBroadcastUrl(e.target.value)}
+                  className="w-full px-3 py-2 text-sm rounded-lg border border-brand-200 dark:border-brand-800 bg-transparent focus:ring-2 focus:ring-amber-500"
+                />
+                <span className="text-[11px] text-brand-400 mt-1 block">
+                  Students will be redirected here when they tap the notification.
+                </span>
+              </div>
+
+              <div className="pt-4 flex justify-end gap-3 border-t border-brand-100 dark:border-brand-800">
+                <button
+                  type="button"
+                  onClick={() => setShowBroadcastModal(false)}
+                  className="px-4 py-2 text-sm border border-brand-200 dark:border-brand-800 rounded-lg hover:bg-brand-50 dark:hover:bg-brand-900 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isBroadcasting}
+                  className="flex items-center gap-2 px-5 py-2 text-sm font-semibold bg-amber-600 hover:bg-amber-700 text-white rounded-lg transition-colors shadow-sm disabled:opacity-50"
+                >
+                  {isBroadcasting ? (
+                    <Loader2 size={16} className="animate-spin" />
+                  ) : (
+                    <Send size={16} />
+                  )}
+                  <span>{isBroadcasting ? 'Broadcasting...' : 'Broadcast to All Devices'}</span>
                 </button>
               </div>
             </form>

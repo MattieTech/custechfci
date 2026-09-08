@@ -56,6 +56,7 @@ type Material = {
   file_url: string;
   file_name: string;
   file_size: number | null;
+  download_count?: number;
   is_published: boolean;
   created_at: string;
 };
@@ -285,6 +286,21 @@ export default function ResourcesPage() {
       fetchMaterials();
     }
   }, [activeTab, materialLevel, materialTypeFilter]);
+
+  const incrementMaterialView = async (id: string) => {
+    try {
+      fetch('/api/materials/view', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ materialId: id }),
+      });
+      setMaterials((prev) =>
+        prev.map((m) => (m.id === id ? { ...m, download_count: (m.download_count || 0) + 1 } : m))
+      );
+    } catch (e) {
+      console.warn('View count increment error:', e);
+    }
+  };
 
   // Handle Student Material Contribution
   const handleStudentSubmission = async (e: React.FormEvent) => {
@@ -832,13 +848,20 @@ export default function ResourcesPage() {
                       </div>
 
                       <div className="pt-4 mt-4 border-t border-brand-100 dark:border-brand-800/60 flex items-center justify-between gap-2">
-                        <span className="text-[11px] text-brand-400">
-                          {item.file_size ? `${(item.file_size / (1024 * 1024)).toFixed(1)} MB` : "Document"}
-                        </span>
+                        <div className="flex items-center gap-2 text-[11px] text-brand-500 dark:text-brand-400">
+                          <span>{item.file_size ? `${(item.file_size / (1024 * 1024)).toFixed(1)} MB` : "Document"}</span>
+                          <span>&bull;</span>
+                          <span className="flex items-center gap-1 font-medium text-brand-600 dark:text-brand-300">
+                            <Eye size={12} /> {item.download_count || 0} views
+                          </span>
+                        </div>
 
                         <div className="flex items-center gap-2">
                           <button
-                            onClick={() => setPreviewMaterial(item)}
+                            onClick={() => {
+                              setPreviewMaterial(item);
+                              incrementMaterialView(item.id);
+                            }}
                             className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold text-brand-700 dark:text-brand-300 bg-brand-50 hover:bg-brand-100 dark:bg-brand-900 dark:hover:bg-brand-800 transition-colors"
                           >
                             <Eye size={14} /> Preview
@@ -848,6 +871,7 @@ export default function ResourcesPage() {
                             download={item.file_name}
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={() => incrementMaterialView(item.id)}
                             className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-brand-600 hover:bg-brand-700 transition-colors"
                           >
                             <Download size={14} /> Download
@@ -1017,6 +1041,9 @@ export default function ResourcesPage() {
                 </div>
               </div>
               <div className="flex items-center gap-2 shrink-0">
+                <span className="hidden sm:inline-flex items-center gap-1 text-xs text-brand-600 dark:text-brand-300 font-medium px-2.5 py-1 rounded-lg bg-brand-100 dark:bg-brand-800">
+                  <Eye size={13} /> {previewMaterial.download_count || 0} views
+                </span>
                 <a
                   href={previewMaterial.file_url}
                   download={previewMaterial.file_name}

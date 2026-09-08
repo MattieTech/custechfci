@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils';
 import { NAV_LINKS } from '@/lib/constants';
 import { SearchDialog } from './search-dialog';
 import { MobileNav } from './mobile-nav';
+import { NotificationBell } from './notification-bell';
 
 export function Header() {
   const pathname = usePathname();
@@ -81,6 +82,9 @@ export function Header() {
             <Search className="w-5 h-5" />
             <span className="hidden xl:inline text-xs text-brand-500">Quick search (Ctrl+K)</span>
           </button>
+
+          {/* Notification Bell */}
+          <NotificationBell />
 
           {/* Theme Switcher Toggle (Desktop) */}
           {mounted && (
