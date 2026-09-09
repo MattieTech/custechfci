@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -12,6 +12,8 @@ import {
   Megaphone,
   Bell,
   Loader2,
+  CalendarDays,
+  ArrowRight,
 } from 'lucide-react';
 
 type Announcement = {
@@ -30,6 +32,52 @@ const CATEGORIES = [
   { id: 'general', label: 'Official Notices' },
   { id: 'event', label: 'Events' },
   { id: 'academic', label: 'Academic' },
+];
+
+const DEFAULT_ANNOUNCEMENTS: Announcement[] = [
+  {
+    id: "ann-cal-2026",
+    title: "Official Approved Academic Calendar for 2026/2027 Session Released",
+    content: `The University Community and all students of the Faculty of Computing and Informatics (FCI) are hereby informed that the Academic Calendar for the 2026/2027 Academic Session has been officially approved by Senate at its 32nd Meeting held on Tuesday, 2nd September 2026.
+
+Key Session Highlights:
+• Commencement of First Semester: Monday, 28th September 2026
+• Freshers Screening, Registration & Programme Transfer: 28th September – 9th October 2026
+• General & Faculty Orientation Week: 12th – 17th October 2026
+• Commencement of Lectures: Tuesday, 13th October 2026
+• Matriculation Ceremony: Wednesday, 11th November 2026
+• Continuous Assessment (CA) Tests: 14th – 18th December 2026
+• Christmas & New Year Break: 21st December 2026 – 2nd January 2027
+• First Semester Examinations: Monday, 25th January – Saturday, 6th February 2027
+• Second Semester Resumption: Monday, 22nd February 2027
+
+Memo Ref: CUSTECH/RO/S.6
+Issued by: Mrs. Yakubu Glory Ojochogu, Registrar`,
+    category: "academic",
+    is_important: true,
+    is_published: true,
+    image_url: null,
+    created_at: "2026-09-07T12:00:00.000Z",
+  },
+  {
+    id: "ann-reg-2026",
+    title: "Senate Resolution on Online Course Registration & Late Registration Penalty (₦10,000)",
+    content: `The Senate of Confluence University of Science and Technology (CUSTECH), Osara, at its 32nd Meeting deliberated on online registration and revalidation for the 2026/2027 Academic Session and resolved as follows:
+
+1. Normal Registration Period:
+Monday, 28th September 2026 – Saturday, 31st October 2026. All students (both freshers and returning students across 100L – 400L) are expected to finalize course registration and payments on the university portal within this period.
+
+2. Late Registration Window & Surcharge:
+Sunday, 1st November 2026 – Tuesday, 10th November 2026.
+CRITICAL WARNING: Late course registration between 1st November and 10th November 2026 strictly attracts a surcharge penalty fee of Ten Thousand Naira only (₦10,000).
+
+Portal Registration strictly closes on Tuesday, 10th November 2026 ahead of the Matriculation Ceremony on Wednesday, 11th November 2026. All FCI students are advised to complete registration early to avoid academic penalties.`,
+    category: "general",
+    is_important: true,
+    is_published: true,
+    image_url: null,
+    created_at: "2026-09-07T14:00:00.000Z",
+  }
 ];
 
 export default function NewsPage() {
@@ -54,9 +102,23 @@ export default function NewsPage() {
 
         const { data, error } = await query;
         if (error) throw error;
-        setAnnouncements(data || []);
+        
+        if (data && data.length > 0) {
+          setAnnouncements(data);
+        } else {
+          // Fallback to default approved announcements
+          const filteredDefaults = DEFAULT_ANNOUNCEMENTS.filter(a => {
+            if (selectedCategory === 'all') return true;
+            return a.category === selectedCategory;
+          });
+          setAnnouncements(filteredDefaults);
+        }
       } catch {
-        setAnnouncements([]);
+        const filteredDefaults = DEFAULT_ANNOUNCEMENTS.filter(a => {
+          if (selectedCategory === 'all') return true;
+          return a.category === selectedCategory;
+        });
+        setAnnouncements(filteredDefaults);
       } finally {
         setLoading(false);
       }
@@ -179,6 +241,25 @@ export default function NewsPage() {
                   <p className="text-brand-700 dark:text-brand-300 text-sm md:text-base leading-relaxed whitespace-pre-line">
                     {item.content}
                   </p>
+
+                  {(item.title.toLowerCase().includes('calendar') || item.content.toLowerCase().includes('calendar') || item.title.toLowerCase().includes('registration')) && (
+                    <div className="pt-2 flex flex-wrap items-center gap-3">
+                      <Link
+                        href="/calendar"
+                        className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-brand-600 hover:bg-brand-700 text-white transition-colors shadow-sm"
+                      >
+                        <CalendarDays size={14} />
+                        <span>View Approved Academic Calendar</span>
+                        <ArrowRight size={13} />
+                      </Link>
+                      <Link
+                        href="/timetable"
+                        className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-brand-100 hover:bg-brand-200 dark:bg-brand-800 dark:hover:bg-brand-700 text-brand-900 dark:text-brand-100 transition-colors"
+                      >
+                        <span>Check Timetable</span>
+                      </Link>
+                    </div>
+                  )}
                 </div>
               </article>
             ))}

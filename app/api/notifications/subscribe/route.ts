@@ -42,3 +42,4 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: err?.message || 'Failed to unsubscribe' }, { status: 500 });
   }
 }
+

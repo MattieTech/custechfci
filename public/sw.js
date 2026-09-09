@@ -1,3 +1,4 @@
+const CACHE_NAME = 'fci-guide-cache-v1';
 const CACHE_NAME = 'fci-guide-cache-v2';
 const STATIC_ASSETS = [
   '/',
@@ -38,6 +39,8 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(event.request.url);
 
+  // Don't intercept Supabase API requests or chrome-extension requests
+  if (url.origin.includes('supabase.co') || url.protocol.startsWith('chrome-extension')) {
   // Don't intercept Supabase API requests, internal api requests, or extensions
   if (url.origin.includes('supabase.co') || url.pathname.startsWith('/api') || url.protocol.startsWith('chrome-extension')) {
     return;

@@ -22,8 +22,8 @@ import {
   AlertTriangle,
   X,
   ExternalLink,
-  Sparkles,
   Loader2,
+  GraduationCap,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
@@ -606,7 +606,7 @@ export default function ResourcesPage() {
             <div className="max-w-3xl mx-auto">
               <div className="mb-8">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 text-xs font-semibold mb-3">
-                  <Sparkles size={14} /> Smart Graduation Projection
+                  <GraduationCap size={14} /> Smart Graduation Projection
                 </div>
                 <h2 className="text-2xl font-bold text-brand-900 dark:text-brand-100 font-serif mb-2">
                   Target CGPA & Degree Planner

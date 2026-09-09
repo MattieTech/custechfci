@@ -10,7 +10,7 @@ import {
   Printer,
   CheckCircle2,
   CalendarDays,
-  Sparkles,
+  BookmarkCheck,
   BookOpen,
   GraduationCap,
   Bell,
@@ -22,7 +22,13 @@ import {
   SECOND_SEMESTER_EVENTS,
   ACADEMIC_SESSION,
   INSTITUTION_NAME,
+  INSTITUTION_ADDRESS,
   ISSUED_BY,
+  REGISTRAR_NAME,
+  MEMO_REF,
+  MEMO_DATE,
+  SENATE_APPROVAL,
+  SENATE_REGISTRATION_NOTE,
   CalendarEvent,
 } from "@/lib/academic-calendar";
 import { CountdownWidget } from "@/components/countdown-widget";
@@ -76,15 +82,23 @@ export default function CalendarPage() {
 
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-100 dark:bg-brand-800/60 text-brand-800 dark:text-brand-200 text-xs font-semibold mb-2 border border-brand-200 dark:border-brand-700">
-                <CalendarDays className="w-3.5 h-3.5" />
-                <span>Session {ACADEMIC_SESSION} Official Calendar</span>
+              <div className="flex flex-wrap items-center gap-2 mb-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-100 dark:bg-brand-800/60 text-brand-800 dark:text-brand-200 text-xs font-semibold border border-brand-200 dark:border-brand-700">
+                  <CalendarDays className="w-3.5 h-3.5" />
+                  <span>Session {ACADEMIC_SESSION} Official Calendar</span>
+                </span>
+                <span className="text-xs px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-semibold">
+                  Ref: {MEMO_REF}
+                </span>
+                <span className="text-xs text-brand-500 font-medium">
+                  {MEMO_DATE}
+                </span>
               </div>
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-brand-950 dark:text-brand-50 font-serif">
-                CUSTECH Academic Calendar
+                CUSTECH Approved Academic Calendar
               </h1>
               <p className="mt-1 text-xs sm:text-sm text-brand-600 dark:text-brand-400 max-w-2xl">
-                {INSTITUTION_NAME} &bull; Prepared by {ISSUED_BY}
+                {INSTITUTION_NAME} &bull; {SENATE_APPROVAL}
               </p>
             </div>
 
@@ -108,6 +122,77 @@ export default function CalendarPage() {
           variant="hero"
           defaultMilestoneId={selectedSemester === 1 ? "sem1-exam" : "sem2-resumption"}
         />
+
+        {/* Senate Resolution Banner on Online Course Registration & Deadlines */}
+        <div className="rounded-2xl border-2 border-amber-300 dark:border-amber-700/80 bg-gradient-to-r from-amber-500/10 via-brand-500/5 to-emerald-500/10 dark:from-amber-950/40 dark:via-brand-950/30 dark:to-emerald-950/30 p-5 sm:p-6 shadow-sm">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-amber-200/80 dark:border-amber-800/60 pb-4 mb-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 rounded-xl bg-amber-500 text-white shadow-sm shrink-0">
+                <AlertCircle size={22} />
+              </div>
+              <div>
+                <span className="text-[11px] font-bold uppercase tracking-wider text-amber-700 dark:text-amber-400">
+                  Official Senate Directive &bull; 32nd Senate Meeting Resolution
+                </span>
+                <h3 className="text-lg sm:text-xl font-bold font-serif text-brand-950 dark:text-brand-50">
+                  {SENATE_REGISTRATION_NOTE.title}
+                </h3>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-white dark:bg-brand-900 border border-brand-200 dark:border-brand-700 text-brand-700 dark:text-brand-300 shadow-sm">
+                Memo Ref: {SENATE_REGISTRATION_NOTE.memoRef}
+              </span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Normal Registration Window */}
+            <div className="bg-white/80 dark:bg-brand-900/80 rounded-xl p-4 border border-emerald-200/80 dark:border-emerald-800/80 shadow-sm">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5">
+                  <CheckCircle2 size={14} /> Normal Registration Window
+                </span>
+                <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300">
+                  {SENATE_REGISTRATION_NOTE.normalRegistration.duration}
+                </span>
+              </div>
+              <p className="text-base font-bold text-brand-950 dark:text-brand-50">
+                {SENATE_REGISTRATION_NOTE.normalRegistration.dates}
+              </p>
+              <p className="text-xs text-brand-600 dark:text-brand-400 mt-1">
+                {SENATE_REGISTRATION_NOTE.normalRegistration.description}
+              </p>
+            </div>
+
+            {/* Late Registration Window */}
+            <div className="bg-white/80 dark:bg-brand-900/80 rounded-xl p-4 border border-amber-300 dark:border-amber-800/80 shadow-sm">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-bold uppercase tracking-wide text-amber-700 dark:text-amber-400 flex items-center gap-1.5">
+                  <AlertCircle size={14} /> Late Registration Window
+                </span>
+                <span className="text-[11px] font-black px-2 py-0.5 rounded-full bg-rose-100 dark:bg-rose-950 text-rose-800 dark:text-rose-300 border border-rose-300 dark:border-rose-800">
+                  {SENATE_REGISTRATION_NOTE.lateRegistration.penaltyFee} Surcharge
+                </span>
+              </div>
+              <p className="text-base font-bold text-rose-700 dark:text-rose-400">
+                {SENATE_REGISTRATION_NOTE.lateRegistration.dates}
+              </p>
+              <p className="text-xs text-brand-600 dark:text-brand-400 mt-1">
+                {SENATE_REGISTRATION_NOTE.lateRegistration.description}
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-4 pt-3 border-t border-amber-200/60 dark:border-amber-800/50 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-brand-700 dark:text-brand-300">
+            <span className="font-medium">
+              &bull; {SENATE_REGISTRATION_NOTE.guidanceNotice}
+            </span>
+            <span className="font-semibold text-brand-900 dark:text-brand-100">
+              Endorsed by {SENATE_REGISTRATION_NOTE.registrar}, Registrar
+            </span>
+          </div>
+        </div>
 
         {/* Semester Selector & Overview Stats */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
@@ -238,7 +323,7 @@ export default function CalendarPage() {
                       </span>
                       {item.isMilestone && (
                         <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-700 dark:text-amber-400 bg-amber-100/70 dark:bg-amber-950/70 px-2 py-0.5 rounded-md">
-                          <Sparkles size={12} /> Key Milestone
+                          <BookmarkCheck size={12} /> Key Milestone
                         </span>
                       )}
                     </div>
@@ -260,9 +345,16 @@ export default function CalendarPage() {
                   </div>
 
                   <div className="shrink-0 md:text-right">
-                    <div className="inline-flex items-center gap-1.5 rounded-xl bg-brand-100/80 dark:bg-brand-800/80 px-4 py-2 border border-brand-200 dark:border-brand-700 shadow-sm text-xs sm:text-sm font-semibold text-brand-900 dark:text-brand-100">
-                      <Clock size={14} className="text-brand-600 dark:text-brand-400 shrink-0" />
-                      <span>{item.date}</span>
+                    <div className="flex flex-col sm:flex-row md:flex-col items-start md:items-end gap-1.5">
+                      <div className="inline-flex items-center gap-1.5 rounded-xl bg-brand-100/80 dark:bg-brand-800/80 px-4 py-2 border border-brand-200 dark:border-brand-700 shadow-sm text-xs sm:text-sm font-semibold text-brand-900 dark:text-brand-100">
+                        <Clock size={14} className="text-brand-600 dark:text-brand-400 shrink-0" />
+                        <span>{item.date}</span>
+                      </div>
+                      {item.duration && (
+                        <span className="text-[11px] font-semibold text-brand-600 dark:text-brand-400 px-2 py-0.5 rounded-md bg-brand-50 dark:bg-brand-950 border border-brand-200 dark:border-brand-800">
+                          ⏱️ Duration: {item.duration}
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -270,10 +362,31 @@ export default function CalendarPage() {
             })}
           </div>
 
-          {/* Footer Note */}
-          <div className="p-4 bg-brand-50/70 dark:bg-brand-950/70 border-t border-brand-100 dark:border-brand-800 text-xs text-brand-600 dark:text-brand-400 flex flex-col sm:flex-row items-center justify-between gap-2">
-            <span>Official Academic Calendar &bull; {INSTITUTION_NAME}</span>
-            <span className="font-semibold text-brand-700 dark:text-brand-300">{ISSUED_BY}</span>
+          {/* Footer Note & Distribution */}
+          <div className="p-6 bg-brand-50/70 dark:bg-brand-950/70 border-t border-brand-100 dark:border-brand-800 space-y-4">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-brand-600 dark:text-brand-400">
+              <span>Official Academic Calendar &bull; {INSTITUTION_NAME}</span>
+              <span className="font-semibold text-brand-900 dark:text-brand-100">
+                Endorsed by {REGISTRAR_NAME}, {ISSUED_BY}
+              </span>
+            </div>
+            
+            <div className="pt-3 border-t border-brand-200/60 dark:border-brand-800/60 text-[11px] text-brand-500 flex flex-wrap gap-x-3 gap-y-1">
+              <span className="font-bold text-brand-700 dark:text-brand-300">Official Memo Distribution:</span>
+              <span>Vice Chancellor and Chairman</span>
+              <span>&bull;</span>
+              <span>Registrar</span>
+              <span>&bull;</span>
+              <span>Bursar</span>
+              <span>&bull;</span>
+              <span>University Librarian</span>
+              <span>&bull;</span>
+              <span>Provost, College of Medical Sciences</span>
+              <span>&bull;</span>
+              <span>Dean, Faculty of Computing and Informatics</span>
+              <span>&bull;</span>
+              <span>All Faculties, Departments, and Units</span>
+            </div>
           </div>
         </div>
       </div>

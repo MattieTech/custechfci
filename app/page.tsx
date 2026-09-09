@@ -11,7 +11,6 @@ import {
   Code, 
   Server, 
   ChevronRight,
-  Sparkles,
   CheckCircle2,
   Clock,
   Award
@@ -33,6 +32,36 @@ export default function HomePage() {
     <div className="flex flex-col min-h-screen">
       {/* 1. Hero Section with 4-Image Slideshow Background */}
       <HeroSlideshow />
+
+      {/* Official Academic Calendar & Registration Alert Banner */}
+      <div className="bg-amber-500/10 dark:bg-amber-950/40 border-b border-amber-200 dark:border-amber-800/80 px-4 py-2.5">
+        <div className="container mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs sm:text-sm">
+          <div className="flex items-center gap-2 text-amber-900 dark:text-amber-200 text-center sm:text-left">
+            <span className="px-2 py-0.5 rounded-full bg-amber-600 text-white text-[10px] font-bold uppercase tracking-wider shrink-0 animate-pulse">
+              Senate Update
+            </span>
+            <span>
+              <strong>2026/2027 Academic Calendar Approved</strong>: 1st Semester begins Mon 28th Sept. Course registration strictly closes 31st Oct (Late registration incurs ₦10,000 fee).
+            </span>
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <Link
+              href="/calendar"
+              className="font-bold underline text-amber-900 dark:text-amber-300 hover:text-amber-700 flex items-center gap-1"
+            >
+              <span>View Calendar</span>
+              <ChevronRight size={14} />
+            </Link>
+            <span className="text-amber-400">&bull;</span>
+            <Link
+              href="/news"
+              className="font-semibold text-brand-700 dark:text-brand-300 hover:underline"
+            >
+              Read Full Notice
+            </Link>
+          </div>
+        </div>
+      </div>
 
       {/* 2. Key Academic Stats Bar */}
       <section className="bg-white dark:bg-brand-900 border-b border-brand-200 dark:border-brand-800 py-6 sm:py-8 shadow-sm">

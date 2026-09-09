@@ -5,7 +5,7 @@ import Link from "next/link";
 import {
   Clock,
   Calendar,
-  Sparkles,
+  CalendarDays,
   ClipboardCheck,
   BookOpen,
 } from "lucide-react";
@@ -245,7 +245,7 @@ export function CountdownWidget({
       <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-brand-200/70 dark:border-brand-800/70">
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white dark:bg-brand-900 border border-brand-200 dark:border-brand-700 text-xs font-semibold text-brand-700 dark:text-brand-300 shadow-sm mb-2">
-            <Sparkles size={13} className="text-amber-500" />
+            <CalendarDays size={14} className="text-brand-600 dark:text-brand-400" />
             <span>Academic Session 2026/2027 Countdown</span>
           </div>
           <h3 className="text-xl sm:text-2xl font-serif font-bold text-brand-950 dark:text-brand-50 tracking-tight">
@@ -391,3 +391,4 @@ export function CountdownWidget({
     </div>
   );
 }
+
