@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Header } from '@/components/header';
@@ -9,9 +9,15 @@ import { SplashScreen } from '@/components/splash-screen';
 import { AnnouncementPopup } from '@/components/announcement-popup';
 import { PwaRegister } from '@/components/pwa-register';
 
+export const viewport: Viewport = {
+  themeColor: '#7A5A42',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+};
+
 export const metadata: Metadata = {
   manifest: '/manifest.json',
-  themeColor: '#7A5A42',
   applicationName: 'CUSTECH FCI',
   appleWebApp: {
     capable: true,
