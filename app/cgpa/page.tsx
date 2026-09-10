@@ -25,6 +25,8 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { CGPARoadmap } from '@/components/cgpa-roadmap';
+import { toast } from 'sonner';
 
 interface CourseGradeRow {
   id: string;
@@ -44,6 +46,7 @@ const GRADE_POINTS: Record<string, number> = {
 };
 
 export default function CGPACalculatorPage() {
+  const [activeView, setActiveView] = useState<'calculator' | 'roadmap'>('calculator');
   const departmentKeys = Object.keys(DEPARTMENTS_DATA);
   const [selectedDeptSlug, setSelectedDeptSlug] = useState<string>('computer-science');
   const [selectedLevel, setSelectedLevel] = useState<number>(100);
@@ -217,6 +220,41 @@ export default function CGPACalculatorPage() {
       </header>
 
       <main className="container mx-auto px-4 pt-6 max-w-6xl space-y-8">
+        {/* View Switcher Tabs */}
+        <div className="flex items-center gap-2 border-b border-border pb-3">
+          <button
+            type="button"
+            onClick={() => setActiveView('calculator')}
+            className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+              activeView === 'calculator'
+                ? 'bg-primary text-primary-foreground shadow-xs'
+                : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+            }`}
+          >
+            <Calculator className="w-3.5 h-3.5" />
+            <span>Semester GPA &amp; Forecaster</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveView('roadmap')}
+            className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+              activeView === 'roadmap'
+                ? 'bg-primary text-primary-foreground shadow-xs'
+                : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+            }`}
+          >
+            <TrendingUp className="w-3.5 h-3.5" />
+            <span>Academic Roadmap &amp; Trajectory</span>
+            <Badge className="bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-[10px] py-0 px-1 border-0">
+              New
+            </Badge>
+          </button>
+        </div>
+
+        {activeView === 'roadmap' ? (
+          <CGPARoadmap />
+        ) : (
+          <>
         {/* Department & Curriculum Selection Hero */}
         <div className="rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 via-card to-background p-5 sm:p-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -633,6 +671,8 @@ export default function CGPACalculatorPage() {
             </div>
           )}
         </div>
+          </>
+        )}
       </main>
     </div>
   );

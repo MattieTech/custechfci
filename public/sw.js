@@ -1,5 +1,4 @@
-const CACHE_NAME = 'fci-guide-cache-v1';
-const CACHE_NAME = 'fci-guide-cache-v2';
+const CACHE_NAME = 'fci-guide-cache-v3';
 const STATIC_ASSETS = [
   '/',
   '/timetable',
@@ -43,9 +42,7 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(event.request.url);
 
-  // Don't intercept Supabase API requests or chrome-extension requests
-  if (url.origin.includes('supabase.co') || url.protocol.startsWith('chrome-extension')) {
-  // Don't intercept Supabase API requests, internal api requests, or extensions
+  // Don't intercept Supabase API requests, internal api requests, or browser extensions
   if (url.origin.includes('supabase.co') || url.pathname.startsWith('/api') || url.protocol.startsWith('chrome-extension')) {
     return;
   }
@@ -63,7 +60,6 @@ self.addEventListener('fetch', (event) => {
           return networkResponse;
         })
         .catch(() => {
-          // If offline and request fails, return cached response
           return cachedResponse;
         });
 
@@ -114,6 +110,27 @@ self.addEventListener('push', (event) => {
   event.waitUntil(
     self.registration.showNotification(data.title, options)
   );
+});
+
+// Handle local background lecture alarm messages from client
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SHOW_LECTURE_ALARM') {
+    const { title, body, url } = event.data;
+    const options = {
+      body: body || 'You have a lecture starting in 15 minutes.',
+      icon: '/images/school-logo-crest.png',
+      badge: '/images/school-logo-crest.png',
+      tag: 'lecture-alarm-' + Date.now(),
+      renotify: true,
+      vibrate: [300, 150, 300],
+      data: { url: url || '/timetable' },
+      actions: [{ action: 'open', title: 'View Timetable' }],
+    };
+
+    event.waitUntil(
+      self.registration.showNotification(title || 'Upcoming Lecture Alarm', options)
+    );
+  }
 });
 
 self.addEventListener('notificationclick', (event) => {

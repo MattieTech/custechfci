@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { toast } from 'sonner';
 import { createClient } from '@/lib/supabase/client';
 
 interface LectureItem {
@@ -56,6 +57,51 @@ export function NextLectureWidget() {
   const [now, setNow] = useState<Date>(new Date());
   const [dbLectures, setDbLectures] = useState<LectureItem[]>([]);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [alarmsEnabled, setAlarmsEnabled] = useState<boolean>(false);
+
+  // Check initial alarm preference
+  useEffect(() => {
+    try {
+      const savedAlarm = localStorage.getItem('custech_fci_lecture_alarm');
+      if (savedAlarm === 'true') {
+        setAlarmsEnabled(true);
+      }
+    } catch (e) {}
+  }, []);
+
+  const handleToggleAlarms = async () => {
+    if (!alarmsEnabled) {
+      if ('Notification' in window) {
+        const perm = await Notification.requestPermission();
+        if (perm === 'granted') {
+          setAlarmsEnabled(true);
+          try {
+            localStorage.setItem('custech_fci_lecture_alarm', 'true');
+          } catch (e) {}
+          toast.success('Lecture Alarms Activated! You will receive an alert 15 minutes before your scheduled lectures.');
+
+          if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage({
+              type: 'SHOW_LECTURE_ALARM',
+              title: 'FCI Lecture Alarm Activated',
+              body: `You will be notified 15 minutes before scheduled ${deptCode} ${level}L lectures.`,
+              url: '/timetable'
+            });
+          }
+        } else {
+          toast.error('Please allow notifications in your browser settings to receive lecture alarms.');
+        }
+      } else {
+        toast.error('Browser does not support notifications.');
+      }
+    } else {
+      setAlarmsEnabled(false);
+      try {
+        localStorage.setItem('custech_fci_lecture_alarm', 'false');
+      } catch (e) {}
+      toast.info('Lecture Alarms turned off.');
+    }
+  };
 
   // Load preferences from localStorage
   useEffect(() => {

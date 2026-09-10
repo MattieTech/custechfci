@@ -27,6 +27,7 @@ import {
   HardDrive,
   Bookmark,
   BookmarkCheck,
+  MessageSquare,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
@@ -38,6 +39,7 @@ import {
   ISSUED_BY,
 } from "@/lib/academic-calendar";
 import { cn } from "@/lib/utils";
+import { DiscussionDrawer } from "@/components/discussion-drawer";
 
 type Course = {
   id: string;
@@ -104,6 +106,7 @@ export default function ResourcesPage() {
   const [materialLevel, setMaterialLevel] = useState("");
   const [materialTypeFilter, setMaterialTypeFilter] = useState("");
   const [previewMaterial, setPreviewMaterial] = useState<Material | null>(null);
+  const [discussionMaterial, setDiscussionMaterial] = useState<Material | null>(null);
 
   // Offline Vault State (IndexedDB / LocalStorage)
   const [vaultMaterials, setVaultMaterials] = useState<Material[]>([]);
@@ -949,6 +952,14 @@ export default function ResourcesPage() {
                             <Download size={14} /> Download
                           </a>
                         </div>
+                        <button
+                          type="button"
+                          onClick={() => setDiscussionMaterial(item)}
+                          className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-brand-700 dark:text-brand-300 bg-brand-50 hover:bg-brand-100 dark:bg-brand-900/40 dark:hover:bg-brand-900/80 border border-brand-200/80 dark:border-brand-800 transition-colors"
+                        >
+                          <MessageSquare size={13} className="text-brand-600 dark:text-brand-400" />
+                          <span>Discuss &amp; Solutions</span>
+                        </button>
                       </div>
                     </div>
                   ))}
