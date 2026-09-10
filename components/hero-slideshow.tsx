@@ -1,9 +1,9 @@
-﻿'use client';
+'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ChevronLeft, ChevronRight, GraduationCap, Calculator, Building2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, GraduationCap, Building2, Bot, CheckSquare } from 'lucide-react';
 
 const SLIDES = [
   {
@@ -104,20 +104,27 @@ export function HeroSlideshow() {
         </p>
 
         {/* CTA Buttons */}
-        <div className="mt-8 flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center">
+        <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto justify-center items-center flex-wrap">
           <Link
             href="/departments"
-            className="inline-flex h-12 items-center justify-center rounded-xl bg-brand-500 hover:bg-brand-600 px-7 text-sm font-semibold text-white shadow-lg shadow-brand-950/40 transition-all hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 gap-2"
+            className="inline-flex h-12 w-full sm:w-auto items-center justify-center rounded-xl bg-brand-500 hover:bg-brand-600 px-6 text-sm font-semibold text-white shadow-lg shadow-brand-950/40 transition-all hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 gap-2"
           >
             <Building2 className="w-5 h-5" />
             Explore Departments
           </Link>
           <Link
-            href="/resources?tab=cgpa"
-            className="inline-flex h-12 items-center justify-center rounded-xl border border-white/30 bg-white/15 hover:bg-white/25 backdrop-blur-md px-7 text-sm font-semibold text-white shadow-md transition-all hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white gap-2"
+            href="/ai-tutor"
+            className="inline-flex h-12 w-full sm:w-auto items-center justify-center rounded-xl bg-white text-brand-950 hover:bg-brand-50 px-6 text-sm font-semibold shadow-lg shadow-black/30 transition-all hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white gap-2"
           >
-            <Calculator className="w-5 h-5" />
-            CGPA Calculator
+            <Bot className="w-5 h-5 text-brand-600" />
+            Ask FCI AI
+          </Link>
+          <Link
+            href="/cbt"
+            className="inline-flex h-12 w-full sm:w-auto items-center justify-center rounded-xl border border-white/30 bg-white/15 hover:bg-white/25 backdrop-blur-md px-6 text-sm font-semibold text-white shadow-md transition-all hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white gap-2"
+          >
+            <CheckSquare className="w-5 h-5" />
+            CBT Practice
           </Link>
         </div>
 
