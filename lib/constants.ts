@@ -4,8 +4,25 @@ export const SITE_CONFIG = {
   university: 'Confluence University of Science and Technology (CUSTECH) Osara',
 };
 
+export interface NavDropdownItem {
+  href: string;
+  label: string;
+  description: string;
+  badge?: string;
+  iconName: string;
+}
+
+export interface HeaderNavItem {
+  label: string;
+  href?: string;
+  badge?: string;
+  children?: NavDropdownItem[];
+}
+
 export const NAV_LINKS = [
   { href: '/', label: 'Home', icon: 'home' },
+  { href: '/departments', label: 'Departments', icon: 'building' },
+  { href: '/resources', label: 'Study Materials', icon: 'book' },
   { href: '/cbt', label: 'CBT Drill', icon: 'zap' },
   { href: '/cgpa', label: 'CGPA', icon: 'calculator' },
   { href: '/ai-tutor', label: 'Ask AI', icon: 'bot' },
@@ -14,11 +31,97 @@ export const NAV_LINKS = [
   { href: '/resources', label: 'Resources & Vault', icon: 'book' },
   { href: '/timetable', label: 'Timetable', icon: 'calendar' },
   { href: '/calendar', label: 'Calendar', icon: 'calendar' },
+  { href: '/grievances', label: 'Grievances', icon: 'inbox' },
+  { href: '/lost-and-found', label: 'Lost & Found', icon: 'search' },
   { href: '/news', label: 'News', icon: 'newspaper' },
   { href: '/about', label: 'About', icon: 'info' },
   { href: '/contacts', label: 'Contact', icon: 'mail' },
   { href: '/grievances', label: 'Grievances', icon: 'inbox' },
   { href: '/lost-and-found', label: 'Lost & Found', icon: 'search' },
+];
+
+export const HEADER_NAV_ITEMS: HeaderNavItem[] = [
+  { href: '/', label: 'Home' },
+  { href: '/departments', label: 'Departments' },
+  {
+    label: 'Academic Tools',
+    children: [
+      {
+        href: '/cbt',
+        label: 'FCI CBT Drill',
+        description: 'Timed mock exams, practice drills & question explanations',
+        badge: 'Practice',
+        iconName: 'zap',
+      },
+      {
+        href: '/cgpa',
+        label: 'Smart CGPA Calculator',
+        description: 'Official 5.0 scale GPA calculator & target forecaster',
+        badge: '5.0',
+        iconName: 'calculator',
+      },
+      {
+        href: '/ai-tutor',
+        label: 'Ask FCI AI (Tutor)',
+        description: '24/7 AI course study copilot & interactive flashcards',
+        badge: 'AI Copilot',
+        iconName: 'bot',
+      },
+      {
+        href: '/timetable',
+        label: 'Lecture & Exam Timetable',
+        description: 'Weekly class schedules, hall allocations & test dates',
+        iconName: 'calendar',
+      },
+      {
+        href: '/calendar',
+        label: 'Academic Calendar',
+        description: 'Senate-approved semester dates, milestones & deadlines',
+        iconName: 'clock',
+      },
+    ],
+  },
+  {
+    href: '/resources',
+    label: 'Materials Vault',
+    badge: '89+ Notes',
+  },
+  {
+    label: 'Student Welfare',
+    children: [
+      {
+        href: '/grievances',
+        label: 'Guild Grievance Box',
+        description: 'Anonymous complaints, suggestions & tracking tickets',
+        badge: 'Anonymous',
+        iconName: 'inbox',
+      },
+      {
+        href: '/lost-and-found',
+        label: 'Faculty Lost & Found',
+        description: 'Community board to report and reclaim misplaced items',
+        iconName: 'search',
+      },
+      {
+        href: '/news',
+        label: 'News & Announcements',
+        description: 'Official faculty notices, senate circulars & updates',
+        iconName: 'newspaper',
+      },
+      {
+        href: '/contacts',
+        label: 'Course Reps & Directory',
+        description: 'Contact info and WhatsApp channels for reps and staff',
+        iconName: 'mail',
+      },
+      {
+        href: '/about',
+        label: 'About Faculty',
+        description: 'FCI leadership, history, degree programs & vision',
+        iconName: 'info',
+      },
+    ],
+  },
 ];
 
 export const DEPARTMENTS = [
