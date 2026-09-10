@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { ChevronRight, Home, Monitor, Shield, Code, Server, BookOpen } from "lucide-react";
 import { ALL_DEPARTMENTS } from "@/lib/departments-data";
 
@@ -40,7 +40,7 @@ export default function DepartmentsPage() {
             const Icon = DEPT_ICONS[dept.slug] || Monitor;
             return (
               <Link key={dept.slug} href={`/departments/${dept.slug}`} className="group h-full">
-                <div className="bg-white dark:bg-brand-900 p-6 rounded-xl border border-brand-200 dark:border-brand-800 shadow-sm flex flex-col h-full hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
+                <div className="bg-white dark:bg-brand-900 p-4 sm:p-6 rounded-xl border border-brand-200 dark:border-brand-800 shadow-sm flex flex-col h-full hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
                   <div className="flex items-start justify-between mb-4">
                     <div className="p-3 bg-brand-100 dark:bg-brand-800 text-brand-700 dark:text-brand-300 rounded-lg group-hover:bg-brand-600 group-hover:text-white transition-colors">
                       <Icon className="h-6 w-6" />

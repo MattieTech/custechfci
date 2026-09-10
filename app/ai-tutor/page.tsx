@@ -236,24 +236,24 @@ export default function AITutorPage() {
       </header>
 
       {/* Main Container */}
-      <main className="flex-1 flex flex-col justify-between max-w-3xl mx-auto w-full px-3 sm:px-4">
+      <main className="flex-1 flex flex-col justify-between max-w-3xl mx-auto w-full px-2.5 sm:px-4">
         {/* Zero Messages Empty Hero State (Gemini / ChatGPT Style) */}
         {messages.length === 0 ? (
-          <div className="flex-1 flex flex-col justify-center py-8 sm:py-12 animate-in fade-in duration-300">
-            <div className="text-center max-w-lg mx-auto mb-8 sm:mb-10">
-              <div className="w-14 h-14 rounded-2xl bg-brand-100 dark:bg-brand-900 text-brand-700 dark:text-brand-300 border border-brand-200 dark:border-brand-800 flex items-center justify-center mx-auto mb-4 shadow-sm">
-                <Sparkles className="w-7 h-7 text-brand-600 dark:text-brand-400" />
+          <div className="flex-1 flex flex-col justify-center py-4 sm:py-10 animate-in fade-in duration-300">
+            <div className="text-center max-w-lg mx-auto mb-4 sm:mb-8 px-1">
+              <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-brand-100 dark:bg-brand-900 text-brand-700 dark:text-brand-300 border border-brand-200 dark:border-brand-800 flex items-center justify-center mx-auto mb-2 sm:mb-4 shadow-2xs sm:shadow-xs">
+                <Sparkles className="w-5 h-5 sm:w-7 sm:h-7 text-brand-600 dark:text-brand-400" />
               </div>
-              <h1 className="text-2xl sm:text-3xl font-bold font-heading text-brand-950 dark:text-brand-50 tracking-tight">
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold font-heading text-brand-950 dark:text-brand-50 tracking-tight">
                 Where Knowledge Begins
               </h1>
-              <p className="text-xs sm:text-sm text-brand-600 dark:text-brand-400 mt-2 leading-relaxed">
+              <p className="text-[11px] sm:text-sm text-brand-600 dark:text-brand-400 mt-1.5 sm:mt-2 leading-relaxed max-w-md mx-auto">
                 Your intelligent study copilot, grounded in CUSTECH Faculty of Computing and Informatics syllabi. Ask questions, generate flashcards, or break down past question solutions.
               </p>
             </div>
 
             {/* Starter Suggestion Cards Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 w-full max-w-2xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-3 w-full max-w-2xl mx-auto">
               {STARTER_CARDS.map((card, idx) => {
                 const IconComponent = card.icon;
                 return (
@@ -261,16 +261,16 @@ export default function AITutorPage() {
                     key={idx}
                     type="button"
                     onClick={() => handleSendMessage(card.prompt)}
-                    className="p-3.5 rounded-xl border border-brand-200 dark:border-brand-800/90 bg-white dark:bg-brand-900/60 hover:bg-brand-50 dark:hover:bg-brand-800/60 hover:border-brand-300 dark:hover:border-brand-700 text-left transition-all group shadow-xs flex items-start gap-3"
+                    className="px-2.5 py-2 sm:p-3.5 rounded-lg sm:rounded-xl border border-brand-200 dark:border-brand-800/90 bg-white dark:bg-brand-900/60 hover:bg-brand-50 dark:hover:bg-brand-800/60 hover:border-brand-300 dark:hover:border-brand-700 text-left transition-all group shadow-2xs sm:shadow-xs flex items-center sm:items-start gap-2.5 sm:gap-3 w-full min-w-0"
                   >
-                    <div className={`w-8 h-8 rounded-lg ${card.bgColor} ${card.iconColor} flex items-center justify-center shrink-0 mt-0.5 group-hover:scale-105 transition-transform`}>
-                      <IconComponent className="w-4 h-4" />
+                    <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-md sm:rounded-lg ${card.bgColor} ${card.iconColor} flex items-center justify-center shrink-0 sm:mt-0.5 group-hover:scale-105 transition-transform`}>
+                      <IconComponent className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <h2 className="text-xs sm:text-sm font-semibold text-brand-900 dark:text-brand-100 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors truncate">
                         {card.title}
                       </h2>
-                      <p className="text-[11px] text-brand-500 dark:text-brand-400 line-clamp-2 mt-0.5 leading-snug">
+                      <p className="text-[10px] sm:text-[11px] text-brand-500 dark:text-brand-400 line-clamp-1 sm:line-clamp-2 mt-0 sm:mt-0.5 leading-tight sm:leading-snug">
                         {card.subtitle}
                       </p>
                     </div>

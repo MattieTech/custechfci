@@ -141,7 +141,7 @@ export default function HomePage() {
               const Icon = DEPT_ICONS[dept.slug] || Monitor;
               return (
                 <Link key={dept.slug} href={`/departments/${dept.slug}`} className="group h-full">
-                  <div className="bg-white dark:bg-brand-900/90 p-6 rounded-2xl border border-brand-200/90 dark:border-brand-800 shadow-sm flex flex-col h-full hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
+                  <div className="bg-white dark:bg-brand-900/90 p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-brand-200/90 dark:border-brand-800 shadow-sm flex flex-col h-full hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
                     <div className="flex items-start justify-between mb-4">
                       <div className="p-3 bg-brand-100 dark:bg-brand-800 text-brand-700 dark:text-brand-200 rounded-xl group-hover:bg-brand-600 group-hover:text-white transition-colors">
                         <Icon className="w-6 h-6" />
@@ -185,7 +185,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* 1. CBT Mock Drill */}
             <Link href="/cbt" className="group block h-full">
-              <div className="flex flex-col h-full p-6 rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
+              <div className="flex flex-col h-full p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
                 <div className="p-3 bg-brand-100 dark:bg-brand-800 rounded-xl w-fit mb-4 text-brand-700 dark:text-brand-300 group-hover:bg-brand-600 group-hover:text-white transition-colors">
                   <Clock className="w-6 h-6" />
                 </div>
@@ -205,7 +205,7 @@ export default function HomePage() {
 
             {/* 2. Smart CGPA Calculator */}
             <Link href="/cgpa" className="group block h-full">
-              <div className="flex flex-col h-full p-6 rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
+              <div className="flex flex-col h-full p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
                 <div className="p-3 bg-brand-100 dark:bg-brand-800 rounded-xl w-fit mb-4 text-brand-700 dark:text-brand-300 group-hover:bg-brand-600 group-hover:text-white transition-colors">
                   <Calculator className="w-6 h-6" />
                 </div>
@@ -225,7 +225,7 @@ export default function HomePage() {
 
             {/* 3. Study Materials & Vault */}
             <Link href="/resources?tab=materials" className="group block h-full">
-              <div className="flex flex-col h-full p-6 rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
+              <div className="flex flex-col h-full p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
                 <div className="p-3 bg-brand-100 dark:bg-brand-800 rounded-xl w-fit mb-4 text-brand-700 dark:text-brand-300 group-hover:bg-brand-600 group-hover:text-white transition-colors">
                   <BookOpen className="w-6 h-6" />
                 </div>
@@ -245,7 +245,7 @@ export default function HomePage() {
 
             {/* 4. Timetable */}
             <Link href="/timetable" className="group block h-full">
-              <div className="flex flex-col h-full p-6 rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
+              <div className="flex flex-col h-full p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
                 <div className="p-3 bg-brand-100 dark:bg-brand-800 rounded-xl w-fit mb-4 text-brand-700 dark:text-brand-300 group-hover:bg-brand-600 group-hover:text-white transition-colors">
                   <Calendar className="w-6 h-6" />
                 </div>
@@ -262,7 +262,7 @@ export default function HomePage() {
 
             {/* 5. Anonymous Grievances & Suggestion Box */}
             <Link href="/grievances" className="group block h-full">
-              <div className="flex flex-col h-full p-6 rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
+              <div className="flex flex-col h-full p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
                 <div className="p-3 bg-brand-100 dark:bg-brand-800 rounded-xl w-fit mb-4 text-brand-700 dark:text-brand-300 group-hover:bg-brand-600 group-hover:text-white transition-colors">
                   <FileText className="w-6 h-6" />
                 </div>
@@ -282,7 +282,7 @@ export default function HomePage() {
 
             {/* 6. Lost and Found */}
             <Link href="/lost-and-found" className="group block h-full">
-              <div className="flex flex-col h-full p-6 rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
+              <div className="flex flex-col h-full p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
                 <div className="p-3 bg-brand-100 dark:bg-brand-800 rounded-xl w-fit mb-4 text-brand-700 dark:text-brand-300 group-hover:bg-brand-600 group-hover:text-white transition-colors">
                   <Users className="w-6 h-6" />
                 </div>
