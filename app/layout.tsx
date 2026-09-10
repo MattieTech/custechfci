@@ -41,7 +41,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="font-body bg-brand-50 text-brand-950 dark:bg-brand-950 dark:text-brand-50 min-h-screen flex flex-col transition-colors duration-200">
+      <body className="font-body bg-brand-50 text-brand-950 dark:bg-brand-950 dark:text-brand-50 min-h-screen flex flex-col transition-colors duration-200 overflow-x-hidden">
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
           <SplashScreen />
           <AnnouncementPopup />
@@ -50,7 +50,7 @@ export default function RootLayout({
             Skip to main content
           </a>
           <Header />
-          <main id="main-content" className="flex-grow">
+          <main id="main-content" className="flex-grow w-full max-w-full overflow-x-hidden">
             {children}
           </main>
           <Footer />

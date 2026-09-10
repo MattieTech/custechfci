@@ -37,6 +37,7 @@ import {
   INSTITUTION_NAME,
   ISSUED_BY,
 } from "@/lib/academic-calendar";
+import { cn } from "@/lib/utils";
 
 type Course = {
   id: string;
@@ -432,73 +433,73 @@ export default function ResourcesPage() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 md:px-6 py-10 flex-grow">
+      <div className="container mx-auto px-3 sm:px-4 md:px-6 py-6 sm:py-10 flex-grow w-full max-w-full overflow-hidden">
         {/* Custom Tabs */}
-        <div className="flex flex-wrap gap-2 mb-8 border-b border-brand-200 dark:border-brand-800 pb-px">
+        <div className="flex items-center gap-1.5 sm:gap-2 mb-6 sm:mb-8 border-b border-brand-200 dark:border-brand-800 pb-2 overflow-x-auto no-scrollbar scroll-smooth w-full">
           <button
             onClick={() => setActiveTab("cgpa")}
-            className={`flex items-center px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+            className={`flex items-center px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-medium border-b-2 transition-colors shrink-0 whitespace-nowrap ${
               activeTab === "cgpa"
                 ? "border-brand-600 text-brand-600 dark:border-brand-400 dark:text-brand-400"
                 : "border-transparent text-brand-600 dark:text-brand-400 hover:text-brand-900 dark:hover:text-brand-200 hover:border-brand-300 dark:hover:border-brand-700"
             }`}
           >
-            <Calculator className="w-4 h-4 mr-2" /> CGPA Calculator
+            <Calculator className="w-4 h-4 mr-1.5 sm:mr-2" /> CGPA Calculator
           </button>
           <button
             onClick={() => setActiveTab("target_planner")}
-            className={`flex items-center px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+            className={`flex items-center px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-medium border-b-2 transition-colors shrink-0 whitespace-nowrap ${
               activeTab === "target_planner"
                 ? "border-brand-600 text-brand-600 dark:border-brand-400 dark:text-brand-400"
                 : "border-transparent text-brand-600 dark:text-brand-400 hover:text-brand-900 dark:hover:text-brand-200 hover:border-brand-300 dark:hover:border-brand-700"
             }`}
           >
-            <Target className="w-4 h-4 mr-2 text-amber-500" /> Target CGPA Planner
+            <Target className="w-4 h-4 mr-1.5 sm:mr-2 text-amber-500" /> Target CGPA Planner
           </button>
           <button
             onClick={() => setActiveTab("materials")}
-            className={`flex items-center px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+            className={`flex items-center px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-medium border-b-2 transition-colors shrink-0 whitespace-nowrap ${
               activeTab === "materials"
                 ? "border-brand-600 text-brand-600 dark:border-brand-400 dark:text-brand-400"
                 : "border-transparent text-brand-600 dark:text-brand-400 hover:text-brand-900 dark:hover:text-brand-200 hover:border-brand-300 dark:hover:border-brand-700"
             }`}
           >
-            <BookOpen className="w-4 h-4 mr-2" /> Study Materials & Past Qs
+            <BookOpen className="w-4 h-4 mr-1.5 sm:mr-2" /> Study Materials &amp; Past Qs
           </button>
           <button
             onClick={() => setActiveTab("vault")}
-            className={`flex items-center px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+            className={`flex items-center px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-medium border-b-2 transition-colors shrink-0 whitespace-nowrap ${
               activeTab === "vault"
                 ? "border-purple-600 text-purple-600 dark:border-purple-400 dark:text-purple-400"
                 : "border-transparent text-brand-600 dark:text-brand-400 hover:text-brand-900 dark:hover:text-brand-200 hover:border-brand-300 dark:hover:border-brand-700"
             }`}
           >
-            <HardDrive className="w-4 h-4 mr-2 text-purple-500" /> Offline Vault ({vaultMaterials.length})
+            <HardDrive className="w-4 h-4 mr-1.5 sm:mr-2 text-purple-500" /> Offline Vault ({vaultMaterials.length})
           </button>
           <button
             onClick={() => setActiveTab("age")}
-            className={`flex items-center px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+            className={`flex items-center px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-medium border-b-2 transition-colors shrink-0 whitespace-nowrap ${
               activeTab === "age"
                 ? "border-brand-600 text-brand-600 dark:border-brand-400 dark:text-brand-400"
                 : "border-transparent text-brand-600 dark:text-brand-400 hover:text-brand-900 dark:hover:text-brand-200 hover:border-brand-300 dark:hover:border-brand-700"
             }`}
           >
-            <Clock className="w-4 h-4 mr-2" /> Age Calculator
+            <Clock className="w-4 h-4 mr-1.5 sm:mr-2" /> Age Calculator
           </button>
           <button
             onClick={() => setActiveTab("calendar")}
-            className={`flex items-center px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+            className={`flex items-center px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-medium border-b-2 transition-colors shrink-0 whitespace-nowrap ${
               activeTab === "calendar"
                 ? "border-brand-600 text-brand-600 dark:border-brand-400 dark:text-brand-400"
                 : "border-transparent text-brand-600 dark:text-brand-400 hover:text-brand-900 dark:hover:text-brand-200 hover:border-brand-300 dark:hover:border-brand-700"
             }`}
           >
-            <Calendar className="w-4 h-4 mr-2" /> Academic Calendar
+            <Calendar className="w-4 h-4 mr-1.5 sm:mr-2" /> Academic Calendar
           </button>
         </div>
 
         {/* Tab Contents */}
-        <div className="bg-white dark:bg-brand-900 rounded-xl border border-brand-200 dark:border-brand-800 shadow-sm p-6 md:p-8">
+        <div className="bg-white dark:bg-brand-900 rounded-xl border border-brand-200 dark:border-brand-800 shadow-sm p-3.5 sm:p-6 md:p-8 w-full max-w-full overflow-hidden">
           {/* CGPA Calculator */}
           {activeTab === "cgpa" && (
             <div className="max-w-3xl mx-auto">
@@ -545,61 +546,63 @@ export default function ResourcesPage() {
                 </div>
               </div>
 
-              <div className="space-y-4 mb-6">
-                <div className="grid grid-cols-12 gap-4 px-2 pb-2 border-b border-brand-100 dark:border-brand-800 text-sm font-medium text-brand-500 dark:text-brand-400">
-                  <div className="col-span-5 md:col-span-6">Course Code</div>
-                  <div className="col-span-3">Units</div>
-                  <div className="col-span-3 md:col-span-2">Grade</div>
-                  <div className="col-span-1"></div>
-                </div>
-
-                {courses.map((course, index) => (
-                  <div key={course.id} className="grid grid-cols-12 gap-4 items-center">
-                    <div className="col-span-5 md:col-span-6">
-                      <input
-                        type="text"
-                        placeholder={`Course ${index + 1}`}
-                        value={course.code}
-                        onChange={(e) => updateCourse(course.id, "code", e.target.value)}
-                        className="w-full rounded-md border border-brand-200 dark:border-brand-700 bg-white dark:bg-brand-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
-                      />
-                    </div>
-                    <div className="col-span-3">
-                      <input
-                        type="number"
-                        min="1"
-                        max="6"
-                        value={course.units || ""}
-                        onChange={(e) => updateCourse(course.id, "units", parseInt(e.target.value) || 0)}
-                        className="w-full rounded-md border border-brand-200 dark:border-brand-700 bg-white dark:bg-brand-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
-                      />
-                    </div>
-                    <div className="col-span-3 md:col-span-2">
-                      <select
-                        value={course.grade}
-                        onChange={(e) => updateCourse(course.id, "grade", e.target.value)}
-                        className="w-full rounded-md border border-brand-200 dark:border-brand-700 bg-white dark:bg-brand-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
-                      >
-                        <option value="A">A (5.0)</option>
-                        <option value="B">B (4.0)</option>
-                        <option value="C">C (3.0)</option>
-                        <option value="D">D (2.0)</option>
-                        <option value="E">E (1.0)</option>
-                        <option value="F">F (0.0)</option>
-                      </select>
-                    </div>
-                    <div className="col-span-1 flex justify-end">
-                      <button
-                        onClick={() => removeCourse(course.id)}
-                        disabled={courses.length <= 1}
-                        className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md disabled:opacity-30 transition-colors"
-                        title="Remove course"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
+              <div className="overflow-x-auto no-scrollbar w-full pb-2">
+                <div className="min-w-[440px] space-y-4 mb-6">
+                  <div className="grid grid-cols-12 gap-4 px-2 pb-2 border-b border-brand-100 dark:border-brand-800 text-sm font-medium text-brand-500 dark:text-brand-400">
+                    <div className="col-span-5 md:col-span-6">Course Code</div>
+                    <div className="col-span-3">Units</div>
+                    <div className="col-span-3 md:col-span-2">Grade</div>
+                    <div className="col-span-1"></div>
                   </div>
-                ))}
+
+                  {courses.map((course, index) => (
+                    <div key={course.id} className="grid grid-cols-12 gap-4 items-center">
+                      <div className="col-span-5 md:col-span-6">
+                        <input
+                          type="text"
+                          placeholder={`Course ${index + 1}`}
+                          value={course.code}
+                          onChange={(e) => updateCourse(course.id, "code", e.target.value)}
+                          className="w-full rounded-md border border-brand-200 dark:border-brand-700 bg-white dark:bg-brand-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                        />
+                      </div>
+                      <div className="col-span-3">
+                        <input
+                          type="number"
+                          min="1"
+                          max="6"
+                          value={course.units || ""}
+                          onChange={(e) => updateCourse(course.id, "units", parseInt(e.target.value) || 0)}
+                          className="w-full rounded-md border border-brand-200 dark:border-brand-700 bg-white dark:bg-brand-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                        />
+                      </div>
+                      <div className="col-span-3 md:col-span-2">
+                        <select
+                          value={course.grade}
+                          onChange={(e) => updateCourse(course.id, "grade", e.target.value)}
+                          className="w-full rounded-md border border-brand-200 dark:border-brand-700 bg-white dark:bg-brand-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                        >
+                          <option value="A">A (5.0)</option>
+                          <option value="B">B (4.0)</option>
+                          <option value="C">C (3.0)</option>
+                          <option value="D">D (2.0)</option>
+                          <option value="E">E (1.0)</option>
+                          <option value="F">F (0.0)</option>
+                        </select>
+                      </div>
+                      <div className="col-span-1 flex justify-end">
+                        <button
+                          onClick={() => removeCourse(course.id)}
+                          disabled={courses.length <= 1}
+                          className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md disabled:opacity-30 transition-colors"
+                          title="Remove course"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               <div className="flex justify-between items-center mb-8 border-t border-brand-100 dark:border-brand-800 pt-6">
@@ -861,73 +864,77 @@ export default function ResourcesPage() {
                   </button>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4 w-full">
                   {filteredMaterials.map((item) => (
                     <div
                       key={item.id}
-                      className="bg-white dark:bg-brand-950/60 p-5 rounded-xl border border-brand-200 dark:border-brand-800 flex flex-col justify-between hover:border-brand-400 dark:hover:border-brand-600 transition-all shadow-sm"
+                      className="bg-white dark:bg-brand-950/60 p-4 sm:p-5 rounded-xl border border-brand-200 dark:border-brand-800 flex flex-col justify-between hover:border-brand-400 dark:hover:border-brand-600 transition-all shadow-sm w-full min-w-0 overflow-hidden"
                     >
-                      <div>
+                      <div className="w-full min-w-0">
                         <div className="flex items-start justify-between gap-2 mb-2">
-                          <span className="px-2.5 py-0.5 rounded text-[11px] font-semibold uppercase tracking-wider bg-brand-100 dark:bg-brand-800 text-brand-800 dark:text-brand-200">
+                          <span className="px-2.5 py-0.5 rounded text-[11px] font-semibold uppercase tracking-wider bg-brand-100 dark:bg-brand-800 text-brand-800 dark:text-brand-200 truncate">
                             {(item.material_type || item.type || "material").replace("_", " ")}
                           </span>
                           {item.level && (
-                            <span className="text-xs font-medium text-brand-500">{item.level}L</span>
+                            <span className="text-xs font-medium text-brand-500 shrink-0">{item.level}L</span>
                           )}
                         </div>
 
-                        <h3 className="font-bold text-brand-900 dark:text-brand-100 text-base line-clamp-2">
+                        <h3 className="font-bold text-brand-900 dark:text-brand-100 text-sm sm:text-base line-clamp-2 break-words">
                           {item.title}
                         </h3>
 
                         {item.course_code && (
-                          <p className="text-xs font-semibold text-brand-600 dark:text-brand-400 mt-1">
+                          <p className="text-xs font-semibold text-brand-600 dark:text-brand-400 mt-1 break-words">
                             {item.course_code} {item.course_title ? `— ${item.course_title}` : ""}
                           </p>
                         )}
 
                         {item.description && (
-                          <p className="text-xs text-brand-500 dark:text-brand-400 mt-2 line-clamp-2">
+                          <p className="text-xs text-brand-500 dark:text-brand-400 mt-2 line-clamp-2 break-words">
                             {item.description}
                           </p>
                         )}
                       </div>
 
-                      <div className="pt-4 mt-4 border-t border-brand-100 dark:border-brand-800/60 flex items-center justify-between gap-2">
-                        <div className="flex items-center gap-2 text-[11px] text-brand-500 dark:text-brand-400">
-                          <span>{item.file_size ? `${(item.file_size / (1024 * 1024)).toFixed(1)} MB` : "Document"}</span>
-                          <span>&bull;</span>
-                          <span className="flex items-center gap-1 font-medium text-brand-600 dark:text-brand-300">
-                            <Eye size={12} /> {item.download_count || 0} views
-                          </span>
-                        </div>
+                      <div className="pt-3.5 mt-3.5 border-t border-brand-100 dark:border-brand-800/60 flex flex-col gap-2.5 w-full">
+                        <div className="flex items-center justify-between gap-2 text-[11px] text-brand-500 dark:text-brand-400 w-full min-w-0">
+                          <div className="flex items-center gap-1.5 min-w-0 truncate">
+                            <span className="shrink-0">{item.file_size ? `${(item.file_size / (1024 * 1024)).toFixed(1)} MB` : "Document"}</span>
+                            <span>&bull;</span>
+                            <span className="flex items-center gap-1 font-medium text-brand-600 dark:text-brand-300 shrink-0">
+                              <Eye size={12} /> {item.download_count || 0} views
+                            </span>
+                          </div>
 
-                        <div className="flex items-center gap-2">
                           <button
+                            type="button"
                             onClick={() => toggleVaultMaterial(item)}
                             title={vaultMaterials.some(v => v.id === item.id) ? "In Offline Vault" : "Save for offline reading"}
-                            className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                            className={cn(
+                              "inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold transition-colors shrink-0",
                               vaultMaterials.some(v => v.id === item.id)
                                 ? "bg-purple-100 dark:bg-purple-950/80 text-purple-700 dark:text-purple-300 border border-purple-300 dark:border-purple-700"
-                                : "bg-brand-50 hover:bg-brand-100 dark:bg-brand-900 text-brand-600 dark:text-brand-300"
-                            }`}
+                                : "bg-brand-50 hover:bg-brand-100 dark:bg-brand-900 text-brand-700 dark:text-brand-300"
+                            )}
                           >
                             {vaultMaterials.some(v => v.id === item.id) ? (
                               <BookmarkCheck size={14} className="text-purple-600 dark:text-purple-400" />
                             ) : (
                               <Bookmark size={14} />
                             )}
-                            <span className="hidden sm:inline">
-                              {vaultMaterials.some(v => v.id === item.id) ? "In Vault" : "Offline"}
-                            </span>
+                            <span>{vaultMaterials.some(v => v.id === item.id) ? "In Vault" : "Offline"}</span>
                           </button>
+                        </div>
+
+                        <div className="flex items-center gap-2 w-full">
                           <button
+                            type="button"
                             onClick={() => {
                               setPreviewMaterial(item);
                               incrementMaterialView(item.id);
                             }}
-                            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold text-brand-700 dark:text-brand-300 bg-brand-50 hover:bg-brand-100 dark:bg-brand-900 dark:hover:bg-brand-800 transition-colors"
+                            className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs font-bold text-brand-800 dark:text-brand-200 bg-brand-100/80 hover:bg-brand-200 dark:bg-brand-900/80 dark:hover:bg-brand-800 transition-colors min-h-[38px]"
                           >
                             <Eye size={14} /> Preview
                           </button>
@@ -937,7 +944,7 @@ export default function ResourcesPage() {
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={() => incrementMaterialView(item.id)}
-                            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-brand-600 hover:bg-brand-700 transition-colors"
+                            className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs font-bold text-white bg-brand-600 hover:bg-brand-700 transition-colors shadow-xs min-h-[38px]"
                           >
                             <Download size={14} /> Download
                           </a>
@@ -998,48 +1005,50 @@ export default function ResourcesPage() {
                   </button>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4 w-full">
                   {vaultMaterials.map((item) => (
                     <div
                       key={item.id}
-                      className="bg-white dark:bg-brand-900 p-5 rounded-2xl border border-purple-200 dark:border-purple-900/60 shadow-sm flex flex-col justify-between"
+                      className="bg-white dark:bg-brand-900 p-4 sm:p-5 rounded-2xl border border-purple-200 dark:border-purple-900/60 shadow-sm flex flex-col justify-between w-full min-w-0 overflow-hidden"
                     >
-                      <div>
+                      <div className="w-full min-w-0">
                         <div className="flex items-start justify-between gap-2 mb-2">
-                          <span className="px-2.5 py-0.5 rounded text-[11px] font-semibold uppercase tracking-wider bg-purple-100 dark:bg-purple-900/60 text-purple-800 dark:text-purple-200">
+                          <span className="px-2.5 py-0.5 rounded text-[11px] font-semibold uppercase tracking-wider bg-purple-100 dark:bg-purple-900/60 text-purple-800 dark:text-purple-200 truncate">
                             {(item.material_type || item.type || "material").replace("_", " ")}
                           </span>
-                          <span className="text-[10px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full">
+                          <span className="text-[10px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full shrink-0">
                             Saved Offline
                           </span>
                         </div>
 
-                        <h3 className="font-bold text-brand-900 dark:text-brand-100 text-base line-clamp-2">
+                        <h3 className="font-bold text-brand-900 dark:text-brand-100 text-sm sm:text-base line-clamp-2 break-words">
                           {item.title}
                         </h3>
 
                         {item.course_code && (
-                          <p className="text-xs font-semibold text-brand-600 dark:text-brand-400 mt-1">
+                          <p className="text-xs font-semibold text-brand-600 dark:text-brand-400 mt-1 break-words">
                             {item.course_code} {item.course_title ? `— ${item.course_title}` : ""}
                           </p>
                         )}
                       </div>
 
-                      <div className="pt-4 mt-4 border-t border-brand-100 dark:border-brand-800/60 flex items-center justify-between gap-2">
-                        <span className="text-[11px] text-muted-foreground">
+                      <div className="pt-3.5 sm:pt-4 mt-3 sm:mt-4 border-t border-brand-100 dark:border-brand-800/60 flex items-center justify-between gap-2 w-full">
+                        <span className="text-[11px] text-muted-foreground shrink-0">
                           {item.file_size ? `${(item.file_size / (1024 * 1024)).toFixed(1)} MB` : "Document"}
                         </span>
 
                         <div className="flex items-center gap-2">
                           <button
+                            type="button"
                             onClick={() => setPreviewMaterial(item)}
-                            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold text-brand-700 dark:text-brand-300 bg-brand-50 hover:bg-brand-100 dark:bg-brand-900 transition-colors"
+                            className="inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold text-brand-700 dark:text-brand-300 bg-brand-50 hover:bg-brand-100 dark:bg-brand-800 transition-colors"
                           >
                             <Eye size={14} /> View
                           </button>
                           <button
+                            type="button"
                             onClick={() => toggleVaultMaterial(item)}
-                            className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-rose-500 hover:bg-rose-500/10 transition-colors"
+                            className="inline-flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-rose-500 hover:bg-rose-500/10 transition-colors"
                             title="Remove from vault"
                           >
                             <Trash2 size={14} />
