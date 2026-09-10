@@ -94,7 +94,8 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-white dark:bg-zinc-950 border-b border-slate-200 dark:border-zinc-800 transition-colors shadow-xs">
+    <>
+      <header className="fixed top-0 left-0 right-0 z-40 w-full bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md border-b border-slate-200 dark:border-zinc-800 transition-colors shadow-xs">
       <div className="container mx-auto px-2.5 sm:px-4 h-14 sm:h-16 flex items-center justify-between gap-1.5 sm:gap-4">
         {/* Brand Logo & Name */}
         <Link
@@ -297,5 +298,8 @@ export function Header() {
       <SearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
       <MobileNav open={mobileMenuOpen} onOpenChange={setMobileMenuOpen} />
     </header>
-  );
+    {/* Spacer to prevent page content from hiding under fixed navbar */}
+    <div className="h-14 sm:h-16 w-full shrink-0" aria-hidden="true" />
+  </>
+);
 }
