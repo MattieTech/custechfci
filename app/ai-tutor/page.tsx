@@ -252,31 +252,37 @@ export default function AITutorPage() {
               </p>
             </div>
 
-            {/* Starter Suggestion Cards Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-3 w-full max-w-2xl mx-auto">
-              {STARTER_CARDS.map((card, idx) => {
-                const IconComponent = card.icon;
-                return (
-                  <button
-                    key={idx}
-                    type="button"
-                    onClick={() => handleSendMessage(card.prompt)}
-                    className="px-2.5 py-2 sm:p-3.5 rounded-lg sm:rounded-xl border border-brand-200 dark:border-brand-800/90 bg-white dark:bg-brand-900/60 hover:bg-brand-50 dark:hover:bg-brand-800/60 hover:border-brand-300 dark:hover:border-brand-700 text-left transition-all group shadow-2xs sm:shadow-xs flex items-center sm:items-start gap-2.5 sm:gap-3 w-full min-w-0"
-                  >
-                    <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-md sm:rounded-lg ${card.bgColor} ${card.iconColor} flex items-center justify-center shrink-0 sm:mt-0.5 group-hover:scale-105 transition-transform`}>
-                      <IconComponent className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <h2 className="text-xs sm:text-sm font-semibold text-brand-900 dark:text-brand-100 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors truncate">
-                        {card.title}
-                      </h2>
-                      <p className="text-[10px] sm:text-[11px] text-brand-500 dark:text-brand-400 line-clamp-1 sm:line-clamp-2 mt-0 sm:mt-0.5 leading-tight sm:leading-snug">
-                        {card.subtitle}
-                      </p>
-                    </div>
-                  </button>
-                );
-              })}
+            {/* Starter Suggestion Cards: Horizontal Swipe Track on Mobile, 2-Col Grid on Desktop */}
+            <div className="w-full max-w-2xl mx-auto">
+              <div className="flex items-center justify-between text-[11px] text-brand-500 dark:text-brand-400 mb-1.5 px-0.5 sm:hidden font-medium">
+                <span>Suggested study prompts</span>
+                <span className="text-[10px] text-brand-400 dark:text-brand-500 flex items-center gap-0.5">Swipe &rarr;</span>
+              </div>
+              <div className="flex sm:grid sm:grid-cols-2 gap-2 sm:gap-3 overflow-x-auto no-scrollbar pb-1.5 sm:pb-0 -mx-2.5 px-2.5 sm:mx-0 sm:px-0 snap-x">
+                {STARTER_CARDS.map((card, idx) => {
+                  const IconComponent = card.icon;
+                  return (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => handleSendMessage(card.prompt)}
+                      className="w-[195px] sm:w-auto shrink-0 snap-start px-2.5 py-2 sm:p-3.5 rounded-lg sm:rounded-xl border border-brand-200 dark:border-brand-800/90 bg-white dark:bg-brand-900/60 hover:bg-brand-50 dark:hover:bg-brand-800/60 hover:border-brand-300 dark:hover:border-brand-700 text-left transition-all group shadow-2xs sm:shadow-xs flex items-center sm:items-start gap-2.5 sm:gap-3"
+                    >
+                      <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-md sm:rounded-lg ${card.bgColor} ${card.iconColor} flex items-center justify-center shrink-0 sm:mt-0.5 group-hover:scale-105 transition-transform`}>
+                        <IconComponent className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <h2 className="text-xs sm:text-sm font-semibold text-brand-900 dark:text-brand-100 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors truncate">
+                          {card.title}
+                        </h2>
+                        <p className="text-[10px] sm:text-[11px] text-brand-500 dark:text-brand-400 line-clamp-1 sm:line-clamp-2 mt-0.5 leading-tight sm:leading-snug">
+                          {card.subtitle}
+                        </p>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
         ) : (
