@@ -95,13 +95,13 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 w-full bg-white dark:bg-zinc-950 border-b border-slate-200 dark:border-zinc-800 transition-colors shadow-xs">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
+      <div className="container mx-auto px-2.5 sm:px-4 h-14 sm:h-16 flex items-center justify-between gap-1.5 sm:gap-4">
         {/* Brand Logo & Name */}
         <Link
           href="/"
           className="flex items-center gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 rounded-lg py-1 px-1.5 hover:bg-slate-100/80 dark:hover:bg-zinc-900 transition-colors shrink-0"
         >
-          <div className="relative h-9 sm:h-10 w-32 sm:w-44 shrink-0">
+          <div className="relative h-8 sm:h-10 w-24 sm:w-44 shrink-0">
             <Image
               src="/images/school-logo.png"
               alt="CUSTECH Logo"
@@ -258,7 +258,7 @@ export function Header() {
           <button
             type="button"
             onClick={() => setSearchOpen(true)}
-            className="flex items-center gap-2 px-2.5 py-1.5 sm:px-3 rounded-lg text-slate-800 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-zinc-800 border border-slate-200 dark:border-zinc-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 font-medium"
+            className="flex items-center gap-2 p-2 sm:px-3 sm:py-1.5 rounded-lg text-slate-800 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-zinc-800 border border-slate-200 dark:border-zinc-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 font-medium"
             aria-label="Search site"
           >
             <Search className="w-4 h-4 sm:w-5 sm:h-5 text-slate-600 dark:text-zinc-400" />
@@ -284,7 +284,7 @@ export function Header() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(true)}
-            className="lg:hidden p-2 rounded-lg text-slate-800 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+            className="lg:hidden p-1.5 sm:p-2 rounded-lg text-slate-800 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
             aria-label="Open navigation menu"
             aria-expanded={mobileMenuOpen}
           >

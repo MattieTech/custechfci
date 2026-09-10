@@ -94,37 +94,37 @@ export function HeroSlideshow() {
         </div>
 
         {/* Title */}
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white font-serif leading-[1.15] drop-shadow-md">
+        <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white font-serif leading-[1.15] drop-shadow-md">
           FCI <span className="text-brand-300">Student</span> Guide
         </h1>
 
         {/* Subtitle */}
-        <p className="mt-5 text-base sm:text-lg md:text-xl text-brand-100/90 max-w-2xl font-body leading-relaxed drop-shadow">
+        <p className="mt-4 sm:mt-5 text-sm sm:text-lg md:text-xl text-brand-100/90 max-w-2xl font-body leading-relaxed drop-shadow px-2">
           Your complete companion for academic life at the Faculty of Computing and Informatics, CUSTECH Osara.
         </p>
 
         {/* CTA Buttons */}
-        <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto justify-center items-center flex-wrap">
+        <div className="mt-6 sm:mt-8 flex flex-wrap sm:flex-row gap-2 sm:gap-3.5 w-full sm:w-auto justify-center items-center max-w-md sm:max-w-none">
           <Link
             href="/departments"
-            className="inline-flex h-12 w-full sm:w-auto items-center justify-center rounded-xl bg-brand-500 hover:bg-brand-600 px-6 text-sm font-semibold text-white shadow-lg shadow-brand-950/40 transition-all hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 gap-2"
+            className="inline-flex h-9 sm:h-11 items-center justify-center rounded-lg sm:rounded-xl bg-brand-500 hover:bg-brand-600 px-3.5 sm:px-5 text-xs sm:text-sm font-semibold text-white shadow-md shadow-brand-950/30 transition-all hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 gap-1.5 shrink-0"
           >
-            <Building2 className="w-5 h-5" />
-            Explore Departments
+            <Building2 className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
+            <span>Explore Departments</span>
           </Link>
           <Link
             href="/ai-tutor"
-            className="inline-flex h-12 w-full sm:w-auto items-center justify-center rounded-xl bg-white text-brand-950 hover:bg-brand-50 px-6 text-sm font-semibold shadow-lg shadow-black/30 transition-all hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white gap-2"
+            className="inline-flex h-9 sm:h-11 items-center justify-center rounded-lg sm:rounded-xl bg-white text-brand-950 hover:bg-brand-50 px-3.5 sm:px-5 text-xs sm:text-sm font-semibold shadow-md shadow-black/20 transition-all hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white gap-1.5 shrink-0"
           >
-            <Bot className="w-5 h-5 text-brand-600" />
-            Ask FCI AI
+            <Bot className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-brand-600" />
+            <span>Ask FCI AI</span>
           </Link>
           <Link
             href="/cbt"
-            className="inline-flex h-12 w-full sm:w-auto items-center justify-center rounded-xl border border-white/30 bg-white/15 hover:bg-white/25 backdrop-blur-md px-6 text-sm font-semibold text-white shadow-md transition-all hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white gap-2"
+            className="inline-flex h-9 sm:h-11 items-center justify-center rounded-lg sm:rounded-xl border border-white/30 bg-white/15 hover:bg-white/25 backdrop-blur-md px-3.5 sm:px-5 text-xs sm:text-sm font-semibold text-white shadow-sm transition-all hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white gap-1.5 shrink-0"
           >
-            <CheckSquare className="w-5 h-5" />
-            CBT Practice
+            <CheckSquare className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
+            <span>CBT Practice</span>
           </Link>
         </div>
 
@@ -138,7 +138,7 @@ export function HeroSlideshow() {
       <button
         type="button"
         onClick={prevSlide}
-        className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-30 p-2.5 rounded-full bg-black/30 hover:bg-black/60 text-white/80 hover:text-white border border-white/15 backdrop-blur-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
+        className="hidden md:flex absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 z-30 p-2.5 rounded-full bg-black/30 hover:bg-black/60 text-white/80 hover:text-white border border-white/15 backdrop-blur-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 items-center justify-center"
         aria-label="Previous slide"
       >
         <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -146,7 +146,7 @@ export function HeroSlideshow() {
       <button
         type="button"
         onClick={nextSlide}
-        className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-30 p-2.5 rounded-full bg-black/30 hover:bg-black/60 text-white/80 hover:text-white border border-white/15 backdrop-blur-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
+        className="hidden md:flex absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-30 p-2.5 rounded-full bg-black/30 hover:bg-black/60 text-white/80 hover:text-white border border-white/15 backdrop-blur-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 items-center justify-center"
         aria-label="Next slide"
       >
         <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />

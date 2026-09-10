@@ -211,11 +211,11 @@ export function NextLectureWidget() {
         </div>
 
         {/* Level and Dept Quick Selector */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 w-full sm:w-auto">
           <select
             value={deptCode}
             onChange={(e) => handleDeptChange(e.target.value)}
-            className="h-8 rounded-lg border border-brand-200 dark:border-brand-700 bg-brand-50/60 dark:bg-brand-950 px-2.5 text-xs font-semibold text-brand-900 dark:text-brand-100 focus:outline-none"
+            className="flex-1 sm:flex-none h-8 rounded-lg border border-brand-200 dark:border-brand-700 bg-brand-50/60 dark:bg-brand-950 px-2 text-xs font-semibold text-brand-900 dark:text-brand-100 focus:outline-none"
           >
             <option value="CSC">Computer Science (CSC)</option>
             <option value="SWE">Software Engineering (SWE)</option>
