@@ -36,7 +36,7 @@ OOP is organized around **objects** (data structures containing fields and metho
 
 4. **Abstraction**: Hiding internal implementation complexity and exposing only necessary high-level interfaces (e.g., using abstract base classes or interfaces).
 
-💡 **Exam Tip**: In your CSC 233 exams, remember that Python achieves abstraction via the \`abc\` module (\`from abc import ABC, abstractmethod\`).`;
+**Exam Tip**: In your CSC 233 exams, remember that Python achieves abstraction via the \`abc\` module (\`from abc import ABC, abstractmethod\`).`;
   }
 
   if (q.includes('von neumann') || q.includes('architecture') || q.includes('csc 231') || q.includes('alu') || q.includes('cache')) {
@@ -59,7 +59,7 @@ Proposed in 1945 by John von Neumann, this design serves as the foundation for m
    - **Address Bus**: Uni-directional transmission of physical memory addresses.
    - **Control Bus**: Carries synchronization clock pulses and read/write signals.
 
-⚠️ **Von Neumann Bottleneck**: Because instructions and data share the same bus, CPU processing speed is limited by data bus throughput between the processor and main memory. Harvard architecture addresses this by using separated instruction and data memory buses.`;
+**Von Neumann Bottleneck**: Because instructions and data share the same bus, CPU processing speed is limited by data bus throughput between the processor and main memory. Harvard architecture addresses this by using separated instruction and data memory buses.`;
   }
 
   if (q.includes('cgpa') || q.includes('gpa') || q.includes('first class') || q.includes('grading scale')) {
@@ -69,26 +69,26 @@ In the Faculty of Computing and Informatics, your academic standing is determine
 
 | Score Range | Letter Grade | Grade Points | Performance Verdict |
 | :--- | :---: | :---: | :--- |
-| **70% – 100%** | **A** | **5.0** | Distinction / Excellent |
-| **60% – 69%** | **B** | **4.0** | Very Good |
-| **50% – 59%** | **C** | **3.0** | Good / Credit |
-| **45% – 49%** | **D** | **2.0** | Fair / Pass |
-| **40% – 44%** | **E** | **1.0** | Weak Pass |
-| **0% – 39%** | **F** | **0.0** | Fail (Must Retake) |
+| **70% - 100%** | **A** | **5.0** | Distinction / Excellent |
+| **60% - 69%** | **B** | **4.0** | Very Good |
+| **50% - 59%** | **C** | **3.0** | Good / Credit |
+| **45% - 49%** | **D** | **2.0** | Fair / Pass |
+| **40% - 44%** | **E** | **1.0** | Weak Pass |
+| **0% - 39%** | **F** | **0.0** | Fail (Must Retake) |
 
 #### Degree Classification Benchmarks:
-- 🏆 **4.50 – 5.00**: First Class Honours
-- 🎓 **3.50 – 4.49**: Second Class Honours (Upper Division / 2:1)
-- 📜 **2.40 – 3.49**: Second Class Honours (Lower Division / 2:2)
-- 🥉 **1.50 – 2.39**: Third Class Honours
-- 📋 **1.00 – 1.49**: Pass Degree
-- ⚠️ **Below 1.00**: Academic Probation / Withdrawal Warning
+- **4.50 - 5.00**: First Class Honours
+- **3.50 - 4.49**: Second Class Honours (Upper Division / 2:1)
+- **2.40 - 3.49**: Second Class Honours (Lower Division / 2:2)
+- **1.50 - 2.39**: Third Class Honours
+- **1.00 - 1.49**: Pass Degree
+- **Below 1.00**: Academic Probation / Withdrawal Warning
 
-🎯 **Pro Tip**: Use our new **Smart CGPA Calculator & Degree Forecaster** on the FCI portal (\`/cgpa\`) to automatically load your registered courses and calculate your exact required GPA!`;
+**Pro Tip**: Use our **Smart CGPA Calculator & Degree Forecaster** on the FCI portal (\`/cgpa\`) to automatically load your registered courses and calculate your exact required GPA!`;
   }
 
   if (q.includes('flashcard') || q.includes('gst 111') || q.includes('english')) {
-    return `### 🎴 GST 111 Exam Revision Flashcards
+    return `### GST 111 Exam Revision Flashcards
 
 Here are 5 high-yield revision flashcards for **GST 111 (Communication in English)**:
 
@@ -117,32 +117,32 @@ Here are 5 high-yield revision flashcards for **GST 111 (Communication in Englis
     return `### SWE 142: Software Development Methodologies
 
 #### 1. The Classical Waterfall Model
-- **Structure**: Linear and sequential phases (Requirements ➔ Design ➔ Implementation ➔ Verification ➔ Maintenance).
+- **Structure**: Linear and sequential phases (Requirements -> Design -> Implementation -> Verification -> Maintenance).
 - **Pros**: Rigid discipline, precise documentation, clear milestones.
 - **Cons**: Difficult to accommodate changes late in the lifecycle; working software is delivered only at the final stage.
 
 #### 2. Agile Methodology (Scrum / Kanban)
-- **Structure**: Iterative, sprint-based cycles (typically 2–4 weeks) delivering incremental working prototypes.
+- **Structure**: Iterative, sprint-based cycles (typically 2-4 weeks) delivering incremental working prototypes.
 - **Core Values**:
   1. Individuals and interactions over processes and tools.
   2. Working software over comprehensive documentation.
   3. Customer collaboration over contract negotiation.
   4. Responding to change over following a fixed plan.
 
-💡 **Exam Question Highlight**: "In which SDLC model is testing treated as a continuous activity rather than an isolated phase at the end?" 👉 **Agile Methodologies**!`;
+**Exam Question Highlight**: "In which SDLC model is testing treated as a continuous activity rather than an isolated phase at the end?" - **Agile Methodologies**!`;
   }
 
   // General assistant response
-  return `### Hello! I am your FCI Academic Study Copilot 🤖
+  return `### FCI Academic Study Copilot
 
-I'm grounded in the official CUSTECH curriculum for the Faculty of Computing and Informatics (Computer Science, Software Engineering, Cyber Security, Information Tech, and Data Science).
+I am grounded in the official CUSTECH curriculum for the Faculty of Computing and Informatics (Computer Science, Software Engineering, Cyber Security, Information Technology, and Library & Information Science).
 
-Here are some ways I can help you ace your semester:
-1. 🎯 **CBT Revision**: Ask me to explain past question answers or test your knowledge with interactive drills.
-2. 💻 **Code Explanations**: Ask me to break down C++, Python, Java, Data Structures, or SQL queries.
-3. 📚 **Curriculum Summaries**: Inquire about course outlines for 100L through 400L.
-4. 📊 **CGPA Strategies**: Ask how to target a First Class or calculate your semester points.
-5. 🎴 **Flashcard Generation**: Request revision flashcards for GST 111, CSC 142, STA 131, CSC 231, and more.
+Here are key ways I can help you prepare:
+1. **CBT Revision**: Explain past questions, review question rationale, and provide concept drills.
+2. **Code Explanations**: Break down C++, Python, Java, Data Structures, or SQL queries step-by-step.
+3. **Curriculum Summaries**: Clarify course outlines and key definitions from 100L through 400L.
+4. **CGPA Strategy**: Calculate target semester GPA requirements and study milestones.
+5. **Flashcards**: Generate revision flashcards for GST 111, CSC 142, STA 131, CSC 231, and more.
 
 What topic would you like to explore or practice right now?`;
 }
@@ -172,8 +172,9 @@ export async function POST(req: Request) {
               systemInstruction: {
                 parts: [{
                   text: `You are FCI AI, an expert academic tutor and study copilot for students in the Faculty of Computing and Informatics at Confluence University of Science and Technology (CUSTECH), Osara, Kogi State, Nigeria. 
-You teach courses across Computer Science, Software Engineering, Cyber Security, Information Technology, and Data Science. 
-Provide clear, pedagogically structured explanations with code snippets where appropriate, reference CUSTECH syllabus standards, encourage students, and provide flashcards or quick check questions when asked.`
+You teach courses across Computer Science, Software Engineering, Cyber Security, Information Technology, and Library & Information Science. 
+Provide clear, pedagogically structured explanations with code snippets where appropriate, reference CUSTECH syllabus standards, encourage students, and provide flashcards or quick check questions when asked.
+CRITICAL FORMATTING INSTRUCTION: Do NOT use any emojis or emoticons in your answers under any circumstance. Use clean professional Markdown headings, lists, tables, bold text, and code blocks only.`
                 }]
               },
               generationConfig: {
