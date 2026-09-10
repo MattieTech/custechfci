@@ -6,13 +6,19 @@ export const SITE_CONFIG = {
 
 export const NAV_LINKS = [
   { href: '/', label: 'Home', icon: 'home' },
+  { href: '/cbt', label: 'CBT Drill', icon: 'zap' },
+  { href: '/cgpa', label: 'CGPA', icon: 'calculator' },
+  { href: '/ai-tutor', label: 'Ask AI', icon: 'bot' },
   { href: '/departments', label: 'Departments', icon: 'building' },
   { href: '/resources', label: 'Resources', icon: 'book' },
+  { href: '/resources', label: 'Resources & Vault', icon: 'book' },
   { href: '/timetable', label: 'Timetable', icon: 'calendar' },
   { href: '/calendar', label: 'Calendar', icon: 'calendar' },
   { href: '/news', label: 'News', icon: 'newspaper' },
   { href: '/about', label: 'About', icon: 'info' },
   { href: '/contacts', label: 'Contact', icon: 'mail' },
+  { href: '/grievances', label: 'Grievances', icon: 'inbox' },
+  { href: '/lost-and-found', label: 'Lost & Found', icon: 'search' },
 ];
 
 export const DEPARTMENTS = [

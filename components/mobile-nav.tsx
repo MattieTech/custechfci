@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -21,6 +21,10 @@ import {
   Calculator,
   FileText,
   ChevronRight,
+  Clock,
+  Bot,
+  Search,
+  HardDrive,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { NAV_LINKS } from '@/lib/constants';
@@ -32,9 +36,14 @@ interface MobileNavProps {
 
 const LINK_ICONS: Record<string, React.ReactNode> = {
   '/': <Home className="w-5 h-5 text-brand-500" />,
+  '/cbt': <Clock className="w-5 h-5 text-emerald-500" />,
+  '/cgpa': <Calculator className="w-5 h-5 text-blue-500" />,
+  '/ai-tutor': <Bot className="w-5 h-5 text-purple-500" />,
   '/departments': <Building2 className="w-5 h-5 text-brand-500" />,
   '/resources': <BookOpen className="w-5 h-5 text-brand-500" />,
   '/timetable': <Calendar className="w-5 h-5 text-brand-500" />,
+  '/grievances': <FileText className="w-5 h-5 text-amber-500" />,
+  '/lost-and-found': <Search className="w-5 h-5 text-cyan-500" />,
   '/news': <Newspaper className="w-5 h-5 text-brand-500" />,
   '/about': <Info className="w-5 h-5 text-brand-500" />,
   '/contacts': <Phone className="w-5 h-5 text-brand-500" />,

@@ -16,11 +16,17 @@ import {
   GraduationCap,
   ChevronRight,
   UserCheck,
+  Radio,
+  Inbox,
+  PackageSearch,
 } from 'lucide-react';
 
 const adminNavItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/users', label: 'Onboard Reps & Staff', icon: UserCheck },
+  { href: '/admin/broadcast', label: 'Social Broadcast Hub', icon: Radio },
+  { href: '/admin/grievances', label: 'Student Grievances', icon: Inbox },
+  { href: '/admin/lost-and-found', label: 'Lost & Found Desk', icon: PackageSearch },
   { href: '/admin/materials', label: 'Materials', icon: FileText },
   { href: '/admin/announcements', label: 'Announcements', icon: Megaphone },
   { href: '/admin/timetable', label: 'Timetable', icon: CalendarDays },

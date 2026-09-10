@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { HeroSlideshow } from "@/components/hero-slideshow";
 import { CountdownWidget } from "@/components/countdown-widget";
+import { NextLectureWidget } from "@/components/next-lecture-widget";
 import { ALL_DEPARTMENTS } from "@/lib/departments-data";
 
 const DEPT_ICONS: Record<string, any> = {
@@ -103,10 +104,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 2.5 Academic Milestone Countdown Timer */}
+      {/* 2.5 Academic Milestone Countdown Timer & Next Lecture Tracker */}
       <section className="py-8 bg-gradient-to-b from-brand-50/60 to-transparent dark:from-brand-950/60 dark:to-transparent border-b border-brand-200/70 dark:border-brand-800/70">
-        <div className="container mx-auto px-4 sm:px-6">
+        <div className="container mx-auto px-4 sm:px-6 space-y-6">
           <CountdownWidget variant="hero" defaultMilestoneId="sem1-exam" />
+          <NextLectureWidget />
         </div>
       </section>
 
@@ -168,71 +170,132 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. Quick Access Section */}
+      {/* 4. Quick Access Section (Expanded Suite of FCI Student Tools) */}
       <section className="py-14 sm:py-20 bg-white dark:bg-brand-900/40 border-b border-brand-200 dark:border-brand-800">
         <div className="container px-4 sm:px-6 mx-auto">
           <div className="mb-10 text-center max-w-2xl mx-auto">
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-brand-950 dark:text-brand-50 font-serif">
-              Quick Access Tools
+              Faculty Academic Tools &amp; Utilities
             </h2>
             <p className="text-brand-600 dark:text-brand-400 text-sm sm:text-base mt-2">
-              Essential utilities, schedules, and resources designed to keep your semester running smoothly.
+              Interactive portals built to boost your academic performance, prepare for CBT exams, and resolve student welfare issues.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Link href="/timetable" className="group block h-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* 1. CBT Mock Drill */}
+            <Link href="/cbt" className="group block h-full">
               <div className="flex flex-col h-full p-6 rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
                 <div className="p-3 bg-brand-100 dark:bg-brand-800 rounded-xl w-fit mb-4 text-brand-700 dark:text-brand-300 group-hover:bg-brand-600 group-hover:text-white transition-colors">
-                  <Calendar className="w-6 h-6" />
+                  <Clock className="w-6 h-6" />
                 </div>
-                <h3 className="text-lg font-bold text-brand-900 dark:text-brand-100 mb-2">
-                  Exam Timetable
-                </h3>
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <h3 className="text-lg font-bold text-brand-900 dark:text-brand-100">
+                    FCI Drill: Interactive CBT
+                  </h3>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                    Practice
+                  </span>
+                </div>
                 <p className="text-brand-600 dark:text-brand-400 text-sm flex-grow leading-relaxed">
-                  Check examination dates, paper schedules, and assigned faculty hall venues.
+                  Timed exam simulations, instant score reports, and question-by-question syllabus explanations.
                 </p>
               </div>
             </Link>
 
+            {/* 2. Smart CGPA Calculator */}
+            <Link href="/cgpa" className="group block h-full">
+              <div className="flex flex-col h-full p-6 rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
+                <div className="p-3 bg-brand-100 dark:bg-brand-800 rounded-xl w-fit mb-4 text-brand-700 dark:text-brand-300 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                  <Calculator className="w-6 h-6" />
+                </div>
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <h3 className="text-lg font-bold text-brand-900 dark:text-brand-100">
+                    Smart CGPA &amp; Forecaster
+                  </h3>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">
+                    5.0 Scale
+                  </span>
+                </div>
+                <p className="text-brand-600 dark:text-brand-400 text-sm flex-grow leading-relaxed">
+                  Auto-populated course outlines for all departments, cumulative CGPA calculation, and Target Mode forecasting.
+                </p>
+              </div>
+            </Link>
+
+            {/* 3. Study Materials & Vault */}
             <Link href="/resources?tab=materials" className="group block h-full">
               <div className="flex flex-col h-full p-6 rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
                 <div className="p-3 bg-brand-100 dark:bg-brand-800 rounded-xl w-fit mb-4 text-brand-700 dark:text-brand-300 group-hover:bg-brand-600 group-hover:text-white transition-colors">
                   <BookOpen className="w-6 h-6" />
                 </div>
-                <h3 className="text-lg font-bold text-brand-900 dark:text-brand-100 mb-2">
-                  Study Materials
-                </h3>
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <h3 className="text-lg font-bold text-brand-900 dark:text-brand-100">
+                    Academic Materials Vault
+                  </h3>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20">
+                    89+ PDFs
+                  </span>
+                </div>
                 <p className="text-brand-600 dark:text-brand-400 text-sm flex-grow leading-relaxed">
-                  Download approved lecture notes, syllabus guides, and past question archives.
+                  Direct access to approved lecture slides, syllabus outlines, and past questions with offline caching.
                 </p>
               </div>
             </Link>
 
-            <Link href="/resources?tab=cgpa" className="group block h-full">
+            {/* 4. Timetable */}
+            <Link href="/timetable" className="group block h-full">
               <div className="flex flex-col h-full p-6 rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
                 <div className="p-3 bg-brand-100 dark:bg-brand-800 rounded-xl w-fit mb-4 text-brand-700 dark:text-brand-300 group-hover:bg-brand-600 group-hover:text-white transition-colors">
-                  <Calculator className="w-6 h-6" />
+                  <Calendar className="w-6 h-6" />
                 </div>
-                <h3 className="text-lg font-bold text-brand-900 dark:text-brand-100 mb-2">
-                  CGPA Calculator
-                </h3>
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <h3 className="text-lg font-bold text-brand-900 dark:text-brand-100">
+                    Lecture &amp; Exam Schedule
+                  </h3>
+                </div>
                 <p className="text-brand-600 dark:text-brand-400 text-sm flex-grow leading-relaxed">
-                  Calculate semester GPA and cumulative CGPA on CUSTECH's official 5.0 grade scale.
+                  Weekly class timetables, hall allocations, CA test dates, and Google Calendar export.
                 </p>
               </div>
             </Link>
 
-            <Link href="/contacts" className="group block h-full">
+            {/* 5. Anonymous Grievances & Suggestion Box */}
+            <Link href="/grievances" className="group block h-full">
+              <div className="flex flex-col h-full p-6 rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
+                <div className="p-3 bg-brand-100 dark:bg-brand-800 rounded-xl w-fit mb-4 text-brand-700 dark:text-brand-300 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                  <FileText className="w-6 h-6" />
+                </div>
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <h3 className="text-lg font-bold text-brand-900 dark:text-brand-100">
+                    Guild Grievance Box
+                  </h3>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                    Anonymous
+                  </span>
+                </div>
+                <p className="text-brand-600 dark:text-brand-400 text-sm flex-grow leading-relaxed">
+                  Safely report course issues, facility problems, or feedback to faculty executives with private tracking tickets.
+                </p>
+              </div>
+            </Link>
+
+            {/* 6. Lost and Found */}
+            <Link href="/lost-and-found" className="group block h-full">
               <div className="flex flex-col h-full p-6 rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
                 <div className="p-3 bg-brand-100 dark:bg-brand-800 rounded-xl w-fit mb-4 text-brand-700 dark:text-brand-300 group-hover:bg-brand-600 group-hover:text-white transition-colors">
                   <Users className="w-6 h-6" />
                 </div>
-                <h3 className="text-lg font-bold text-brand-900 dark:text-brand-100 mb-2">
-                  Contact Reps
-                </h3>
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <h3 className="text-lg font-bold text-brand-900 dark:text-brand-100">
+                    Faculty Lost &amp; Found
+                  </h3>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20">
+                    Community
+                  </span>
+                </div>
                 <p className="text-brand-600 dark:text-brand-400 text-sm flex-grow leading-relaxed">
-                  Find contact information and WhatsApp channels for course and faculty representatives.
+                  Search for misplaced ID cards, notebooks, tech devices, or report found items for quick owner recovery.
                 </p>
               </div>
             </Link>
