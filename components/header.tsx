@@ -94,12 +94,12 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full backdrop-blur-md bg-white/95 dark:bg-brand-950/95 border-b border-brand-200 dark:border-brand-800 transition-colors shadow-xs">
+    <header className="sticky top-0 z-40 w-full bg-white dark:bg-zinc-950 border-b border-slate-200 dark:border-zinc-800 transition-colors shadow-xs">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
         {/* Brand Logo & Name */}
         <Link
           href="/"
-          className="flex items-center gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 rounded-lg py-1 px-1.5 hover:bg-brand-100/50 dark:hover:bg-brand-900/50 transition-colors shrink-0"
+          className="flex items-center gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 rounded-lg py-1 px-1.5 hover:bg-slate-100/80 dark:hover:bg-zinc-900 transition-colors shrink-0"
         >
           <div className="relative h-9 sm:h-10 w-32 sm:w-44 shrink-0">
             <Image
@@ -111,11 +111,11 @@ export function Header() {
               priority
             />
           </div>
-          <div className="flex flex-col border-l border-brand-300 dark:border-brand-700 pl-2.5 ml-0.5">
-            <span className="font-heading font-bold text-sm sm:text-base text-brand-950 dark:text-brand-50 leading-tight">
+          <div className="flex flex-col border-l border-slate-300 dark:border-zinc-700 pl-2.5 ml-0.5">
+            <span className="font-heading font-extrabold text-sm sm:text-base text-slate-900 dark:text-white leading-tight">
               FCI Portal
             </span>
-            <span className="text-[10px] text-brand-600 dark:text-brand-400 font-medium leading-none hidden sm:block">
+            <span className="text-[11px] text-brand-700 dark:text-brand-300 font-semibold leading-none hidden sm:block">
               Student Guide
             </span>
           </div>
@@ -142,30 +142,30 @@ export function Header() {
                     onClick={() => setOpenDropdown(isOpen ? null : item.label)}
                     aria-expanded={isOpen}
                     className={cn(
-                      'flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500',
+                      'flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500',
                       isChildActive
-                        ? 'bg-brand-100/80 dark:bg-brand-900/80 text-brand-900 dark:text-brand-100 font-semibold'
+                        ? 'bg-brand-100 dark:bg-brand-900/70 text-brand-900 dark:text-brand-100 font-bold'
                         : isOpen
-                        ? 'bg-brand-50 dark:bg-brand-900/40 text-brand-900 dark:text-brand-100'
-                        : 'text-brand-700 dark:text-brand-300 hover:bg-brand-100/50 dark:hover:bg-brand-800/40 hover:text-brand-950 dark:hover:text-brand-50'
+                        ? 'bg-slate-100 dark:bg-zinc-800 text-slate-950 dark:text-white'
+                        : 'text-slate-800 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-zinc-800 hover:text-slate-950 dark:hover:text-white'
                     )}
                   >
                     <span>{item.label}</span>
                     <ChevronDown
                       className={cn(
-                        'w-4 h-4 transition-transform duration-200 text-brand-500 dark:text-brand-400',
-                        isOpen && 'rotate-180 text-brand-700 dark:text-brand-200'
+                        'w-4 h-4 transition-transform duration-200 text-slate-500 dark:text-zinc-400',
+                        isOpen && 'rotate-180 text-brand-600 dark:text-brand-400'
                       )}
                     />
                   </button>
 
-                  {/* Dropdown Menu Panel */}
+                  {/* Dropdown Menu Panel - 100% Solid opaque background & high-contrast text */}
                   {isOpen && (
                     <div
-                      className="absolute left-0 mt-1 w-80 sm:w-88 rounded-2xl bg-white/98 dark:bg-brand-950/98 backdrop-blur-xl border border-brand-200/90 dark:border-brand-800 p-2 shadow-2xl animate-fade-in z-50"
+                      className="absolute left-0 mt-2 w-84 sm:w-96 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-700/80 p-2.5 shadow-2xl ring-1 ring-black/10 dark:ring-white/10 z-50 animate-fade-in"
                       role="menu"
                     >
-                      <div className="text-[11px] font-bold uppercase tracking-wider text-brand-500 dark:text-brand-400 px-3 py-1.5 border-b border-brand-100 dark:border-brand-800/80 mb-1">
+                      <div className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-zinc-400 px-3 py-1.5 border-b border-slate-100 dark:border-zinc-800 mb-1.5">
                         {item.label}
                       </div>
                       <div className="space-y-1">
@@ -181,8 +181,8 @@ export function Header() {
                               className={cn(
                                 'flex items-start gap-3 p-2.5 rounded-xl transition-all group',
                                 isItemActive
-                                  ? 'bg-brand-100/80 dark:bg-brand-900/80'
-                                  : 'hover:bg-brand-50 dark:hover:bg-brand-900/40'
+                                  ? 'bg-brand-50 dark:bg-zinc-800 border-l-2 border-brand-600'
+                                  : 'hover:bg-slate-100/90 dark:hover:bg-zinc-800/70'
                               )}
                               role="menuitem"
                             >
@@ -190,8 +190,8 @@ export function Header() {
                                 className={cn(
                                   'p-2 rounded-lg shrink-0 transition-colors',
                                   isItemActive
-                                    ? 'bg-brand-600 text-white'
-                                    : 'bg-brand-100/70 dark:bg-brand-800/60 text-brand-700 dark:text-brand-300 group-hover:bg-brand-600 group-hover:text-white'
+                                    ? 'bg-brand-600 text-white shadow-xs'
+                                    : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 group-hover:bg-brand-600 group-hover:text-white'
                                 )}
                               >
                                 <IconComponent className="w-4 h-4" />
@@ -200,21 +200,21 @@ export function Header() {
                                 <div className="flex items-center justify-between gap-1.5">
                                   <span
                                     className={cn(
-                                      'text-sm font-semibold truncate',
+                                      'text-sm font-bold truncate',
                                       isItemActive
                                         ? 'text-brand-950 dark:text-white'
-                                        : 'text-brand-900 dark:text-brand-100 group-hover:text-brand-600 dark:group-hover:text-brand-400'
+                                        : 'text-slate-900 dark:text-zinc-100 group-hover:text-brand-600 dark:group-hover:text-brand-400'
                                     )}
                                   >
                                     {child.label}
                                   </span>
                                   {child.badge && (
-                                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-brand-200/60 dark:bg-brand-800/70 text-brand-800 dark:text-brand-300 shrink-0">
+                                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-slate-100 dark:bg-zinc-800 text-slate-800 dark:text-zinc-200 border border-slate-200 dark:border-zinc-700 shrink-0">
                                       {child.badge}
                                     </span>
                                   )}
                                 </div>
-                                <p className="text-xs text-brand-600 dark:text-brand-400 line-clamp-1 mt-0.5">
+                                <p className="text-xs text-slate-600 dark:text-zinc-400 group-hover:text-slate-800 dark:group-hover:text-zinc-300 line-clamp-1 mt-0.5 font-medium">
                                   {child.description}
                                 </p>
                               </div>
@@ -235,15 +235,15 @@ export function Header() {
                 key={item.href}
                 href={item.href!}
                 className={cn(
-                  'flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500',
+                  'flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500',
                   isActive
-                    ? 'bg-brand-100 dark:bg-brand-900/70 text-brand-900 dark:text-brand-100 font-semibold'
-                    : 'text-brand-700 dark:text-brand-300 hover:bg-brand-100/50 dark:hover:bg-brand-800/40 hover:text-brand-950 dark:hover:text-brand-50'
+                    ? 'bg-brand-100 dark:bg-brand-900/70 text-brand-900 dark:text-brand-100 font-bold'
+                    : 'text-slate-800 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-zinc-800 hover:text-slate-950 dark:hover:text-white'
                 )}
               >
                 <span>{item.label}</span>
                 {item.badge && (
-                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-brand-200/70 dark:bg-brand-800 text-brand-800 dark:text-brand-300 ml-0.5">
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-600 text-white shadow-xs ml-0.5">
                     {item.badge}
                   </span>
                 )}
@@ -258,11 +258,11 @@ export function Header() {
           <button
             type="button"
             onClick={() => setSearchOpen(true)}
-            className="flex items-center gap-2 p-2 sm:px-3 sm:py-1.5 rounded-lg text-brand-700 dark:text-brand-300 hover:bg-brand-100 dark:hover:bg-brand-800/60 border border-transparent hover:border-brand-200 dark:hover:border-brand-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+            className="flex items-center gap-2 px-2.5 py-1.5 sm:px-3 rounded-lg text-slate-800 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-zinc-800 border border-slate-200 dark:border-zinc-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 font-medium"
             aria-label="Search site"
           >
-            <Search className="w-4 h-4 sm:w-5 sm:h-5" />
-            <span className="hidden xl:inline text-xs text-brand-500">Quick search (Ctrl+K)</span>
+            <Search className="w-4 h-4 sm:w-5 sm:h-5 text-slate-600 dark:text-zinc-400" />
+            <span className="hidden xl:inline text-xs text-slate-500 dark:text-zinc-400">Quick search (Ctrl+K)</span>
           </button>
 
           {/* Notification Bell */}
@@ -273,7 +273,7 @@ export function Header() {
             <button
               type="button"
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="p-2 rounded-lg text-brand-700 dark:text-brand-300 hover:bg-brand-100 dark:hover:bg-brand-800/60 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 hidden sm:flex items-center justify-center"
+              className="p-2 rounded-lg text-slate-800 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-zinc-800 border border-transparent hover:border-slate-200 dark:hover:border-zinc-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 hidden sm:flex items-center justify-center"
               aria-label="Toggle dark mode"
             >
               {theme === 'dark' ? <Sun className="w-5 h-5 text-amber-400" /> : <Moon className="w-5 h-5" />}
@@ -284,7 +284,7 @@ export function Header() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(true)}
-            className="lg:hidden p-2 rounded-lg text-brand-800 dark:text-brand-200 hover:bg-brand-100 dark:hover:bg-brand-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+            className="lg:hidden p-2 rounded-lg text-slate-800 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
             aria-label="Open navigation menu"
             aria-expanded={mobileMenuOpen}
           >
