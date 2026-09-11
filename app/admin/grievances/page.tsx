@@ -42,7 +42,12 @@ export default function AdminGrievancesPage() {
     try {
       const saved = localStorage.getItem('custech_fci_grievances');
       if (saved) {
-        setTickets(JSON.parse(saved));
+        const parsed = JSON.parse(saved);
+        const clean = Array.isArray(parsed)
+          ? parsed.filter((t: any) => t.id !== 'sample-1' && t.id !== 'sample-2')
+          : [];
+        setTickets(clean);
+        localStorage.setItem('custech_fci_grievances', JSON.stringify(clean));
       }
     } catch (e) {}
   }, []);

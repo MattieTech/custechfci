@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { FlaticonLostFoundIcon } from '@/components/animated-flaticons';
 import { toast } from 'sonner';
 import { createClient } from '@/lib/supabase/client';
 
@@ -38,47 +39,7 @@ interface LostFoundItem {
   createdAt: string;
 }
 
-const SAMPLE_ITEMS: LostFoundItem[] = [
-  {
-    id: 'lf-1',
-    type: 'found',
-    title: 'CUSTECH Student ID Card (Computer Science)',
-    category: 'ID Cards & Documents',
-    venue: 'Computer Lab 1 (Beside System 14)',
-    date: '08 Sep 2026',
-    description: 'Found a student identity card belonging to a 200L Computer Science student. Dropped with the Lab Attendant.',
-    contactInfo: '0803XXXXXXX (Lab Attendant Engr. Bello)',
-    status: 'active',
-    verificationHint: 'Owner must provide matriculation number to verify.',
-    createdAt: '08 Sep 2026'
-  },
-  {
-    id: 'lf-2',
-    type: 'lost',
-    title: 'Casio fx-991EX Scientific Calculator (Black/Silver)',
-    category: 'Electronics & Gadgets',
-    venue: 'FCI Lecture Theatre 2 (Back Row)',
-    date: '07 Sep 2026',
-    description: 'Misplaced my calculator during STA 131 lecture on Tuesday afternoon. Has a small yellow sticker at the back.',
-    contactInfo: 'WhatsApp: 0812XXXXXXX',
-    status: 'active',
-    verificationHint: 'Yellow sticker contains initials "K.A."',
-    createdAt: '07 Sep 2026'
-  },
-  {
-    id: 'lf-3',
-    type: 'found',
-    title: 'HP Laptop Charger (Blue Tip 65W)',
-    category: 'Electronics & Gadgets',
-    venue: 'ETF Hall 3',
-    date: '05 Sep 2026',
-    description: 'Left plugged into the wall socket after the 100L GST 111 morning class. Handed to the Class Rep.',
-    contactInfo: 'Course Rep Emmanuel (0814XXXXXXX)',
-    status: 'claimed',
-    verificationHint: 'Owner claimed and verified serial number.',
-    createdAt: '05 Sep 2026'
-  }
-];
+const SAMPLE_ITEMS: LostFoundItem[] = [];
 
 export default function LostAndFoundPage() {
   const [items, setItems] = useState<LostFoundItem[]>([]);
@@ -102,13 +63,18 @@ export default function LostAndFoundPage() {
     try {
       const saved = localStorage.getItem('custech_fci_lost_found');
       if (saved) {
-        setItems(JSON.parse(saved));
+        const parsed = JSON.parse(saved);
+        // Clean out legacy sample fake items
+        const clean = Array.isArray(parsed)
+          ? parsed.filter((item: any) => item.id !== 'lf-1' && item.id !== 'lf-2' && item.id !== 'lf-3')
+          : [];
+        setItems(clean);
+        localStorage.setItem('custech_fci_lost_found', JSON.stringify(clean));
       } else {
-        setItems(SAMPLE_ITEMS);
-        localStorage.setItem('custech_fci_lost_found', JSON.stringify(SAMPLE_ITEMS));
+        setItems([]);
       }
     } catch (e) {
-      setItems(SAMPLE_ITEMS);
+      setItems([]);
     }
   }, []);
 
@@ -268,12 +234,22 @@ export default function LostAndFoundPage() {
         {/* Items Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {filteredItems.length === 0 ? (
-            <div className="col-span-full py-16 text-center bg-card border border-dashed border-border rounded-2xl">
-              <Search className="h-10 w-10 text-muted-foreground mx-auto mb-2 opacity-40" />
-              <h3 className="font-bold text-sm text-foreground">No Items Found</h3>
-              <p className="text-xs text-muted-foreground mt-1 max-w-sm mx-auto">
-                No items match your search filters. Have you lost or found something? Click <strong>Report Item</strong> to alert the community.
+            <div className="col-span-full py-16 px-4 text-center bg-card border border-dashed border-border rounded-2xl flex flex-col items-center justify-center">
+              <FlaticonLostFoundIcon className="w-16 h-16 mb-4 opacity-80" />
+              <h3 className="font-bold text-base text-foreground">No Items On The Community Board</h3>
+              <p className="text-xs text-muted-foreground mt-1 max-w-md mx-auto leading-relaxed">
+                {items.length === 0
+                  ? 'No lost or found items have been reported yet for this session. Have you misplaced an item or found a student\'s belonging on campus?'
+                  : 'No items match your active filters or search term.'}
               </p>
+              <Button
+                onClick={() => setShowModal(true)}
+                className="mt-5 gap-2 text-xs font-semibold shadow-sm"
+                size="sm"
+              >
+                <Plus className="h-3.5 w-3.5" />
+                Report Lost or Found Item
+              </Button>
             </div>
           ) : (
             filteredItems.map(item => {

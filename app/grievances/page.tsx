@@ -39,34 +39,7 @@ interface GrievanceTicket {
   updatedAt?: string;
 }
 
-const DEFAULT_SAMPLE_TICKETS: GrievanceTicket[] = [
-  {
-    id: 'sample-1',
-    trackingCode: 'FCI-9421-A',
-    category: 'Facility & Equipment',
-    department: 'Computer Science',
-    level: '100L',
-    title: 'Ceiling Fan and Projector Malfunction in Hall B',
-    description: 'During 100L GST 111 lectures, the projector is dim and 3 ceiling fans are completely dead, causing extreme heat.',
-    urgency: 'important',
-    status: 'resolved',
-    adminResponse: 'Maintenance team inspected Hall B on Tuesday. Projector bulb replaced and 3 fans serviced.',
-    createdAt: '03 Sep 2026'
-  },
-  {
-    id: 'sample-2',
-    trackingCode: 'FCI-3180-C',
-    category: 'Timetable Clash',
-    department: 'Software Engineering',
-    level: '200L',
-    title: 'SWE 211 and MTH 211 Lecture Schedule Overlap',
-    description: 'Both lectures are fixed for Wednesday 10:00 AM on the faculty timetable draft.',
-    urgency: 'critical',
-    status: 'in_review',
-    adminResponse: 'Faculty timetable committee notified. MTH 211 has been rescheduled to Thursday 8:00 AM.',
-    createdAt: '06 Sep 2026'
-  }
-];
+const DEFAULT_SAMPLE_TICKETS: GrievanceTicket[] = [];
 
 export default function GrievancesPage() {
   const [activeTab, setActiveTab] = useState<'submit' | 'track'>('submit');
@@ -96,13 +69,17 @@ export default function GrievancesPage() {
     try {
       const saved = localStorage.getItem('custech_fci_grievances');
       if (saved) {
-        setAllTickets(JSON.parse(saved));
+        const parsed = JSON.parse(saved);
+        const clean = Array.isArray(parsed)
+          ? parsed.filter((t: any) => t.id !== 'sample-1' && t.id !== 'sample-2')
+          : [];
+        setAllTickets(clean);
+        localStorage.setItem('custech_fci_grievances', JSON.stringify(clean));
       } else {
-        setAllTickets(DEFAULT_SAMPLE_TICKETS);
-        localStorage.setItem('custech_fci_grievances', JSON.stringify(DEFAULT_SAMPLE_TICKETS));
+        setAllTickets([]);
       }
     } catch (e) {
-      setAllTickets(DEFAULT_SAMPLE_TICKETS);
+      setAllTickets([]);
     }
   }, []);
 

@@ -39,7 +39,12 @@ export default function AdminLostFoundPage() {
     try {
       const saved = localStorage.getItem('custech_fci_lost_found');
       if (saved) {
-        setItems(JSON.parse(saved));
+        const parsed = JSON.parse(saved);
+        const clean = Array.isArray(parsed)
+          ? parsed.filter((item: any) => item.id !== 'lf-1' && item.id !== 'lf-2' && item.id !== 'lf-3')
+          : [];
+        setItems(clean);
+        localStorage.setItem('custech_fci_lost_found', JSON.stringify(clean));
       }
     } catch (e) {}
   }, []);
