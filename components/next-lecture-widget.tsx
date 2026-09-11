@@ -170,6 +170,7 @@ export function NextLectureWidget() {
   const allLectures = useMemo(() => {
     const combined = dbLectures.length > 0 ? dbLectures : CURATED_LECTURES;
     return combined.filter(l => l.level === level && (l.deptCode === 'ALL' || l.deptCode === deptCode));
+    return dbLectures.filter(l => l.level === level && (l.deptCode === 'ALL' || l.deptCode === deptCode));
   }, [dbLectures, level, deptCode]);
 
   // Determine current or next lecture
@@ -340,8 +341,8 @@ export function NextLectureWidget() {
           </div>
         </div>
       ) : (
-        <div className="py-6 text-center text-xs text-brand-500">
-          No lecture scheduled for this selection. Check the full faculty timetable.
+        <div className="py-6 text-center text-xs text-brand-500 dark:text-brand-400">
+          Academic Recess / Semester Break: Lectures are not currently in session. Official lecture schedules will be displayed here once published by faculty administration for the 2026/2027 academic session.
         </div>
       )}
     </div>

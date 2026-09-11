@@ -25,6 +25,18 @@ export type Milestone = {
 
 export const DEFAULT_MILESTONES: Milestone[] = [
   {
+    id: "sem1-resumption",
+    title: "2026/2027 Session Resumption",
+    shortName: "Session Resumption",
+    category: "resumption",
+    targetDate: "2026-09-28T08:00:00+01:00",
+    displayDate: "Monday, 28 September 2026",
+    description: "Official resumption of academic activities and commencement of lectures.",
+    badge: "Session Resumption",
+    primaryColor: "text-emerald-600 dark:text-emerald-400",
+    accentBg: "from-emerald-500/10 via-brand-500/5 to-teal-500/10 dark:from-emerald-950/40 dark:via-brand-950/20 dark:to-teal-950/30",
+  },
+  {
     id: "sem1-exam",
     title: "First Semester Examination",
     shortName: "1st Sem Exams",
