@@ -10,8 +10,12 @@ import {
   TrendingUp,
   Clock,
   UserCheck,
+  FileQuestion,
+  MessageSquare,
 } from 'lucide-react';
 import Link from 'next/link';
+import { CBT_COURSES, getMergedQuestionsForCourse } from '@/lib/cbt-banks';
+import { getAllDiscussions } from '@/lib/discussions';
 
 interface Stats {
   materials: number;
@@ -19,6 +23,8 @@ interface Stats {
   upcomingExams: number;
   contacts: number;
   admins: number;
+  cbtQuestions: number;
+  discussions: number;
 }
 
 export default function AdminDashboardPage() {
@@ -28,6 +34,8 @@ export default function AdminDashboardPage() {
     upcomingExams: 0,
     contacts: 0,
     admins: 0,
+    cbtQuestions: 0,
+    discussions: 0,
   });
   const [loading, setLoading] = useState(true);
 
@@ -51,12 +59,26 @@ export default function AdminDashboardPage() {
         supabase.from('profiles').select('id', { count: 'exact', head: true }),
       ]);
 
+    let totalCbt = 0;
+    try {
+      CBT_COURSES.forEach(c => {
+        totalCbt += getMergedQuestionsForCourse(c.code).length;
+      });
+    } catch (e) {}
+
+    let totalDiscussions = 0;
+    try {
+      totalDiscussions = getAllDiscussions().length;
+    } catch (e) {}
+
     setStats({
       materials: materialsRes.count || 0,
       announcements: announcementsRes.count || 0,
       upcomingExams: timetableRes.count || 0,
       contacts: contactsRes.count || 0,
       admins: profilesRes.count || 0,
+      cbtQuestions: totalCbt,
+      discussions: totalDiscussions,
     });
     setLoading(false);
   }
@@ -68,6 +90,20 @@ export default function AdminDashboardPage() {
       icon: UserCheck,
       href: '/admin/users',
       color: 'text-indigo-600 bg-indigo-50 dark:bg-indigo-950/30',
+    },
+    {
+      label: 'CBT Question Bank',
+      value: stats.cbtQuestions,
+      icon: FileQuestion,
+      href: '/admin/cbt',
+      color: 'text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30',
+    },
+    {
+      label: 'Past Question Discussions',
+      value: stats.discussions,
+      icon: MessageSquare,
+      href: '/admin/discussions',
+      color: 'text-cyan-600 bg-cyan-50 dark:bg-cyan-950/30',
     },
     {
       label: 'Total Materials',
@@ -199,6 +235,34 @@ export default function AdminDashboardPage() {
               </div>
               <div className="text-xs text-brand-500 dark:text-brand-400">
                 Add or modify exam schedules
+              </div>
+            </div>
+          </Link>
+          <Link
+            href="/admin/cbt"
+            className="flex items-center gap-3 p-4 rounded-lg border border-brand-200 dark:border-brand-800 hover:bg-brand-50 dark:hover:bg-brand-800/50 transition-colors"
+          >
+            <FileQuestion className="w-5 h-5 text-emerald-600" />
+            <div>
+              <div className="text-sm font-medium text-brand-900 dark:text-brand-100">
+                CBT Question Bank
+              </div>
+              <div className="text-xs text-brand-500 dark:text-brand-400">
+                Author &amp; edit practice exam questions
+              </div>
+            </div>
+          </Link>
+          <Link
+            href="/admin/discussions"
+            className="flex items-center gap-3 p-4 rounded-lg border border-brand-200 dark:border-brand-800 hover:bg-brand-50 dark:hover:bg-brand-800/50 transition-colors"
+          >
+            <MessageSquare className="w-5 h-5 text-cyan-600" />
+            <div>
+              <div className="text-sm font-medium text-brand-900 dark:text-brand-100">
+                Moderate Discussions &amp; Solutions
+              </div>
+              <div className="text-xs text-brand-500 dark:text-brand-400">
+                Verify marking schemes &amp; pin answers
               </div>
             </div>
           </Link>

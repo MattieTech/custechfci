@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { toast } from 'sonner';
 import {
@@ -22,6 +23,7 @@ import {
   AlertTriangle,
   Check,
   X,
+  Radio,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -496,6 +498,23 @@ export default function TimetableAdminPage() {
                         >
                           <Trash2 size={16} />
                         </button>
+                        <div className="flex items-center justify-end gap-1.5">
+                          <Link
+                            href={`/admin/broadcast?title=${encodeURIComponent(`Class & Venue Update: ${entry.course_code}`)}&message=${encodeURIComponent(`Important update for ${entry.level}L: ${entry.course_code} (${entry.course_title}) scheduled for ${entry.start_time.substring(0, 5)} - ${entry.end_time.substring(0, 5)} is holding at ${entry.venue || 'TBA'}. Please take note.`)}&category=timetable`}
+                            className="text-brand-600 dark:text-brand-400 hover:text-brand-900 dark:hover:text-brand-100 p-1.5 rounded-lg hover:bg-brand-100 dark:hover:bg-brand-800 transition-colors inline-flex items-center gap-1 text-xs"
+                            title="Dispatch emergency broadcast to students"
+                          >
+                            <Radio size={14} />
+                            <span className="hidden sm:inline">Broadcast</span>
+                          </Link>
+                          <button
+                            onClick={() => handleDelete(entry.id)}
+                            className="text-red-500 hover:text-red-700 dark:hover:text-red-400 p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors"
+                            title="Delete entry"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))

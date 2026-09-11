@@ -52,6 +52,16 @@ export default function AdminBroadcastPage() {
       if (saved) {
         setHistory(JSON.parse(saved));
       }
+
+      if (typeof window !== 'undefined') {
+        const params = new URLSearchParams(window.location.search);
+        const urlTitle = params.get('title');
+        const urlMessage = params.get('message');
+        const urlCategory = params.get('category');
+        if (urlTitle) setTitle(urlTitle);
+        if (urlMessage) setMessage(urlMessage);
+        if (urlCategory) setCategory(urlCategory);
+      }
     } catch (e) {}
   }, []);
 

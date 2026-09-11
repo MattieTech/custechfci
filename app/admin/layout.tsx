@@ -19,11 +19,15 @@ import {
   Radio,
   Inbox,
   PackageSearch,
+  FileQuestion,
+  MessageSquare,
 } from 'lucide-react';
 
 const adminNavItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/users', label: 'Onboard Reps & Staff', icon: UserCheck },
+  { href: '/admin/cbt', label: 'CBT Question Bank', icon: FileQuestion },
+  { href: '/admin/discussions', label: 'Discussions & QA', icon: MessageSquare },
   { href: '/admin/broadcast', label: 'Social Broadcast Hub', icon: Radio },
   { href: '/admin/grievances', label: 'Student Grievances', icon: Inbox },
   { href: '/admin/lost-and-found', label: 'Lost & Found Desk', icon: PackageSearch },

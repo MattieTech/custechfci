@@ -21,52 +21,13 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
-
-export interface DiscussionItem {
-  id: string;
-  materialId: string;
-  authorName: string;
-  department: string;
-  level: number;
-  type: 'question' | 'solution';
-  content: string;
-  codeSnippet?: string;
-  codeLanguage?: string;
-  upvotes: number;
-  isVerified?: boolean;
-  createdAt: string;
-}
-
-const SAMPLE_DISCUSSIONS: Record<string, DiscussionItem[]> = {
-  default: [
-    {
-      id: 'disc-1',
-      materialId: 'default',
-      authorName: 'CSC Level Rep',
-      department: 'Computer Science',
-      level: 200,
-      type: 'solution',
-      content: 'For Question 3(b) on time complexity: remember that binary search requires a sorted array first. The searching complexity is O(log n), but if the array is unsorted and you must sort it first, overall complexity becomes O(n log n).',
-      codeSnippet: 'def binary_search(arr, target):\n    low = 0\n    high = len(arr) - 1\n    while low <= high:\n        mid = (low + high) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            low = mid + 1\n        else:\n            high = mid - 1\n    return -1',
-      codeLanguage: 'python',
-      upvotes: 14,
-      isVerified: true,
-      createdAt: '2 hours ago'
-    },
-    {
-      id: 'disc-2',
-      materialId: 'default',
-      authorName: 'Amina S.',
-      department: 'Software Engineering',
-      level: 100,
-      type: 'question',
-      content: 'Can someone explain the marking scheme difference between Question 1 and Question 2? Do we need to write pseudo-code or complete syntax?',
-      upvotes: 6,
-      isVerified: false,
-      createdAt: '1 day ago'
-    }
-  ]
-};
+import { 
+  DiscussionItem, 
+  getDiscussionsForMaterial, 
+  saveDiscussionsForMaterial,
+  BASELINE_DISCUSSIONS 
+} from '@/lib/discussions';
+export type { DiscussionItem };
 
 interface DiscussionDrawerProps {
   open: boolean;
@@ -99,20 +60,13 @@ export function DiscussionDrawer({
   const [codeLanguage, setCodeLanguage] = useState('python');
   const [showCodeInput, setShowCodeInput] = useState(false);
 
-  // Load from localStorage
+  // Load discussions
   useEffect(() => {
     if (!open) return;
 
     try {
-      const storageKey = `fci_disc_${materialId}`;
-      const saved = localStorage.getItem(storageKey);
-      if (saved) {
-        setDiscussions(JSON.parse(saved));
-      } else {
-        // Provide tailored default discussion sample
-        const initial = SAMPLE_DISCUSSIONS[materialId] || SAMPLE_DISCUSSIONS.default;
-        setDiscussions(initial);
-      }
+      const items = getDiscussionsForMaterial(materialId);
+      setDiscussions(items);
 
       const upvotesKey = 'fci_user_upvotes';
       const savedUpvotes = localStorage.getItem(upvotesKey);

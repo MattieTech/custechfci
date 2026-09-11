@@ -568,3 +568,60 @@ export const CBT_QUESTIONS: Record<string, CBTQuestion[]> = {
   ]
 };
 
+const CUSTOM_QUESTIONS_STORAGE_KEY = 'fci_custom_cbt_questions';
+
+export function getCustomQuestions(): Record<string, CBTQuestion[]> {
+  if (typeof window === 'undefined') return {};
+  try {
+    const raw = localStorage.getItem(CUSTOM_QUESTIONS_STORAGE_KEY);
+    if (!raw) return {};
+    return JSON.parse(raw);
+  } catch (e) {
+    console.error('Failed to parse custom CBT questions:', e);
+    return {};
+  }
+}
+
+export function saveCustomQuestions(data: Record<string, CBTQuestion[]>) {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.setItem(CUSTOM_QUESTIONS_STORAGE_KEY, JSON.stringify(data));
+  } catch (e) {
+    console.error('Failed to save custom CBT questions:', e);
+  }
+}
+
+export function getMergedQuestionsForCourse(courseCode: string): CBTQuestion[] {
+  const baseQuestions = CBT_QUESTIONS[courseCode] || [];
+  const customMap = getCustomQuestions();
+  const customQuestions = customMap[courseCode] || [];
+  
+  // Custom questions override base if IDs match, or are appended
+  const customIds = new Set(customQuestions.map(q => q.id));
+  const filteredBase = baseQuestions.filter(q => !customIds.has(q.id));
+  return [...filteredBase, ...customQuestions];
+}
+
+export function saveOrUpdateQuestion(question: CBTQuestion) {
+  const customMap = getCustomQuestions();
+  const courseCode = question.courseCode;
+  const list = customMap[courseCode] || [];
+  const existingIndex = list.findIndex(q => q.id === question.id);
+  
+  if (existingIndex >= 0) {
+    list[existingIndex] = question;
+  } else {
+    list.push(question);
+  }
+  
+  customMap[courseCode] = list;
+  saveCustomQuestions(customMap);
+}
+
+export function deleteCustomQuestion(courseCode: string, questionId: string) {
+  const customMap = getCustomQuestions();
+  if (!customMap[courseCode]) return;
+  customMap[courseCode] = customMap[courseCode].filter(q => q.id !== questionId);
+  saveCustomQuestions(customMap);
+}
+

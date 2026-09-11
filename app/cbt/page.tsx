@@ -6,7 +6,8 @@ import {
   CBT_COURSES, 
   CBT_QUESTIONS, 
   CBTCourse, 
-  CBTQuestion 
+  CBTQuestion,
+  getMergedQuestionsForCourse
 } from '@/lib/cbt-banks';
 import { 
   BookOpen, 
@@ -98,7 +99,7 @@ export default function CBTPage() {
   }, [examMode, isTimed]);
 
   const startExam = (course: CBTCourse) => {
-    const rawQuestions = CBT_QUESTIONS[course.code] || [];
+    const rawQuestions = getMergedQuestionsForCourse(course.code);
     if (rawQuestions.length === 0) return;
 
     // Shuffle questions
@@ -361,7 +362,7 @@ export default function CBTPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {CBT_COURSES.map(course => {
-                  const qCount = CBT_QUESTIONS[course.code]?.length || 0;
+                  const qCount = getMergedQuestionsForCourse(course.code).length;
                   return (
                     <div 
                       key={course.code}
