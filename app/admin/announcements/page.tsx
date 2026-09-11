@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { toast } from 'sonner';
-import { Plus, Trash2, Edit, Loader2, CheckCircle2, XCircle, BellRing, Send } from 'lucide-react';
+import { Plus, Trash2, Edit, Loader2, CheckCircle2, XCircle, BellRing, Send, Star } from 'lucide-react';
 
 type Announcement = {
   id: string;
@@ -93,7 +93,7 @@ export default function AnnouncementsAdminPage() {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              title: `📢 ${title}`,
+              title: title,
               body: content.length > 120 ? `${content.substring(0, 117)}...` : content,
               url: '/announcements',
               tag: `announcement-${Date.now()}`,
@@ -102,7 +102,7 @@ export default function AnnouncementsAdminPage() {
             .then((r) => r.json())
             .then((resData) => {
               if (resData.sentCount > 0) {
-                toast.info(`🔔 Push notification delivered to ${resData.sentCount} active subscriber(s)!`);
+                toast.info(`Push notification delivered to ${resData.sentCount} active subscriber(s)!`);
               }
             })
             .catch(() => {});
@@ -286,6 +286,8 @@ export default function AnnouncementsAdminPage() {
                       }`}
                     >
                       {announcement.is_important ? '★ Important' : '☆ Normal'}
+                      <Star size={13} className={announcement.is_important ? 'fill-current' : ''} />
+                      {announcement.is_important ? 'Important' : 'Normal'}
                     </button>
                   </div>
                 </div>
@@ -431,7 +433,7 @@ export default function AnnouncementsAdminPage() {
                 <input
                   type="text"
                   required
-                  placeholder="e.g., 📢 Urgent: Exam Hall Relocation"
+                  placeholder="e.g., Urgent: Exam Hall Relocation"
                   value={broadcastTitle}
                   onChange={(e) => setBroadcastTitle(e.target.value)}
                   className="w-full px-3 py-2 text-sm rounded-lg border border-brand-200 dark:border-brand-800 bg-transparent focus:ring-2 focus:ring-amber-500"

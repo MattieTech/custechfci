@@ -101,7 +101,7 @@ export function NotificationBell() {
       setShowPromptBanner(false);
       localStorage.setItem('fci_notif_subscribed', 'true');
 
-      toast.success('🔔 Notifications Enabled!', {
+      toast.success('Notifications Enabled!', {
         description: 'You will receive timely alerts for announcements, timetables, and materials even when offline.',
       });
 

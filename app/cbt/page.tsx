@@ -823,8 +823,9 @@ export default function CBTPage() {
               You have answered <strong className="text-foreground font-mono">{answeredCount}</strong> of{' '}
               <strong className="text-foreground font-mono">{activeQuestions.length}</strong> questions.
               {activeQuestions.length - answeredCount > 0 && (
-                <span className="block mt-1 text-amber-400">
-                  ⚠️ You have {activeQuestions.length - answeredCount} unanswered questions remaining!
+                <span className="flex items-center gap-1.5 mt-1 text-amber-500 font-medium text-xs">
+                  <AlertCircle className="w-4 h-4 shrink-0" />
+                  <span>You have {activeQuestions.length - answeredCount} unanswered questions remaining!</span>
                 </span>
               )}
             </p>

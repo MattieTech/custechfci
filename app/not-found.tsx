@@ -15,7 +15,7 @@ export default function NotFoundPage() {
         <h2 className="text-xl font-medium text-brand-700 dark:text-brand-300 mb-4">Page not found</h2>
         
         <p className="text-brand-600 dark:text-brand-400 mb-8 text-sm leading-relaxed">
-          The page you are looking for doesn't exist or has been moved. Check the URL or return to the homepage to find what you need.
+          The page you are looking for doesn&apos;t exist or has been moved. Check the URL or return to the homepage to find what you need.
         </p>
         
         <div className="flex flex-col sm:flex-row gap-3 justify-center">

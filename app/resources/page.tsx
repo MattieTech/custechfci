@@ -981,7 +981,7 @@ export default function ResourcesPage() {
                     Your Offline Academic Vault
                   </h2>
                   <p className="text-xs sm:text-sm text-muted-foreground mt-1 max-w-xl">
-                    Documents saved here are stored in your device's local memory. You can access, preview, and study them even during network downtime or data exhaustion at CUSTECH Osara.
+                    Documents saved here are stored in your device&apos;s local memory. You can access, preview, and study them even during network downtime or data exhaustion at CUSTECH Osara.
                   </p>
                 </div>
 

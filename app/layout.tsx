@@ -18,7 +18,6 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   manifest: '/manifest.json',
-  themeColor: '#7A5A42',
   applicationName: 'CUSTECH FCI',
   appleWebApp: {
     capable: true,

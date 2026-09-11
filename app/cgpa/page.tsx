@@ -576,7 +576,7 @@ export default function CGPACalculatorPage() {
               <Target className="h-5 w-5" />
             </div>
             <h3 className="text-lg md:text-xl font-bold text-foreground">
-              Degree Class Forecaster ("Target Mode")
+              Degree Class Forecaster (&quot;Target Mode&quot;)
             </h3>
           </div>
           <p className="text-xs md:text-sm text-muted-foreground max-w-2xl">

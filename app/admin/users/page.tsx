@@ -256,14 +256,14 @@ export default function AdminUsersPage() {
   const copyInvitationText = () => {
     if (!lastCreatedCredentials) return;
     const loginUrl = `${window.location.origin}/admin/login`;
-    const inviteText = `🏛️ *CUSTECH FCI Student Guide — Portal Admin Access*
+    const inviteText = `*CUSTECH FCI Student Guide — Portal Admin Access*
 
 Hello *${lastCreatedCredentials.fullName || 'Representative'}*,
 You have been onboarded as a *${lastCreatedCredentials.roleTitle}* (${lastCreatedCredentials.department} - ${lastCreatedCredentials.level}) on the CUSTECH Faculty of Computing & Informatics portal.
 
 You now have admin privileges to manage timetables, study materials, and faculty announcements.
 
-🔐 *Your Login Details:*
+*Your Login Details:*
 • *Portal Login URL:* ${loginUrl}
 • *Email:* ${lastCreatedCredentials.email}
 • *Password:* ${lastCreatedCredentials.password}

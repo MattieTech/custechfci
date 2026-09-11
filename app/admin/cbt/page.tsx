@@ -298,7 +298,7 @@ export default function AdminCBTPage() {
             <HelpCircle className="w-10 h-10 text-brand-400 mx-auto mb-3" />
             <h3 className="text-base font-semibold text-brand-900 dark:text-brand-100">No questions found</h3>
             <p className="text-xs text-brand-500 dark:text-brand-400 mt-1 max-w-sm mx-auto">
-              No practice questions match your filter. Click "Add New Question" above to post new mock examination items.
+              No practice questions match your filter. Click &quot;Add New Question&quot; above to post new mock examination items.
             </p>
             <Button size="sm" onClick={openAddModal} className="mt-4 text-xs">
               <Plus className="w-4 h-4 mr-1" />

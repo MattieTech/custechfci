@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState } from 'react';
 import { BookOpen, Search, Layers, CheckCircle2 } from 'lucide-react';
@@ -103,7 +103,7 @@ export function DepartmentCourseTabs({ departmentName, courses }: DepartmentCour
                 {sem1Courses.length === 0 ? (
                   <tr>
                     <td colSpan={4} className="px-6 py-8 text-center text-brand-500 dark:text-brand-400">
-                      No courses found matching "{searchQuery}"
+                      No courses found matching &quot;{searchQuery}&quot;
                     </td>
                   </tr>
                 ) : (
@@ -166,7 +166,7 @@ export function DepartmentCourseTabs({ departmentName, courses }: DepartmentCour
                 {sem2Courses.length === 0 ? (
                   <tr>
                     <td colSpan={4} className="px-6 py-8 text-center text-brand-500 dark:text-brand-400">
-                      No courses found matching "{searchQuery}"
+                      No courses found matching &quot;{searchQuery}&quot;
                     </td>
                   </tr>
                 ) : (

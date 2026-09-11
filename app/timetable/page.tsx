@@ -414,7 +414,7 @@ export default function TimetablePage() {
               No {activeTabMeta.label} entries match your filters
             </h2>
             <p className="text-sm text-brand-600 dark:text-brand-400 max-w-md mb-6">
-              Try selecting "All Departments" or "All Levels", or check back soon as management publishes new schedules.
+              Try selecting &quot;All Departments&quot; or &quot;All Levels&quot;, or check back soon as management publishes new schedules.
             </p>
           </div>
         ) : activeTab === 'lecture' ? (

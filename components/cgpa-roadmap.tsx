@@ -14,7 +14,8 @@ import {
   Printer, 
   FileText,
   RotateCcw,
-  GraduationCap
+  GraduationCap,
+  X
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -563,9 +564,10 @@ export function CGPARoadmap() {
               <button 
                 type="button" 
                 onClick={() => setShowAddForm(false)}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-white"
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-white p-1"
+                aria-label="Close form"
               >
-                ✕
+                <X className="w-4 h-4" />
               </button>
             </div>
 

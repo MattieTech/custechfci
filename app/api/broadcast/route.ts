@@ -31,7 +31,7 @@ export async function POST(req: Request) {
 
       if (botToken && chatId) {
         try {
-          const text = `📢 *CUSTECH FCI OFFICIAL NOTICE*\n🏷️ *Category:* ${category.toUpperCase()} | *Audience:* ${audience}\n\n*${title}*\n\n${message}${actionUrl ? `\n\n🔗 [Open on FCI Portal](${actionUrl})` : ''}`;
+          const text = `[CUSTECH FCI OFFICIAL NOTICE]\nCategory: ${category.toUpperCase()} | Audience: ${audience}\n\n*${title}*\n\n${message}${actionUrl ? `\n\n[Open on FCI Portal](${actionUrl})` : ''}`;
           const tgRes = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
