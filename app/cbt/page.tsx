@@ -263,7 +263,7 @@ export default function CBTPage() {
                     ? 'bg-rose-500/20 text-rose-400 border-rose-500/40 animate-pulse' 
                     : 'bg-muted text-foreground border-border'
                 }`}>
-                  <Clock className="h-3.5 w-3.5" />
+                  <Clock className={`h-3.5 w-3.5 ${timeLeftSec < 180 ? 'animate-icon-wiggle text-rose-400' : 'animate-icon-pulse-glow'}`} />
                   {formatTime(timeLeftSec)}
                 </div>
               )}
@@ -288,7 +288,7 @@ export default function CBTPage() {
             <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 via-card to-background p-6 md:p-8">
               <div className="max-w-2xl space-y-3">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-semibold">
-                  <Zap className="h-3.5 w-3.5" />
+                  <Zap className="h-3.5 w-3.5 animate-icon-bounce text-amber-500" />
                   Exam Readiness Center
                 </div>
                 <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight">
@@ -484,7 +484,7 @@ export default function CBTPage() {
                     onClick={handleToggleFlag}
                     className={`gap-1.5 text-xs ${answers[activeQuestions[currentIndex]?.id]?.flagged ? 'bg-amber-500 hover:bg-amber-600 text-black border-amber-500' : ''}`}
                   >
-                    <Flag className="h-3.5 w-3.5" />
+                    <Flag className={`h-3.5 w-3.5 transition-transform ${answers[activeQuestions[currentIndex]?.id]?.flagged ? 'animate-icon-wiggle' : 'group-hover:scale-110'}`} />
                     {answers[activeQuestions[currentIndex]?.id]?.flagged ? 'Flagged' : 'Flag for Review'}
                   </Button>
                 </div>
@@ -645,7 +645,7 @@ export default function CBTPage() {
             {/* Scorecard Hero */}
             <div className="rounded-2xl border border-border bg-card p-6 md:p-8 text-center max-w-3xl mx-auto shadow-md">
               <div className="inline-flex items-center justify-center p-3 rounded-full bg-primary/10 text-primary mb-4">
-                <Award className="h-8 w-8" />
+                <Award className="h-8 w-8 animate-icon-bounce text-amber-500" />
               </div>
               <h2 className="text-2xl font-bold">{selectedCourse?.title} - Performance Report</h2>
               <p className="text-xs text-muted-foreground font-mono mt-1">{selectedCourse?.code} • Mock Drill Results</p>

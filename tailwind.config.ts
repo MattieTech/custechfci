@@ -1,4 +1,4 @@
-﻿import type { Config } from 'tailwindcss';
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: [
@@ -41,6 +41,13 @@ const config: Config = {
         'fade-in': 'fadeIn 0.5s ease-out',
         'slide-up': 'slideUp 0.4s ease-out',
         'slide-down': 'slideDown 0.3s ease-out',
+        'icon-bounce': 'iconBounce 1.5s ease-in-out infinite',
+        'icon-wiggle': 'iconWiggle 1.2s ease-in-out infinite',
+        'icon-float': 'iconFloat 3s ease-in-out infinite',
+        'icon-pulse-glow': 'iconPulse 2s ease-in-out infinite',
+        'icon-bell-ring': 'iconBellRing 2s ease-in-out infinite',
+        'icon-sparkle': 'iconSparkle 2.5s ease-in-out infinite',
+        'icon-spin-slow': 'iconSpinSlow 8s linear infinite',
       },
       keyframes: {
         fadeIn: {
@@ -54,6 +61,37 @@ const config: Config = {
         slideDown: {
           '0%': { opacity: '0', transform: 'translateY(-10px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        iconBounce: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-4px)' },
+        },
+        iconWiggle: {
+          '0%, 100%': { transform: 'rotate(0deg)' },
+          '25%': { transform: 'rotate(-9deg)' },
+          '75%': { transform: 'rotate(9deg)' },
+        },
+        iconFloat: {
+          '0%, 100%': { transform: 'translateY(0) scale(1)' },
+          '50%': { transform: 'translateY(-5px) scale(1.03)' },
+        },
+        iconPulse: {
+          '0%, 100%': { transform: 'scale(1)', opacity: '1' },
+          '50%': { transform: 'scale(1.12)', opacity: '0.85' },
+        },
+        iconBellRing: {
+          '0%, 100%': { transform: 'rotate(0deg)' },
+          '10%, 30%': { transform: 'rotate(-14deg)' },
+          '20%, 40%': { transform: 'rotate(14deg)' },
+          '50%': { transform: 'rotate(0deg)' },
+        },
+        iconSparkle: {
+          '0%, 100%': { transform: 'scale(1) rotate(0deg)' },
+          '50%': { transform: 'scale(1.2) rotate(180deg)' },
+        },
+        iconSpinSlow: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
         },
       },
     },

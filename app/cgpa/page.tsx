@@ -243,7 +243,7 @@ export default function CGPACalculatorPage() {
                 : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
             }`}
           >
-            <TrendingUp className="w-3.5 h-3.5" />
+            <TrendingUp className="w-3.5 h-3.5 animate-icon-wiggle" />
             <span>Academic Roadmap &amp; Trajectory</span>
             <Badge className="bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-[10px] py-0 px-1 border-0">
               New
@@ -260,7 +260,7 @@ export default function CGPACalculatorPage() {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <div className="inline-flex items-center gap-1.5 text-xs font-bold text-primary mb-1">
-                <GraduationCap className="h-4 w-4" />
+                <GraduationCap className="h-4 w-4 animate-icon-bounce" />
                 Curriculum-Grounding Engine
               </div>
               <h2 className="text-xl sm:text-2xl font-extrabold text-foreground">
@@ -573,7 +573,7 @@ export default function CGPACalculatorPage() {
         <div className="rounded-2xl border border-primary/30 bg-card p-6 md:p-8 shadow-sm">
           <div className="flex items-center gap-2.5 mb-2">
             <div className="p-2 rounded-lg bg-primary/20 text-primary">
-              <Target className="h-5 w-5" />
+              <Target className="h-5 w-5 animate-icon-pulse-glow text-primary" />
             </div>
             <h3 className="text-lg md:text-xl font-bold text-foreground">
               Degree Class Forecaster (&quot;Target Mode&quot;)

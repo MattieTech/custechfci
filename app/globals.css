@@ -1,4 +1,4 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -37,5 +37,89 @@
   /* Focus visible */
   *:focus-visible {
     @apply outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-brand-50 dark:ring-offset-brand-950;
+  }
+
+  /* Universal Lucide Icon Micro-interactions */
+  svg.lucide {
+    transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.15s ease-in-out, color 0.15s ease-in-out;
+    will-change: transform;
+  }
+
+  /* Interactive scale/spring on hover and press */
+  button:hover svg.lucide:not(.no-anim),
+  a:hover svg.lucide:not(.no-anim),
+  .group:hover .group-hover-scale {
+    transform: scale(1.12);
+  }
+
+  button:active svg.lucide:not(.no-anim),
+  a:active svg.lucide:not(.no-anim) {
+    transform: scale(0.92);
+  }
+}
+
+@layer utilities {
+  /* Ambient Keyframe Helpers */
+  .icon-floating {
+    animation: iconFloat 3s ease-in-out infinite;
+  }
+
+  .icon-bell-swing {
+    animation: iconBellRing 2.5s ease-in-out infinite;
+    transform-origin: top center;
+  }
+
+  .icon-sparkle-twinkle {
+    animation: iconSparkle 2.5s ease-in-out infinite;
+  }
+
+  .icon-pulse-smooth {
+    animation: iconPulse 2s ease-in-out infinite;
+  }
+
+  .icon-spin-slowly {
+    animation: iconSpinSlow 10s linear infinite;
+  }
+
+  /* Contextual Group Hover Enhancements */
+  .group:hover .group-hover-wiggle {
+    animation: iconWiggle 0.6s ease-in-out infinite;
+  }
+
+  .group:hover .group-hover-bounce {
+    animation: iconBounce 0.6s ease-in-out infinite;
+  }
+
+  .group:hover .group-hover-pulse {
+    animation: iconPulse 0.8s ease-in-out infinite;
+  }
+
+  .group:hover .group-hover-rotate {
+    transform: rotate(15deg) scale(1.15);
+  }
+
+  .group:hover .group-hover-arrow-right {
+    transform: translateX(4px);
+  }
+
+  .group:hover .group-hover-arrow-down {
+    transform: translateY(3px);
+  }
+}
+
+/* Accessibility: respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  svg.lucide,
+  .icon-floating,
+  .icon-bell-swing,
+  .icon-sparkle-twinkle,
+  .icon-pulse-smooth,
+  .icon-spin-slowly,
+  .group-hover-wiggle,
+  .group-hover-bounce,
+  .group-hover-pulse {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
   }
 }

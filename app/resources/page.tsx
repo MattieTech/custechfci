@@ -974,7 +974,7 @@ export default function ResourcesPage() {
               <div className="bg-gradient-to-r from-purple-900/20 via-card to-background border border-purple-500/20 rounded-2xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                 <div>
                   <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/20 text-purple-600 dark:text-purple-300 text-xs font-bold mb-2">
-                    <HardDrive className="h-3.5 w-3.5" />
+                    <HardDrive className="h-3.5 w-3.5 animate-icon-pulse-glow" />
                     PWA Offline Vault Engine
                   </div>
                   <h2 className="text-2xl font-bold font-serif text-foreground">
@@ -1003,7 +1003,7 @@ export default function ResourcesPage() {
 
               {vaultMaterials.length === 0 ? (
                 <div className="text-center py-16 px-4 bg-white dark:bg-brand-900 rounded-2xl border border-dashed border-brand-200 dark:border-brand-800">
-                  <HardDrive className="w-12 h-12 text-muted-foreground mx-auto mb-3 opacity-40" />
+                  <HardDrive className="w-12 h-12 text-muted-foreground mx-auto mb-3 opacity-40 icon-floating" />
                   <h3 className="text-base font-bold text-foreground">Your Offline Vault is Empty</h3>
                   <p className="text-xs text-muted-foreground mt-1 max-w-md mx-auto">
                     Browse the <strong>Study Materials &amp; Past Qs</strong> tab and click the <strong>Offline</strong> button on any lecture slide or past question to save it here for zero-internet studying!

@@ -164,9 +164,9 @@ export function NotificationBell() {
         }`}
       >
         {isSubscribed ? (
-          <BellRing className="w-4 h-4 text-amber-600 dark:text-amber-400 animate-pulse" />
+          <BellRing className="w-4 h-4 text-amber-600 dark:text-amber-400 icon-bell-swing" />
         ) : (
-          <Bell className="w-4 h-4" />
+          <Bell className="w-4 h-4 hover:animate-icon-wiggle transition-transform" />
         )}
         {!isSubscribed && (
           <span className="absolute top-1 right-1 w-2 h-2 bg-brand-600 dark:bg-brand-400 rounded-full animate-ping" />
@@ -178,7 +178,7 @@ export function NotificationBell() {
         <div className="fixed bottom-20 left-4 sm:left-auto right-4 sm:right-6 z-40 w-auto sm:w-full sm:max-w-sm bg-white dark:bg-brand-900 p-4 rounded-2xl shadow-xl border border-brand-200 dark:border-brand-800 animate-fade-in print:hidden">
           <div className="flex items-start gap-3">
             <div className="p-2.5 bg-brand-100 dark:bg-brand-800 text-brand-700 dark:text-brand-200 rounded-xl shrink-0">
-              <BellRing className="w-5 h-5 animate-bounce" />
+              <BellRing className="w-5 h-5 icon-bell-swing" />
             </div>
             <div className="flex-1">
               <h4 className="font-heading font-bold text-sm text-brand-900 dark:text-brand-100">

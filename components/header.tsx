@@ -195,7 +195,7 @@ export function Header() {
                                     : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 group-hover:bg-brand-600 group-hover:text-white'
                                 )}
                               >
-                                <IconComponent className="w-4 h-4" />
+                                <IconComponent className="w-4 h-4 transition-transform duration-300 group-hover:scale-125 group-hover:animate-icon-wiggle" />
                               </div>
                               <div className="flex-1 min-w-0">
                                 <div className="flex items-center justify-between gap-1.5">
@@ -259,10 +259,10 @@ export function Header() {
           <button
             type="button"
             onClick={() => setSearchOpen(true)}
-            className="flex items-center gap-2 p-2 sm:px-3 sm:py-1.5 rounded-lg text-slate-800 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-zinc-800 border border-slate-200 dark:border-zinc-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 font-medium"
+            className="flex items-center gap-2 p-2 sm:px-3 sm:py-1.5 rounded-lg text-slate-800 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-zinc-800 border border-slate-200 dark:border-zinc-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 font-medium group"
             aria-label="Search site"
           >
-            <Search className="w-4 h-4 sm:w-5 sm:h-5 text-slate-600 dark:text-zinc-400" />
+            <Search className="w-4 h-4 sm:w-5 sm:h-5 text-slate-600 dark:text-zinc-400 transition-transform duration-300 group-hover:scale-125 group-hover:rotate-12" />
             <span className="hidden xl:inline text-xs text-slate-500 dark:text-zinc-400">Quick search (Ctrl+K)</span>
           </button>
 
@@ -274,10 +274,14 @@ export function Header() {
             <button
               type="button"
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="p-2 rounded-lg text-slate-800 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-zinc-800 border border-transparent hover:border-slate-200 dark:hover:border-zinc-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 hidden sm:flex items-center justify-center"
+              className="p-2 rounded-lg text-slate-800 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-zinc-800 border border-transparent hover:border-slate-200 dark:hover:border-zinc-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 hidden sm:flex items-center justify-center group"
               aria-label="Toggle dark mode"
             >
-              {theme === 'dark' ? <Sun className="w-5 h-5 text-amber-400" /> : <Moon className="w-5 h-5" />}
+              {theme === 'dark' ? (
+                <Sun className="w-5 h-5 text-amber-400 transition-transform duration-500 group-hover:rotate-90 group-hover:scale-125" />
+              ) : (
+                <Moon className="w-5 h-5 transition-transform duration-500 group-hover:-rotate-45 group-hover:scale-125" />
+              )}
             </button>
           )}
 
@@ -285,11 +289,11 @@ export function Header() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(true)}
-            className="lg:hidden p-1.5 sm:p-2 rounded-lg text-slate-800 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+            className="lg:hidden p-1.5 sm:p-2 rounded-lg text-slate-800 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 group"
             aria-label="Open navigation menu"
             aria-expanded={mobileMenuOpen}
           >
-            <Menu className="w-6 h-6" />
+            <Menu className="w-6 h-6 transition-transform duration-200 group-hover:scale-110 active:scale-90" />
           </button>
         </div>
       </div>

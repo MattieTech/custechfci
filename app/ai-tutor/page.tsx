@@ -199,7 +199,7 @@ export default function AITutorPage() {
 
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-xl bg-brand-600 dark:bg-brand-500 text-white flex items-center justify-center shadow-xs">
-                <Sparkles className="h-4 w-4" />
+                <Sparkles className="h-4 w-4 icon-sparkle-twinkle" />
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
@@ -242,7 +242,7 @@ export default function AITutorPage() {
           <div className="flex-1 flex flex-col justify-center py-4 sm:py-10 animate-in fade-in duration-300">
             <div className="text-center max-w-lg mx-auto mb-4 sm:mb-8 px-1">
               <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-brand-100 dark:bg-brand-900 text-brand-700 dark:text-brand-300 border border-brand-200 dark:border-brand-800 flex items-center justify-center mx-auto mb-2 sm:mb-4 shadow-2xs sm:shadow-xs">
-                <Sparkles className="w-5 h-5 sm:w-7 sm:h-7 text-brand-600 dark:text-brand-400" />
+                <Sparkles className="w-5 h-5 sm:w-7 sm:h-7 text-brand-600 dark:text-brand-400 icon-sparkle-twinkle" />
               </div>
               <h1 className="text-xl sm:text-2xl md:text-3xl font-bold font-heading text-brand-950 dark:text-brand-50 tracking-tight">
                 Where Knowledge Begins
@@ -268,7 +268,7 @@ export default function AITutorPage() {
                       onClick={() => handleSendMessage(card.prompt)}
                       className="w-[195px] sm:w-auto shrink-0 snap-start px-2.5 py-2 sm:p-3.5 rounded-lg sm:rounded-xl border border-brand-200 dark:border-brand-800/90 bg-white dark:bg-brand-900/60 hover:bg-brand-50 dark:hover:bg-brand-800/60 hover:border-brand-300 dark:hover:border-brand-700 text-left transition-all group shadow-2xs sm:shadow-xs flex items-center sm:items-start gap-2.5 sm:gap-3"
                     >
-                      <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-md sm:rounded-lg ${card.bgColor} ${card.iconColor} flex items-center justify-center shrink-0 sm:mt-0.5 group-hover:scale-105 transition-transform`}>
+                      <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-md sm:rounded-lg ${card.bgColor} ${card.iconColor} flex items-center justify-center shrink-0 sm:mt-0.5 group-hover:scale-125 group-hover:rotate-6 transition-all duration-300`}>
                         <IconComponent className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       </div>
                       <div className="min-w-0 flex-1">
@@ -300,7 +300,7 @@ export default function AITutorPage() {
                     /* Assistant Message Block - Spacious & Unboxed */
                     <div className="flex gap-3 sm:gap-4 max-w-full w-full">
                       <div className="w-8 h-8 rounded-full bg-brand-100 dark:bg-brand-900/80 border border-brand-200 dark:border-brand-700 text-brand-700 dark:text-brand-300 flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
-                        <Bot className="h-4 w-4" />
+                        <Bot className="h-4 w-4 icon-floating" />
                       </div>
 
                       <div className="flex-1 min-w-0">
@@ -449,10 +449,10 @@ export default function AITutorPage() {
               <button
                 type="submit"
                 disabled={!input.trim() || loading}
-                className="w-9 h-9 rounded-full bg-brand-600 text-white dark:bg-brand-500 dark:text-brand-950 flex items-center justify-center hover:bg-brand-700 dark:hover:bg-brand-400 disabled:opacity-30 disabled:cursor-not-allowed transition-all shrink-0 mb-0.5 shadow-xs"
+                className="w-9 h-9 rounded-full bg-brand-600 text-white dark:bg-brand-500 dark:text-brand-950 flex items-center justify-center hover:bg-brand-700 dark:hover:bg-brand-400 disabled:opacity-30 disabled:cursor-not-allowed transition-all shrink-0 mb-0.5 shadow-xs group"
                 title="Send message"
               >
-                <Send className="h-4 w-4" />
+                <Send className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:scale-110" />
               </button>
             </div>
 
