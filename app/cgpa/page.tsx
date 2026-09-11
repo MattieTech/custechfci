@@ -26,6 +26,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { CGPARoadmap } from '@/components/cgpa-roadmap';
+import { FlaticonCgpaIcon } from '@/components/animated-flaticons';
 import { toast } from 'sonner';
 
 interface CourseGradeRow {
@@ -258,17 +259,22 @@ export default function CGPACalculatorPage() {
         {/* Department & Curriculum Selection Hero */}
         <div className="rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 via-card to-background p-5 sm:p-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
-              <div className="inline-flex items-center gap-1.5 text-xs font-bold text-primary mb-1">
-                <GraduationCap className="h-4 w-4 animate-icon-bounce" />
-                Curriculum-Grounding Engine
+            <div className="flex items-start gap-4">
+              <div className="hidden sm:flex shrink-0 p-2.5 bg-white/60 dark:bg-card/60 rounded-2xl border border-primary/20 shadow-xs">
+                <FlaticonCgpaIcon className="w-12 h-12" />
               </div>
-              <h2 className="text-xl sm:text-2xl font-extrabold text-foreground">
-                Select Your Department & Level
-              </h2>
-              <p className="text-xs text-muted-foreground mt-1">
-                Courses, units, and core/elective status will automatically populate from official CUSTECH outlines.
-              </p>
+              <div>
+                <div className="inline-flex items-center gap-1.5 text-xs font-bold text-primary mb-1">
+                  <GraduationCap className="h-4 w-4 animate-icon-bounce" />
+                  Curriculum-Grounding Engine
+                </div>
+                <h2 className="text-xl sm:text-2xl font-extrabold text-foreground">
+                  Select Your Department &amp; Level
+                </h2>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Courses, units, and core/elective status will automatically populate from official CUSTECH outlines.
+                </p>
+              </div>
             </div>
 
             {/* Selectors */}

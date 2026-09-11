@@ -27,6 +27,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { MarkdownRenderer } from '@/components/markdown-renderer';
+import { FlaticonAiBotIcon } from '@/components/animated-flaticons';
 
 interface Message {
   id: string;
@@ -198,8 +199,8 @@ export default function AITutorPage() {
             </Link>
 
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-xl bg-brand-600 dark:bg-brand-500 text-white flex items-center justify-center shadow-xs">
-                <Sparkles className="h-4 w-4 icon-sparkle-twinkle" />
+              <div className="w-8 h-8 shrink-0">
+                <FlaticonAiBotIcon className="w-8 h-8" />
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
@@ -241,8 +242,8 @@ export default function AITutorPage() {
         {messages.length === 0 ? (
           <div className="flex-1 flex flex-col justify-center py-4 sm:py-10 animate-in fade-in duration-300">
             <div className="text-center max-w-lg mx-auto mb-4 sm:mb-8 px-1">
-              <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-brand-100 dark:bg-brand-900 text-brand-700 dark:text-brand-300 border border-brand-200 dark:border-brand-800 flex items-center justify-center mx-auto mb-2 sm:mb-4 shadow-2xs sm:shadow-xs">
-                <Sparkles className="w-5 h-5 sm:w-7 sm:h-7 text-brand-600 dark:text-brand-400 icon-sparkle-twinkle" />
+              <div className="flex items-center justify-center mx-auto mb-3">
+                <FlaticonAiBotIcon className="w-16 h-16 sm:w-20 sm:h-20" />
               </div>
               <h1 className="text-xl sm:text-2xl md:text-3xl font-bold font-heading text-brand-950 dark:text-brand-50 tracking-tight">
                 Where Knowledge Begins

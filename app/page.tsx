@@ -17,15 +17,29 @@ import {
 } from "lucide-react";
 import { HeroSlideshow } from "@/components/hero-slideshow";
 import { CountdownWidget } from "@/components/countdown-widget";
-import { NextLectureWidget } from "@/components/next-lecture-widget";
 import { ALL_DEPARTMENTS } from "@/lib/departments-data";
+import {
+  FlaticonCbtIcon,
+  FlaticonCgpaIcon,
+  FlaticonVaultIcon,
+  FlaticonTimetableIcon,
+  FlaticonGrievanceIcon,
+  FlaticonLostFoundIcon,
+  FlaticonAiBotIcon,
+  FlaticonBellIcon,
+  FlaticonDeptCs,
+  FlaticonDeptCyber,
+  FlaticonDeptSe,
+  FlaticonDeptIt,
+  FlaticonDeptLis,
+} from "@/components/animated-flaticons";
 
-const DEPT_ICONS: Record<string, any> = {
-  "computer-science": Monitor,
-  "cyber-security": Shield,
-  "software-engineering": Code,
-  "information-technology": Server,
-  "library-info-science": BookOpen,
+const DEPT_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
+  "computer-science": FlaticonDeptCs,
+  "cyber-security": FlaticonDeptCyber,
+  "software-engineering": FlaticonDeptSe,
+  "information-technology": FlaticonDeptIt,
+  "library-info-science": FlaticonDeptLis,
 };
 
 export default function HomePage() {
@@ -142,8 +156,8 @@ export default function HomePage() {
                 <Link key={dept.slug} href={`/departments/${dept.slug}`} className="group h-full">
                   <div className="bg-white dark:bg-brand-900/90 p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-brand-200/90 dark:border-brand-800 shadow-sm flex flex-col h-full hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
                     <div className="flex items-start justify-between mb-4">
-                      <div className="p-3 bg-brand-100 dark:bg-brand-800 text-brand-700 dark:text-brand-200 rounded-xl group-hover:bg-brand-600 group-hover:text-white transition-all duration-300">
-                        <Icon className="w-6 h-6 transition-transform duration-300 group-hover:scale-125 group-hover:rotate-6" />
+                      <div className="p-2.5 bg-brand-50/80 dark:bg-brand-800/60 rounded-2xl border border-brand-200/80 dark:border-brand-700/60 group-hover:border-brand-400 dark:group-hover:border-brand-500 shadow-sm transition-all duration-300">
+                        <Icon className="w-10 h-10 transition-transform duration-300 group-hover:scale-110" />
                       </div>
                       <span className="text-xs font-semibold text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950 px-2.5 py-1 rounded-full border border-brand-200 dark:border-brand-800">
                         {dept.careers.length} Careers
@@ -181,121 +195,172 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* 1. CBT Mock Drill */}
             <Link href="/cbt" className="group block h-full">
-              <div className="flex flex-col h-full p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
-                <div className="p-3 bg-brand-100 dark:bg-brand-800 rounded-xl w-fit mb-4 text-brand-700 dark:text-brand-300 group-hover:bg-brand-600 group-hover:text-white transition-all duration-300">
-                  <Clock className="w-6 h-6 transition-transform duration-300 group-hover:scale-125 group-hover:rotate-12" />
-                </div>
-                <div className="flex items-center justify-between gap-2 mb-2">
-                  <h3 className="text-lg font-bold text-brand-900 dark:text-brand-100">
-                    FCI Drill: Interactive CBT
-                  </h3>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+              <div className="flex flex-col h-full p-5 rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-lg transition-all duration-300">
+                <div className="mb-4 flex items-center justify-between">
+                  <FlaticonCbtIcon className="w-12 h-12" />
+                  <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                     Practice
                   </span>
                 </div>
-                <p className="text-brand-600 dark:text-brand-400 text-sm flex-grow leading-relaxed">
+                <h3 className="text-base font-bold text-brand-900 dark:text-brand-100 mb-1.5 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
+                  FCI Drill: Interactive CBT
+                </h3>
+                <p className="text-brand-600 dark:text-brand-400 text-xs flex-grow leading-relaxed">
                   Timed exam simulations, instant score reports, and question-by-question syllabus explanations.
                 </p>
+                <div className="mt-3 pt-3 border-t border-brand-100 dark:border-brand-800/60 flex items-center text-xs font-semibold text-brand-700 dark:text-brand-300">
+                  Launch CBT <ChevronRight className="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1" />
+                </div>
               </div>
             </Link>
 
             {/* 2. Smart CGPA Calculator */}
             <Link href="/cgpa" className="group block h-full">
-              <div className="flex flex-col h-full p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
-                <div className="p-3 bg-brand-100 dark:bg-brand-800 rounded-xl w-fit mb-4 text-brand-700 dark:text-brand-300 group-hover:bg-brand-600 group-hover:text-white transition-all duration-300">
-                  <Calculator className="w-6 h-6 transition-transform duration-300 group-hover:scale-125 group-hover:-rotate-12" />
-                </div>
-                <div className="flex items-center justify-between gap-2 mb-2">
-                  <h3 className="text-lg font-bold text-brand-900 dark:text-brand-100">
-                    Smart CGPA &amp; Forecaster
-                  </h3>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">
+              <div className="flex flex-col h-full p-5 rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-lg transition-all duration-300">
+                <div className="mb-4 flex items-center justify-between">
+                  <FlaticonCgpaIcon className="w-12 h-12" />
+                  <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">
                     5.0 Scale
                   </span>
                 </div>
-                <p className="text-brand-600 dark:text-brand-400 text-sm flex-grow leading-relaxed">
-                  Auto-populated course outlines for all departments, cumulative CGPA calculation, and Target Mode forecasting.
+                <h3 className="text-base font-bold text-brand-900 dark:text-brand-100 mb-1.5 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
+                  Smart CGPA &amp; Forecaster
+                </h3>
+                <p className="text-brand-600 dark:text-brand-400 text-xs flex-grow leading-relaxed">
+                  Auto-populated course outlines for all departments, cumulative CGPA calculation, and Target Mode.
                 </p>
+                <div className="mt-3 pt-3 border-t border-brand-100 dark:border-brand-800/60 flex items-center text-xs font-semibold text-brand-700 dark:text-brand-300">
+                  Calculate CGPA <ChevronRight className="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1" />
+                </div>
               </div>
             </Link>
 
-            {/* 3. Study Materials & Vault */}
-            <Link href="/resources?tab=materials" className="group block h-full">
-              <div className="flex flex-col h-full p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
-                <div className="p-3 bg-brand-100 dark:bg-brand-800 rounded-xl w-fit mb-4 text-brand-700 dark:text-brand-300 group-hover:bg-brand-600 group-hover:text-white transition-all duration-300">
-                  <BookOpen className="w-6 h-6 transition-transform duration-300 group-hover:scale-125 group-hover:-translate-y-1" />
+            {/* 3. Ask FCI AI Copilot */}
+            <Link href="/ai-tutor" className="group block h-full">
+              <div className="flex flex-col h-full p-5 rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-lg transition-all duration-300">
+                <div className="mb-4 flex items-center justify-between">
+                  <FlaticonAiBotIcon className="w-12 h-12" />
+                  <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
+                    Gemini AI
+                  </span>
                 </div>
-                <div className="flex items-center justify-between gap-2 mb-2">
-                  <h3 className="text-lg font-bold text-brand-900 dark:text-brand-100">
-                    Academic Materials Vault
-                  </h3>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20">
+                <h3 className="text-base font-bold text-brand-900 dark:text-brand-100 mb-1.5 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
+                  Ask FCI AI Study Copilot
+                </h3>
+                <p className="text-brand-600 dark:text-brand-400 text-xs flex-grow leading-relaxed">
+                  24/7 intelligent faculty academic assistant for course syllabus doubts, code debugging, and concept breakdown.
+                </p>
+                <div className="mt-3 pt-3 border-t border-brand-100 dark:border-brand-800/60 flex items-center text-xs font-semibold text-brand-700 dark:text-brand-300">
+                  Ask Question <ChevronRight className="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1" />
+                </div>
+              </div>
+            </Link>
+
+            {/* 4. Study Materials & Vault */}
+            <Link href="/resources?tab=materials" className="group block h-full">
+              <div className="flex flex-col h-full p-5 rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-lg transition-all duration-300">
+                <div className="mb-4 flex items-center justify-between">
+                  <FlaticonVaultIcon className="w-12 h-12" />
+                  <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20">
                     89+ PDFs
                   </span>
                 </div>
-                <p className="text-brand-600 dark:text-brand-400 text-sm flex-grow leading-relaxed">
+                <h3 className="text-base font-bold text-brand-900 dark:text-brand-100 mb-1.5 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
+                  Academic Materials Vault
+                </h3>
+                <p className="text-brand-600 dark:text-brand-400 text-xs flex-grow leading-relaxed">
                   Direct access to approved lecture slides, syllabus outlines, and past questions with offline caching.
                 </p>
+                <div className="mt-3 pt-3 border-t border-brand-100 dark:border-brand-800/60 flex items-center text-xs font-semibold text-brand-700 dark:text-brand-300">
+                  Browse Vault <ChevronRight className="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1" />
+                </div>
               </div>
             </Link>
 
-            {/* 4. Timetable */}
+            {/* 5. Lecture & Exam Timetable */}
             <Link href="/timetable" className="group block h-full">
-              <div className="flex flex-col h-full p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
-                <div className="p-3 bg-brand-100 dark:bg-brand-800 rounded-xl w-fit mb-4 text-brand-700 dark:text-brand-300 group-hover:bg-brand-600 group-hover:text-white transition-all duration-300">
-                  <Calendar className="w-6 h-6 transition-transform duration-300 group-hover:scale-125 group-hover:rotate-6" />
+              <div className="flex flex-col h-full p-5 rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-lg transition-all duration-300">
+                <div className="mb-4 flex items-center justify-between">
+                  <FlaticonTimetableIcon className="w-12 h-12" />
+                  <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
+                    Schedules
+                  </span>
                 </div>
-                <div className="flex items-center justify-between gap-2 mb-2">
-                  <h3 className="text-lg font-bold text-brand-900 dark:text-brand-100">
-                    Lecture &amp; Exam Schedule
-                  </h3>
-                </div>
-                <p className="text-brand-600 dark:text-brand-400 text-sm flex-grow leading-relaxed">
-                  Weekly class timetables, hall allocations, CA test dates, and Google Calendar export.
+                <h3 className="text-base font-bold text-brand-900 dark:text-brand-100 mb-1.5 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
+                  Lecture &amp; Exam Schedule
+                </h3>
+                <p className="text-brand-600 dark:text-brand-400 text-xs flex-grow leading-relaxed">
+                  Weekly class timetables, hall allocations, CA test dates, and Google Calendar sync export.
                 </p>
+                <div className="mt-3 pt-3 border-t border-brand-100 dark:border-brand-800/60 flex items-center text-xs font-semibold text-brand-700 dark:text-brand-300">
+                  View Timetables <ChevronRight className="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1" />
+                </div>
               </div>
             </Link>
 
-            {/* 5. Anonymous Grievances & Suggestion Box */}
-            <Link href="/grievances" className="group block h-full">
-              <div className="flex flex-col h-full p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
-                <div className="p-3 bg-brand-100 dark:bg-brand-800 rounded-xl w-fit mb-4 text-brand-700 dark:text-brand-300 group-hover:bg-brand-600 group-hover:text-white transition-all duration-300">
-                  <FileText className="w-6 h-6 transition-transform duration-300 group-hover:scale-125 group-hover:rotate-6" />
+            {/* 6. Faculty News & Alerts */}
+            <Link href="/news" className="group block h-full">
+              <div className="flex flex-col h-full p-5 rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-lg transition-all duration-300">
+                <div className="mb-4 flex items-center justify-between">
+                  <FlaticonBellIcon className="w-12 h-12" />
+                  <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                    Official
+                  </span>
                 </div>
-                <div className="flex items-center justify-between gap-2 mb-2">
-                  <h3 className="text-lg font-bold text-brand-900 dark:text-brand-100">
-                    Guild Grievance Box
-                  </h3>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                <h3 className="text-base font-bold text-brand-900 dark:text-brand-100 mb-1.5 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
+                  News &amp; Senate Bulletins
+                </h3>
+                <p className="text-brand-600 dark:text-brand-400 text-xs flex-grow leading-relaxed">
+                  Verified notices, resumption dates, course registration deadlines, and faculty memos.
+                </p>
+                <div className="mt-3 pt-3 border-t border-brand-100 dark:border-brand-800/60 flex items-center text-xs font-semibold text-brand-700 dark:text-brand-300">
+                  Read Bulletins <ChevronRight className="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1" />
+                </div>
+              </div>
+            </Link>
+
+            {/* 7. Anonymous Grievances & Suggestion Box */}
+            <Link href="/grievances" className="group block h-full">
+              <div className="flex flex-col h-full p-5 rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-lg transition-all duration-300">
+                <div className="mb-4 flex items-center justify-between">
+                  <FlaticonGrievanceIcon className="w-12 h-12" />
+                  <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
                     Anonymous
                   </span>
                 </div>
-                <p className="text-brand-600 dark:text-brand-400 text-sm flex-grow leading-relaxed">
-                  Safely report course issues, facility problems, or feedback to faculty executives with private tracking tickets.
+                <h3 className="text-base font-bold text-brand-900 dark:text-brand-100 mb-1.5 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
+                  Guild Grievance Box
+                </h3>
+                <p className="text-brand-600 dark:text-brand-400 text-xs flex-grow leading-relaxed">
+                  Safely report course issues, facility problems, or feedback to faculty executives with private tracking.
                 </p>
+                <div className="mt-3 pt-3 border-t border-brand-100 dark:border-brand-800/60 flex items-center text-xs font-semibold text-brand-700 dark:text-brand-300">
+                  File Feedback <ChevronRight className="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1" />
+                </div>
               </div>
             </Link>
 
-            {/* 6. Lost and Found */}
+            {/* 8. Lost and Found */}
             <Link href="/lost-and-found" className="group block h-full">
-              <div className="flex flex-col h-full p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
-                <div className="p-3 bg-brand-100 dark:bg-brand-800 rounded-xl w-fit mb-4 text-brand-700 dark:text-brand-300 group-hover:bg-brand-600 group-hover:text-white transition-all duration-300">
-                  <Users className="w-6 h-6 transition-transform duration-300 group-hover:scale-125 group-hover:rotate-6" />
-                </div>
-                <div className="flex items-center justify-between gap-2 mb-2">
-                  <h3 className="text-lg font-bold text-brand-900 dark:text-brand-100">
-                    Faculty Lost &amp; Found
-                  </h3>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20">
+              <div className="flex flex-col h-full p-5 rounded-2xl border border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-lg transition-all duration-300">
+                <div className="mb-4 flex items-center justify-between">
+                  <FlaticonLostFoundIcon className="w-12 h-12" />
+                  <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20">
                     Community
                   </span>
                 </div>
-                <p className="text-brand-600 dark:text-brand-400 text-sm flex-grow leading-relaxed">
-                  Search for misplaced ID cards, notebooks, tech devices, or report found items for quick owner recovery.
+                <h3 className="text-base font-bold text-brand-900 dark:text-brand-100 mb-1.5 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
+                  Faculty Lost &amp; Found
+                </h3>
+                <p className="text-brand-600 dark:text-brand-400 text-xs flex-grow leading-relaxed">
+                  Search for misplaced ID cards, notebooks, tech devices, or report found items for quick recovery.
                 </p>
+                <div className="mt-3 pt-3 border-t border-brand-100 dark:border-brand-800/60 flex items-center text-xs font-semibold text-brand-700 dark:text-brand-300">
+                  Open Radar <ChevronRight className="w-3.5 h-3.5 ml-1 transition-transform group-hover:translate-x-1" />
+                </div>
               </div>
             </Link>
           </div>

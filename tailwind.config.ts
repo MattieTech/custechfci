@@ -48,6 +48,10 @@ const config: Config = {
         'icon-bell-ring': 'iconBellRing 2s ease-in-out infinite',
         'icon-sparkle': 'iconSparkle 2.5s ease-in-out infinite',
         'icon-spin-slow': 'iconSpinSlow 8s linear infinite',
+        'flaticon-slide': 'flaticonLetterSlide 2.6s ease-in-out infinite',
+        'flaticon-page': 'flaticonPageFlip 3s ease-in-out infinite',
+        'flaticon-blink': 'flaticonBlink 3.5s ease-in-out infinite',
+        'flaticon-radar': 'flaticonRadar 3s linear infinite',
       },
       keyframes: {
         fadeIn: {
@@ -90,6 +94,22 @@ const config: Config = {
           '50%': { transform: 'scale(1.2) rotate(180deg)' },
         },
         iconSpinSlow: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+        flaticonLetterSlide: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-6px)' },
+        },
+        flaticonPageFlip: {
+          '0%, 100%': { transform: 'scaleX(1)' },
+          '50%': { transform: 'scaleX(0.7) skewY(-2deg)' },
+        },
+        flaticonBlink: {
+          '0%, 88%, 100%': { transform: 'scaleY(1)' },
+          '93%': { transform: 'scaleY(0.1)' },
+        },
+        flaticonRadar: {
           '0%': { transform: 'rotate(0deg)' },
           '100%': { transform: 'rotate(360deg)' },
         },

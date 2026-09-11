@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Bell, BellRing, BellOff, Check, X, ShieldAlert } from 'lucide-react';
+import { FlaticonBellIcon } from '@/components/animated-flaticons';
 import { toast } from 'sonner';
 
 function urlB64ToUint8Array(base64String: string) {
@@ -177,8 +178,8 @@ export function NotificationBell() {
       {showPromptBanner && !isSubscribed && permission === 'default' && (
         <div className="fixed bottom-20 left-4 sm:left-auto right-4 sm:right-6 z-40 w-auto sm:w-full sm:max-w-sm bg-white dark:bg-brand-900 p-4 rounded-2xl shadow-xl border border-brand-200 dark:border-brand-800 animate-fade-in print:hidden">
           <div className="flex items-start gap-3">
-            <div className="p-2.5 bg-brand-100 dark:bg-brand-800 text-brand-700 dark:text-brand-200 rounded-xl shrink-0">
-              <BellRing className="w-5 h-5 icon-bell-swing" />
+            <div className="p-1.5 shrink-0">
+              <FlaticonBellIcon className="w-9 h-9" />
             </div>
             <div className="flex-1">
               <h4 className="font-heading font-bold text-sm text-brand-900 dark:text-brand-100">

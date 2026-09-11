@@ -30,6 +30,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { FlaticonCbtIcon } from '@/components/animated-flaticons';
 
 interface AnswerRecord {
   questionId: string;
@@ -286,18 +287,23 @@ export default function CBTPage() {
           <div className="space-y-8 animate-in fade-in duration-300">
             {/* Introduction Card */}
             <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 via-card to-background p-6 md:p-8">
-              <div className="max-w-2xl space-y-3">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-semibold">
-                  <Zap className="h-3.5 w-3.5 animate-icon-bounce text-amber-500" />
-                  Exam Readiness Center
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div className="max-w-2xl space-y-3">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-semibold">
+                    <Zap className="h-3.5 w-3.5 animate-icon-bounce text-amber-500" />
+                    Exam Readiness Center
+                  </div>
+                  <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight">
+                    Master CUSTECH CBT Exams with Real Past Questions
+                  </h2>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Practice with real verified question banks for GST 111, CSC 142, SWE 142, STA 131, and more. 
+                    Experience timed pressure, instant automated scoring, and comprehensive explanations for every option.
+                  </p>
                 </div>
-                <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight">
-                  Master CUSTECH CBT Exams with Real Past Questions
-                </h2>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Practice with real verified question banks for GST 111, CSC 142, SWE 142, STA 131, and more. 
-                  Experience timed pressure, instant automated scoring, and comprehensive explanations for every option.
-                </p>
+                <div className="hidden md:flex shrink-0 p-3 bg-white/60 dark:bg-card/60 rounded-2xl border border-primary/20 shadow-xs">
+                  <FlaticonCbtIcon className="w-16 h-16" />
+                </div>
               </div>
 
               {/* Quick Settings Bar */}

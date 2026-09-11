@@ -31,23 +31,8 @@ interface LectureItem {
   deptCode: string; // "CSC", "SWE", "CYB", "IFT", "DSC", "ALL"
 }
 
-// Fallback weekly timetable for CUSTECH FCI when database entries are pending
-const CURATED_LECTURES: LectureItem[] = [
-  // 100L
-  { id: '100-1', courseCode: 'GST 111', courseTitle: 'Communication in English', dayOfWeek: 'Monday', startTime: '08:00', endTime: '10:00', venue: 'FCI Multi-Purpose Hall A', lecturer: 'Dr. Olorunfemi', level: 100, deptCode: 'ALL' },
-  { id: '100-2', courseCode: 'CSC 142', courseTitle: 'Computers and Society', dayOfWeek: 'Monday', startTime: '10:00', endTime: '12:00', venue: 'Computer Lab 1', lecturer: 'Engr. Bello', level: 100, deptCode: 'ALL' },
-  { id: '100-3', courseCode: 'MTH 141', courseTitle: 'General Mathematics I', dayOfWeek: 'Tuesday', startTime: '09:00', endTime: '11:00', venue: 'FCI Lecture Theatre 2', lecturer: 'Prof. Adeleke', level: 100, deptCode: 'ALL' },
-  { id: '100-4', courseCode: 'STA 131', courseTitle: 'Inference I / Probability', dayOfWeek: 'Wednesday', startTime: '11:00', endTime: '13:00', venue: 'ETF Hall 3', lecturer: 'Dr. Yakubu', level: 100, deptCode: 'ALL' },
-  { id: '100-5', courseCode: 'SWE 142', courseTitle: 'Intro to Software Engineering', dayOfWeek: 'Thursday', startTime: '10:00', endTime: '12:00', venue: 'Software Engineering Studio', lecturer: 'Engr. Mattie', level: 100, deptCode: 'SWE' },
-  { id: '100-6', courseCode: 'PHY 141', courseTitle: 'General Physics I', dayOfWeek: 'Friday', startTime: '08:00', endTime: '10:00', venue: 'Physics Lecture Hall', lecturer: 'Dr. Usman', level: 100, deptCode: 'ALL' },
-
-  // 200L
-  { id: '200-1', courseCode: 'CSC 231', courseTitle: 'Computer Architecture & Org', dayOfWeek: 'Monday', startTime: '09:00', endTime: '11:00', venue: 'Hardware & Embedded Lab', lecturer: 'Dr. Sanni', level: 200, deptCode: 'CSC' },
-  { id: '200-2', courseCode: 'CSC 233', courseTitle: 'Object-Oriented Programming', dayOfWeek: 'Tuesday', startTime: '10:00', endTime: '12:00', venue: 'Lab 2 (Main Campus)', lecturer: 'Mr. Abubakar', level: 200, deptCode: 'ALL' },
-  { id: '200-3', courseCode: 'MTH 211', courseTitle: 'Mathematical Methods I', dayOfWeek: 'Wednesday', startTime: '08:00', endTime: '10:00', venue: 'FCI LT 1', lecturer: 'Dr. Joseph', level: 200, deptCode: 'ALL' },
-  { id: '200-4', courseCode: 'CYB 201', courseTitle: 'Fundamentals of Cyber Security', dayOfWeek: 'Thursday', startTime: '11:00', endTime: '13:00', venue: 'Cyber Lab Alpha', lecturer: 'Engr. Idris', level: 200, deptCode: 'CYB' },
-  { id: '200-5', courseCode: 'CSC 215', courseTitle: 'Data Structures and Algorithms', dayOfWeek: 'Friday', startTime: '10:00', endTime: '12:00', venue: 'FCI Hall B', lecturer: 'Dr. Alabi', level: 200, deptCode: 'CSC' }
-];
+// Academic recess: no fake lectures. Timetables are strictly populated from the official database.
+const CURATED_LECTURES: LectureItem[] = [];
 
 const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -168,8 +153,6 @@ export function NextLectureWidget() {
   }, []);
 
   const allLectures = useMemo(() => {
-    const combined = dbLectures.length > 0 ? dbLectures : CURATED_LECTURES;
-    return combined.filter(l => l.level === level && (l.deptCode === 'ALL' || l.deptCode === deptCode));
     return dbLectures.filter(l => l.level === level && (l.deptCode === 'ALL' || l.deptCode === deptCode));
   }, [dbLectures, level, deptCode]);
 
