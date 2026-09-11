@@ -1048,7 +1048,16 @@ export default function ResourcesPage() {
                           {item.file_size ? `${(item.file_size / (1024 * 1024)).toFixed(1)} MB` : "Document"}
                         </span>
 
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1.5 sm:gap-2">
+                          <button
+                            type="button"
+                            onClick={() => setDiscussionMaterial(item)}
+                            className="inline-flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-brand-700 dark:text-brand-300 bg-brand-50 hover:bg-brand-100 dark:bg-brand-800 transition-colors"
+                            title="Discuss & Solutions"
+                          >
+                            <MessageSquare size={13} />
+                            <span className="hidden sm:inline">Discuss</span>
+                          </button>
                           <button
                             type="button"
                             onClick={() => setPreviewMaterial(item)}
@@ -1232,6 +1241,19 @@ export default function ResourcesPage() {
                 <span className="hidden sm:inline-flex items-center gap-1 text-xs text-brand-600 dark:text-brand-300 font-medium px-2.5 py-1 rounded-lg bg-brand-100 dark:bg-brand-800">
                   <Eye size={13} /> {previewMaterial.download_count || 0} views
                 </span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const mat = previewMaterial;
+                    setPreviewMaterial(null);
+                    setDiscussionMaterial(mat);
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-brand-50 hover:bg-brand-100 dark:bg-brand-800 border border-brand-200 dark:border-brand-700 text-brand-700 dark:text-brand-300 text-xs font-semibold transition-colors"
+                  title="Open Peer Discussions & Solutions"
+                >
+                  <MessageSquare size={13} />
+                  <span className="hidden sm:inline">Discuss</span>
+                </button>
                 <a
                   href={previewMaterial.file_url}
                   download={previewMaterial.file_name}
@@ -1400,6 +1422,18 @@ export default function ResourcesPage() {
           </div>
         </div>
       )}
+
+      {/* Discussion & Solutions Drawer */}
+      <DiscussionDrawer
+        open={Boolean(discussionMaterial)}
+        onOpenChange={(open) => {
+          if (!open) setDiscussionMaterial(null);
+        }}
+        materialId={discussionMaterial?.id || ""}
+        materialTitle={discussionMaterial?.title || ""}
+        courseCode={discussionMaterial?.course_code}
+        courseTitle={discussionMaterial?.course_title}
+      />
     </div>
   );
 }
