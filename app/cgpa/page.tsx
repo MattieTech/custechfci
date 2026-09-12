@@ -26,7 +26,13 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { CGPARoadmap } from '@/components/cgpa-roadmap';
-import { FlaticonCgpaIcon } from '@/components/animated-flaticons';
+import {
+  FlaticonCgpaIcon,
+  FlaticonHonorsTrophy,
+  FlaticonTargetDart,
+  FlaticonGraduationMortarboard,
+  FlaticonCompassRoadmap
+} from '@/components/animated-flaticons';
 import { toast } from 'sonner';
 
 interface CourseGradeRow {
@@ -244,7 +250,7 @@ export default function CGPACalculatorPage() {
                 : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
             }`}
           >
-            <TrendingUp className="w-3.5 h-3.5 animate-icon-wiggle" />
+            <FlaticonCompassRoadmap className="w-4 h-4" />
             <span>Academic Roadmap &amp; Trajectory</span>
             <Badge className="bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-[10px] py-0 px-1 border-0">
               New
@@ -257,7 +263,7 @@ export default function CGPACalculatorPage() {
         ) : (
           <>
         {/* Department & Curriculum Selection Hero */}
-        <div className="rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 via-card to-background p-5 sm:p-6">
+        <div className="rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 via-card to-background p-5 sm:p-6 animate-fade-in">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="flex items-start gap-4">
               <div className="hidden sm:flex shrink-0 p-2.5 bg-white/60 dark:bg-card/60 rounded-2xl border border-primary/20 shadow-xs">
@@ -265,7 +271,7 @@ export default function CGPACalculatorPage() {
               </div>
               <div>
                 <div className="inline-flex items-center gap-1.5 text-xs font-bold text-primary mb-1">
-                  <GraduationCap className="h-4 w-4 animate-icon-bounce" />
+                  <FlaticonGraduationMortarboard className="w-4 h-4 inline-block" />
                   Curriculum-Grounding Engine
                 </div>
                 <h2 className="text-xl sm:text-2xl font-extrabold text-foreground">
@@ -545,9 +551,9 @@ export default function CGPACalculatorPage() {
 
               {/* Degree Classification Badge */}
               <div className="mt-2">
-                <div className={`p-4 rounded-xl border text-center ${getClassification(hasPriorResults ? cumulativeCGPA : semesterGPA).color}`}>
+                <div className={`p-4 rounded-2xl border text-center transition-all duration-300 ${getClassification(hasPriorResults ? cumulativeCGPA : semesterGPA).color}`}>
+                  <FlaticonHonorsTrophy className="w-11 h-11 mx-auto mb-2" />
                   <div className="flex items-center justify-center gap-1.5 font-bold text-sm">
-                    <Award className="h-4 w-4" />
                     {getClassification(hasPriorResults ? cumulativeCGPA : semesterGPA).title}
                   </div>
                   <p className="text-[11px] mt-1 opacity-80 leading-snug">
@@ -577,13 +583,18 @@ export default function CGPACalculatorPage() {
 
         {/* Target Mode Degree Forecaster */}
         <div className="rounded-2xl border border-primary/30 bg-card p-6 md:p-8 shadow-sm">
-          <div className="flex items-center gap-2.5 mb-2">
-            <div className="p-2 rounded-lg bg-primary/20 text-primary">
-              <Target className="h-5 w-5 animate-icon-pulse-glow text-primary" />
+          <div className="flex items-center gap-3.5 mb-2">
+            <div className="p-2 rounded-2xl bg-primary/10 border border-primary/20 shadow-2xs shrink-0">
+              <FlaticonTargetDart className="w-10 h-10" />
             </div>
-            <h3 className="text-lg md:text-xl font-bold text-foreground">
-              Degree Class Forecaster (&quot;Target Mode&quot;)
-            </h3>
+            <div>
+              <h3 className="text-lg md:text-xl font-bold text-foreground">
+                Degree Class Forecaster (&quot;Target Mode&quot;)
+              </h3>
+              <p className="text-xs text-muted-foreground">
+                Calculate the exact GPA required in upcoming semesters to graduate in your target class.
+              </p>
+            </div>
           </div>
           <p className="text-xs md:text-sm text-muted-foreground max-w-2xl">
             Want to graduate with a First Class or Second Class Upper? Enter your current standing and remaining credits to forecast the exact semester GPA you need to maintain.

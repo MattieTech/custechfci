@@ -621,3 +621,274 @@ export function FlaticonDeptLis({ className = 'w-10 h-10' }: FlaticonProps) {
     </svg>
   );
 }
+
+/**
+ * 14. Academic Honours & First Class Trophy Flaticon
+ * Gleaming 3D gold trophy with sparkling star highlights, laurel branch ribbons, and pedestal.
+ */
+export function FlaticonHonorsTrophy({ className = 'w-12 h-12' }: FlaticonProps) {
+  return (
+    <svg
+      viewBox="0 0 64 64"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={`${className} transition-transform duration-300 group-hover:scale-110`}
+    >
+      <defs>
+        <linearGradient id="trophyGold" x1="18" y1="12" x2="46" y2="40" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#FDE047" />
+          <stop offset="0.5" stopColor="#F59E0B" />
+          <stop offset="1" stopColor="#D97706" />
+        </linearGradient>
+        <linearGradient id="trophyBase" x1="20" y1="46" x2="44" y2="58" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#475569" />
+          <stop offset="1" stopColor="#1E293B" />
+        </linearGradient>
+      </defs>
+
+      {/* Trophy Handles */}
+      <path
+        d="M20 18C12 18 10 27 18 31C20 32 22 30 22 30"
+        stroke="#D97706"
+        strokeWidth="3"
+        strokeLinecap="round"
+        fill="none"
+      />
+      <path
+        d="M44 18C52 18 54 27 46 31C44 32 42 30 42 30"
+        stroke="#D97706"
+        strokeWidth="3"
+        strokeLinecap="round"
+        fill="none"
+      />
+
+      {/* Main Cup Body */}
+      <path
+        d="M20 12H44V26C44 33 38 38 32 38C26 38 20 33 20 26V12Z"
+        fill="url(#trophyGold)"
+        stroke="#B45309"
+        strokeWidth="1.5"
+      />
+
+      {/* Cup Rim Top */}
+      <ellipse cx="32" cy="12" rx="12" ry="2.5" fill="#FEF08A" stroke="#B45309" strokeWidth="1" />
+
+      {/* Cup Shine Highlight */}
+      <path
+        d="M24 16C23 20 23 26 26 31"
+        stroke="#FFFFFF"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        opacity="0.85"
+      />
+
+      {/* Cup Stem */}
+      <rect x="29" y="38" width="6" height="8" rx="1" fill="#D97706" stroke="#B45309" strokeWidth="1" />
+
+      {/* Trophy Pedestal Base */}
+      <path d="M22 46H42L44 54H20L22 46Z" fill="url(#trophyBase)" stroke="#0F172A" strokeWidth="1.5" />
+      <rect x="18" y="54" width="28" height="4" rx="1.5" fill="#0F172A" />
+
+      {/* Golden First Class Star on Pedestal */}
+      <polygon
+        points="32,48 33.2,50.8 36,51.2 34,53 34.5,56 32,54.5 29.5,56 30,53 28,51.2 30.8,50.8"
+        fill="#FDE047"
+      />
+
+      {/* Floating Animated Sparkles */}
+      <g className="animate-icon-sparkle" style={{ transformOrigin: '48px 10px' }}>
+        <polygon points="48,6 49.5,9.5 53,10 50.5,12.5 51,16 48,14.5 45,16 45.5,12.5 43,10 46.5,9.5" fill="#FDE047" />
+      </g>
+      <g className="animate-icon-pulse" style={{ transformOrigin: '15px 14px' }}>
+        <polygon points="15,11 16,13 18,13.5 16.5,15 17,17 15,16 13,17 13.5,15 12,13.5 14,13" fill="#FCD34D" />
+      </g>
+    </svg>
+  );
+}
+
+/**
+ * 15. Degree Class Forecaster ("Target Mode") Flaticon
+ * Vibrant multi-ring target board with animated dart piercing the center bullseye.
+ */
+export function FlaticonTargetDart({ className = 'w-12 h-12' }: FlaticonProps) {
+  return (
+    <svg
+      viewBox="0 0 64 64"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={`${className} transition-transform duration-300 group-hover:scale-110`}
+    >
+      <defs>
+        <linearGradient id="targetRed" x1="10" y1="10" x2="54" y2="54" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#EF4444" />
+          <stop offset="1" stopColor="#B91C1C" />
+        </linearGradient>
+      </defs>
+
+      {/* Target Stand / Base Ring */}
+      <circle cx="32" cy="32" r="26" fill="#F8FAFC" stroke="#E2E8F0" strokeWidth="2" />
+      <circle cx="32" cy="32" r="23" fill="url(#targetRed)" stroke="#991B1B" strokeWidth="1" />
+      <circle cx="32" cy="32" r="17" fill="#FFFFFF" stroke="#E2E8F0" strokeWidth="1" />
+      <circle cx="32" cy="32" r="11" fill="url(#targetRed)" stroke="#991B1B" strokeWidth="1" />
+      <circle cx="32" cy="32" r="5" fill="#FBBF24" stroke="#D97706" strokeWidth="1" />
+
+      {/* Animated Dart flying into the bullseye */}
+      <g className="animate-icon-bounce" style={{ transformOrigin: '32px 32px' }}>
+        {/* Dart Shaft */}
+        <line x1="48" y1="16" x2="33" y2="31" stroke="#0F172A" strokeWidth="2.5" strokeLinecap="round" />
+        {/* Dart Metallic Tip in Center */}
+        <circle cx="32" cy="32" r="2.5" fill="#475569" />
+
+        {/* Dart Flight Wings (Teal/Cyan) */}
+        <path d="M48 16L55 12L52 19Z" fill="#06B6D4" stroke="#0891B2" strokeWidth="0.8" />
+        <path d="M48 16L52 9L45 12Z" fill="#38BDF8" stroke="#0284C7" strokeWidth="0.8" />
+      </g>
+
+      {/* Target Precision Crosshairs */}
+      <line x1="32" y1="4" x2="32" y2="10" stroke="#EF4444" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="32" y1="54" x2="32" y2="60" stroke="#EF4444" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="4" y1="32" x2="10" y2="32" stroke="#EF4444" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="54" y1="32" x2="60" y2="32" stroke="#EF4444" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/**
+ * 16. Academic Mortarboard & Graduation Flaticon
+ * 3D graduation cap with swinging gold tassel and diploma roll.
+ */
+export function FlaticonGraduationMortarboard({ className = 'w-12 h-12' }: FlaticonProps) {
+  return (
+    <svg
+      viewBox="0 0 64 64"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={`${className} transition-transform duration-300 group-hover:scale-110`}
+    >
+      <defs>
+        <linearGradient id="capGrad" x1="12" y1="14" x2="52" y2="36" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#1E293B" />
+          <stop offset="1" stopColor="#0F172A" />
+        </linearGradient>
+      </defs>
+
+      {/* Diploma Scroll under Cap */}
+      <rect x="20" y="44" width="24" height="8" rx="2" fill="#FEF3C7" stroke="#FDE68A" strokeWidth="1" />
+      <rect x="28" y="44" width="6" height="8" fill="#EF4444" />
+      <ellipse cx="20" cy="48" rx="1.5" ry="4" fill="#FDE68A" />
+      <ellipse cx="44" cy="48" rx="1.5" ry="4" fill="#FDE68A" />
+
+      {/* Skull Cap Base */}
+      <path d="M22 28C22 38 42 38 42 28" fill="#0F172A" stroke="#334155" strokeWidth="1.5" />
+
+      {/* Diamond Cap Top */}
+      <polygon
+        points="32,12 56,22 32,32 8,22"
+        fill="url(#capGrad)"
+        stroke="#475569"
+        strokeWidth="1.5"
+      />
+      <polygon
+        points="32,15 51,22 32,29 13,22"
+        fill="#334155"
+        opacity="0.4"
+      />
+
+      {/* Center Button */}
+      <circle cx="32" cy="22" r="2.5" fill="#F59E0B" />
+
+      {/* Swinging Animated Tassel */}
+      <g className="animate-icon-wiggle" style={{ transformOrigin: '32px 22px' }}>
+        <path d="M32 22C38 23 45 28 46 36" stroke="#F59E0B" strokeWidth="1.6" strokeLinecap="round" fill="none" />
+        <rect x="44" y="36" width="4" height="7" rx="1" fill="#FBBF24" stroke="#D97706" strokeWidth="0.8" />
+      </g>
+    </svg>
+  );
+}
+
+/**
+ * 17. Course Outlines & Curriculum Flaticon
+ * Vibrant binder syllabus with turning page and checkmark badge.
+ */
+export function FlaticonCourseOutlines({ className = 'w-12 h-12' }: FlaticonProps) {
+  return (
+    <svg
+      viewBox="0 0 64 64"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={`${className} transition-transform duration-300 group-hover:scale-110`}
+    >
+      <defs>
+        <linearGradient id="outlineGrad" x1="12" y1="10" x2="48" y2="54" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#3B82F6" />
+          <stop offset="1" stopColor="#1D4ED8" />
+        </linearGradient>
+      </defs>
+
+      {/* Shadow Document */}
+      <rect x="18" y="10" width="34" height="44" rx="4" fill="#E2E8F0" />
+
+      {/* Main Document Body */}
+      <rect x="14" y="14" width="34" height="44" rx="4" fill="#FFFFFF" stroke="#CBD5E1" strokeWidth="1.5" />
+      <rect x="14" y="14" width="6" height="44" rx="2" fill="url(#outlineGrad)" />
+
+      {/* Course Code Lines */}
+      <rect x="24" y="20" width="16" height="3" rx="1.5" fill="#1D4ED8" />
+      <rect x="24" y="26" width="20" height="2" rx="1" fill="#94A3B8" />
+      <rect x="24" y="31" width="18" height="2" rx="1" fill="#94A3B8" />
+
+      <rect x="24" y="37" width="14" height="3" rx="1.5" fill="#10B981" />
+      <rect x="24" y="43" width="20" height="2" rx="1" fill="#94A3B8" />
+      <rect x="24" y="48" width="12" height="2" rx="1" fill="#94A3B8" />
+
+      {/* Floating Animated Stamp Badge */}
+      <g className="animate-icon-pulse" style={{ transformOrigin: '46px 44px' }}>
+        <circle cx="46" cy="44" r="8" fill="#10B981" stroke="#FFFFFF" strokeWidth="2" />
+        <path d="M42 44L45 47L50 41" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      </g>
+    </svg>
+  );
+}
+
+/**
+ * 18. 4-Year Academic Journey & Compass Roadmap Flaticon
+ * Golden navigation compass with animated spinning needle and journey path pins.
+ */
+export function FlaticonCompassRoadmap({ className = 'w-12 h-12' }: FlaticonProps) {
+  return (
+    <svg
+      viewBox="0 0 64 64"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={`${className} transition-transform duration-300 group-hover:scale-110`}
+    >
+      <defs>
+        <linearGradient id="compassRing" x1="12" y1="12" x2="52" y2="52" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#F59E0B" />
+          <stop offset="1" stopColor="#B45309" />
+        </linearGradient>
+      </defs>
+
+      {/* Outer Golden Compass Ring */}
+      <circle cx="32" cy="32" r="24" fill="#0F172A" stroke="url(#compassRing)" strokeWidth="3" />
+      <circle cx="32" cy="32" r="20" fill="#1E293B" />
+
+      {/* Cardinal Direction Ticks */}
+      <text x="32" y="19" fill="#F59E0B" fontSize="6" fontWeight="bold" textAnchor="middle">N</text>
+      <text x="32" y="49" fill="#94A3B8" fontSize="5" textAnchor="middle">S</text>
+      <text x="46" y="34" fill="#94A3B8" fontSize="5" textAnchor="middle">E</text>
+      <text x="18" y="34" fill="#94A3B8" fontSize="5" textAnchor="middle">W</text>
+
+      {/* Animated Rotating Magnetic Needle */}
+      <g className="animate-icon-wiggle" style={{ transformOrigin: '32px 32px' }}>
+        {/* North Pointer (Crimson Red) */}
+        <polygon points="32,16 35,32 29,32" fill="#EF4444" />
+        {/* South Pointer (Silver White) */}
+        <polygon points="32,48 35,32 29,32" fill="#E2E8F0" />
+        {/* Center Pivot Gem */}
+        <circle cx="32" cy="32" r="3.5" fill="#F59E0B" stroke="#78350F" strokeWidth="1" />
+        <circle cx="32" cy="32" r="1.5" fill="#FFFFFF" />
+      </g>
+    </svg>
+  );
+}

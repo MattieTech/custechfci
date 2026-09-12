@@ -19,6 +19,11 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { 
+  FlaticonHonorsTrophy, 
+  FlaticonTargetDart, 
+  FlaticonCompassRoadmap 
+} from '@/components/animated-flaticons';
 import { toast } from 'sonner';
 
 export interface SemesterRecord {
@@ -30,10 +35,7 @@ export interface SemesterRecord {
   label: string;
 }
 
-const DEFAULT_SAMPLE_ROADMAP: SemesterRecord[] = [
-  { id: 'sem-1', level: 100, semester: 1, gpa: 4.62, units: 21, label: '100L Harmattan' },
-  { id: 'sem-2', level: 100, semester: 2, gpa: 4.45, units: 22, label: '100L Rain' },
-];
+const DEFAULT_SAMPLE_ROADMAP: SemesterRecord[] = [];
 
 export function CGPARoadmap() {
   const [records, setRecords] = useState<SemesterRecord[]>([]);
@@ -219,8 +221,8 @@ export function CGPARoadmap() {
             <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-zinc-400">
               Cumulative CGPA
             </span>
-            <div className="p-2 rounded-xl bg-brand-100 dark:bg-brand-800 text-brand-700 dark:text-brand-300">
-              <Award className="w-5 h-5" />
+            <div className="p-1.5 rounded-2xl bg-amber-50 dark:bg-amber-950/60 border border-amber-500/20 shadow-2xs">
+              <FlaticonHonorsTrophy className="w-8 h-8" />
             </div>
           </div>
           <div className="mt-3">
@@ -281,8 +283,8 @@ export function CGPARoadmap() {
             <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-zinc-400">
               Target Forecaster
             </span>
-            <div className="p-2 rounded-xl bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300">
-              <Target className="w-5 h-5" />
+            <div className="p-1.5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-500/20 shadow-2xs">
+              <FlaticonTargetDart className="w-8 h-8" />
             </div>
           </div>
           <div className="mt-3">
@@ -308,8 +310,10 @@ export function CGPARoadmap() {
       <div className="rounded-2xl border border-brand-200 dark:border-brand-800 bg-white dark:bg-zinc-900 p-5 sm:p-6 shadow-xs">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
           <div>
-            <div className="flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-brand-600 dark:text-brand-400" />
+            <div className="flex items-center gap-2.5">
+              <div className="p-1.5 rounded-xl bg-brand-50 dark:bg-brand-900/60 border border-brand-200 dark:border-brand-800">
+                <FlaticonCompassRoadmap className="w-6 h-6" />
+              </div>
               <h3 className="text-lg font-bold text-slate-900 dark:text-white font-heading">
                 Academic Trajectory &amp; Degree Class Benchmarks
               </h3>
@@ -519,34 +523,54 @@ export function CGPARoadmap() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-zinc-800/60">
-              {stats.progression.map((item) => (
-                <tr key={item.id} className="hover:bg-slate-50/70 dark:hover:bg-zinc-800/40 transition-colors">
-                  <td className="py-3 px-3 font-semibold text-slate-900 dark:text-white">
-                    {item.label}
-                  </td>
-                  <td className="py-3 px-3 text-slate-600 dark:text-zinc-300">
-                    {item.units} Units
-                  </td>
-                  <td className="py-3 px-3 font-mono font-bold text-slate-800 dark:text-zinc-100">
-                    {item.gpa.toFixed(2)}
-                  </td>
-                  <td className="py-3 px-3">
-                    <span className="font-mono font-extrabold text-brand-700 dark:text-brand-300">
-                      {item.cumulativeCGPA.toFixed(2)}
-                    </span>
-                  </td>
-                  <td className="py-3 px-3 text-right">
-                    <button
-                      type="button"
-                      onClick={() => handleDeleteRecord(item.id)}
-                      className="p-1 rounded text-slate-400 hover:text-red-600 transition-colors"
-                      title="Delete entry"
+              {stats.progression.length === 0 ? (
+                <tr>
+                  <td colSpan={5} className="py-12 px-4 text-center">
+                    <FlaticonCompassRoadmap className="w-12 h-12 mx-auto mb-3 opacity-80" />
+                    <h4 className="text-sm font-bold text-slate-900 dark:text-white">No Semesters Logged Yet</h4>
+                    <p className="text-xs text-slate-500 dark:text-zinc-400 mt-1 max-w-xs mx-auto">
+                      Log your first semester GPA and credit units to chart your 4-year cumulative trajectory.
+                    </p>
+                    <Button
+                      size="sm"
+                      onClick={() => setShowAddForm(true)}
+                      className="mt-4 text-xs bg-brand-600 hover:bg-brand-700 text-white gap-1"
                     >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
+                      <Plus className="w-3.5 h-3.5" />
+                      Add First Semester Record
+                    </Button>
                   </td>
                 </tr>
-              ))}
+              ) : (
+                stats.progression.map((item) => (
+                  <tr key={item.id} className="hover:bg-slate-50/70 dark:hover:bg-zinc-800/40 transition-colors">
+                    <td className="py-3 px-3 font-semibold text-slate-900 dark:text-white">
+                      {item.label}
+                    </td>
+                    <td className="py-3 px-3 text-slate-600 dark:text-zinc-300">
+                      {item.units} Units
+                    </td>
+                    <td className="py-3 px-3 font-mono font-bold text-slate-800 dark:text-zinc-100">
+                      {item.gpa.toFixed(2)}
+                    </td>
+                    <td className="py-3 px-3">
+                      <span className="font-mono font-extrabold text-brand-700 dark:text-brand-300">
+                        {item.cumulativeCGPA.toFixed(2)}
+                      </span>
+                    </td>
+                    <td className="py-3 px-3 text-right">
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteRecord(item.id)}
+                        className="p-1 rounded text-slate-400 hover:text-red-600 transition-colors"
+                        title="Delete entry"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

@@ -1,8 +1,17 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ChevronRight, Home, Info, Briefcase, BookOpen, GraduationCap, Monitor, Shield, Code, Server } from "lucide-react";
+import { ChevronRight, Home, Info, Briefcase } from "lucide-react";
 import { DEPARTMENTS_DATA } from "@/lib/departments-data";
 import { DepartmentCourseTabs } from "@/components/department-course-tabs";
+import {
+  FlaticonDeptCs,
+  FlaticonDeptCyber,
+  FlaticonDeptSe,
+  FlaticonDeptIt,
+  FlaticonDeptLis,
+  FlaticonCourseOutlines,
+  FlaticonGraduationMortarboard
+} from "@/components/animated-flaticons";
 
 export function generateStaticParams() {
   return [
@@ -14,12 +23,12 @@ export function generateStaticParams() {
   ];
 }
 
-const DEPT_ICONS: Record<string, any> = {
-  "computer-science": Monitor,
-  "cyber-security": Shield,
-  "software-engineering": Code,
-  "information-technology": Server,
-  "library-info-science": BookOpen,
+const DEPT_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
+  "computer-science": FlaticonDeptCs,
+  "cyber-security": FlaticonDeptCyber,
+  "software-engineering": FlaticonDeptSe,
+  "information-technology": FlaticonDeptIt,
+  "library-info-science": FlaticonDeptLis,
 };
 
 export default function DepartmentDetailPage({ params }: { params: { slug: string } }) {
@@ -33,7 +42,7 @@ export default function DepartmentDetailPage({ params }: { params: { slug: strin
     notFound();
   }
 
-  const Icon = DEPT_ICONS[dept.slug] || BookOpen;
+  const Icon = DEPT_ICONS[dept.slug] || FlaticonDeptCs;
 
   return (
     <div className="flex flex-col min-h-screen bg-brand-50/30 dark:bg-brand-950">
@@ -54,9 +63,9 @@ export default function DepartmentDetailPage({ params }: { params: { slug: strin
             <span className="text-white">{dept.name}</span>
           </nav>
           
-          <div className="flex items-center gap-3 mb-3">
-            <div className="p-2.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 text-brand-200">
-              <Icon className="w-7 h-7 text-white" />
+          <div className="flex items-center gap-3.5 mb-3">
+            <div className="p-2 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-lg">
+              <Icon className="w-11 h-11" />
             </div>
             <span className="text-sm font-semibold tracking-wide uppercase text-brand-200">
               Faculty of Computing and Informatics &middot; CUSTECH Osara
@@ -92,7 +101,9 @@ export default function DepartmentDetailPage({ params }: { params: { slug: strin
             {dept.skills.length > 0 && (
               <section className="bg-white dark:bg-brand-900 p-8 rounded-xl border border-brand-200 dark:border-brand-800 shadow-sm">
                 <div className="flex items-center gap-3 mb-6">
-                  <GraduationCap className="h-6 w-6 text-brand-600 dark:text-brand-400" />
+                  <div className="p-2 rounded-xl bg-brand-100 dark:bg-brand-800/80 text-brand-700 dark:text-brand-300">
+                    <FlaticonGraduationMortarboard className="w-7 h-7" />
+                  </div>
                   <h2 className="text-2xl font-bold text-brand-900 dark:text-brand-100 font-serif">What Students Learn</h2>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -141,14 +152,16 @@ export default function DepartmentDetailPage({ params }: { params: { slug: strin
 
         {/* Complete Course Outlines by Level */}
         <section className="bg-white dark:bg-brand-900 rounded-xl border border-brand-200 dark:border-brand-800 shadow-sm overflow-hidden">
-          <div className="p-6 md:p-8 border-b border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30">
-            <div className="flex items-center gap-3">
-              <BookOpen className="h-6 w-6 text-brand-600 dark:text-brand-400" />
-              <h2 className="text-2xl font-bold text-brand-900 dark:text-brand-100 font-serif">Official Course Outlines</h2>
+          <div className="p-6 md:p-8 border-b border-brand-200 dark:border-brand-800 bg-brand-50/50 dark:bg-brand-900/30 flex items-start gap-4">
+            <div className="p-2 bg-white dark:bg-brand-800/80 rounded-2xl border border-brand-200 dark:border-brand-700 shadow-2xs shrink-0">
+              <FlaticonCourseOutlines className="w-10 h-10" />
             </div>
-            <p className="text-brand-600 dark:text-brand-400 text-sm mt-1">
-              Comprehensive 100L through 400L curriculum breakdown with credit units, core, and elective designations.
-            </p>
+            <div>
+              <h2 className="text-2xl font-bold text-brand-900 dark:text-brand-100 font-serif">Official Course Outlines</h2>
+              <p className="text-brand-600 dark:text-brand-400 text-sm mt-1">
+                Comprehensive 100L through 400L curriculum breakdown with credit units, core, and elective designations.
+              </p>
+            </div>
           </div>
 
           <div className="p-6 md:p-8">

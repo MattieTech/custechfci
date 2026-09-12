@@ -1,13 +1,20 @@
 import Link from "next/link";
-import { ChevronRight, Home, Monitor, Shield, Code, Server, BookOpen } from "lucide-react";
+import { ChevronRight, Home } from "lucide-react";
 import { ALL_DEPARTMENTS } from "@/lib/departments-data";
+import {
+  FlaticonDeptCs,
+  FlaticonDeptCyber,
+  FlaticonDeptSe,
+  FlaticonDeptIt,
+  FlaticonDeptLis
+} from "@/components/animated-flaticons";
 
-const DEPT_ICONS: Record<string, any> = {
-  "computer-science": Monitor,
-  "cyber-security": Shield,
-  "software-engineering": Code,
-  "information-technology": Server,
-  "library-info-science": BookOpen,
+const DEPT_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
+  "computer-science": FlaticonDeptCs,
+  "cyber-security": FlaticonDeptCyber,
+  "software-engineering": FlaticonDeptSe,
+  "information-technology": FlaticonDeptIt,
+  "library-info-science": FlaticonDeptLis,
 };
 
 export default function DepartmentsPage() {
@@ -36,14 +43,19 @@ export default function DepartmentsPage() {
       {/* Main Content */}
       <div className="container mx-auto px-4 md:px-6 py-12 flex-grow">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {ALL_DEPARTMENTS.map((dept) => {
-            const Icon = DEPT_ICONS[dept.slug] || Monitor;
+          {ALL_DEPARTMENTS.map((dept, index) => {
+            const Icon = DEPT_ICONS[dept.slug] || FlaticonDeptCs;
             return (
-              <Link key={dept.slug} href={`/departments/${dept.slug}`} className="group h-full">
-                <div className="bg-white dark:bg-brand-900 p-4 sm:p-6 rounded-xl border border-brand-200 dark:border-brand-800 shadow-sm flex flex-col h-full hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-200">
+              <Link
+                key={dept.slug}
+                href={`/departments/${dept.slug}`}
+                className="group h-full animate-fade-in"
+                style={{ animationDelay: `${index * 80}ms` }}
+              >
+                <div className="bg-white dark:bg-brand-900 p-5 sm:p-6 rounded-2xl border border-brand-200 dark:border-brand-800 shadow-sm flex flex-col h-full hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-md transition-all duration-300 group-hover:-translate-y-1">
                   <div className="flex items-start justify-between mb-4">
-                    <div className="p-3 bg-brand-100 dark:bg-brand-800 text-brand-700 dark:text-brand-300 rounded-lg group-hover:bg-brand-600 group-hover:text-white transition-colors">
-                      <Icon className="h-6 w-6" />
+                    <div className="p-2.5 bg-brand-50 dark:bg-brand-950/80 rounded-2xl border border-brand-200/80 dark:border-brand-800 shadow-2xs group-hover:scale-110 transition-transform duration-300">
+                      <Icon className="w-11 h-11" />
                     </div>
                     <span className="inline-flex items-center rounded-full bg-brand-50 dark:bg-brand-950 px-2.5 py-0.5 text-xs font-semibold text-brand-600 dark:text-brand-400 border border-brand-200 dark:border-brand-800">
                       {dept.careers.length} Careers
