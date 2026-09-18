@@ -69,8 +69,18 @@ type Material = {
 
 export default function ResourcesPage() {
   const supabase = createClient();
-  const [activeTab, setActiveTab] = useState("cgpa");
+  const [activeTab, setActiveTab] = useState("materials");
   const [calendarSemester, setCalendarSemester] = useState<1 | 2>(1);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const tab = params.get("tab");
+      if (tab && ["materials", "cgpa", "target_planner", "vault", "age", "calendar"].includes(tab)) {
+        setActiveTab(tab);
+      }
+    }
+  }, []);
 
   // CGPA Calculator State
   const [courses, setCourses] = useState<Course[]>([
@@ -440,6 +450,16 @@ export default function ResourcesPage() {
         {/* Custom Tabs */}
         <div className="flex items-center gap-1.5 sm:gap-2 mb-6 sm:mb-8 border-b border-brand-200 dark:border-brand-800 pb-2 overflow-x-auto no-scrollbar scroll-smooth w-full">
           <button
+            onClick={() => setActiveTab("materials")}
+            className={`flex items-center px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-medium border-b-2 transition-colors shrink-0 whitespace-nowrap ${
+              activeTab === "materials"
+                ? "border-brand-600 text-brand-600 dark:border-brand-400 dark:text-brand-400"
+                : "border-transparent text-brand-600 dark:text-brand-400 hover:text-brand-900 dark:hover:text-brand-200 hover:border-brand-300 dark:hover:border-brand-700"
+            }`}
+          >
+            <BookOpen className="w-4 h-4 mr-1.5 sm:mr-2" /> Study Materials &amp; Past Qs
+          </button>
+          <button
             onClick={() => setActiveTab("cgpa")}
             className={`flex items-center px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-medium border-b-2 transition-colors shrink-0 whitespace-nowrap ${
               activeTab === "cgpa"
@@ -458,16 +478,6 @@ export default function ResourcesPage() {
             }`}
           >
             <Target className="w-4 h-4 mr-1.5 sm:mr-2 text-amber-500" /> Target CGPA Planner
-          </button>
-          <button
-            onClick={() => setActiveTab("materials")}
-            className={`flex items-center px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-medium border-b-2 transition-colors shrink-0 whitespace-nowrap ${
-              activeTab === "materials"
-                ? "border-brand-600 text-brand-600 dark:border-brand-400 dark:text-brand-400"
-                : "border-transparent text-brand-600 dark:text-brand-400 hover:text-brand-900 dark:hover:text-brand-200 hover:border-brand-300 dark:hover:border-brand-700"
-            }`}
-          >
-            <BookOpen className="w-4 h-4 mr-1.5 sm:mr-2" /> Study Materials &amp; Past Qs
           </button>
           <button
             onClick={() => setActiveTab("vault")}
