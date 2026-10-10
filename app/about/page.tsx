@@ -110,6 +110,44 @@ export default function AboutPage() {
           </div>
         </div>
 
+        {/* Portal Development & Credits */}
+        <div className="bg-gradient-to-br from-brand-900 via-brand-950 to-slate-950 text-white rounded-2xl p-8 md:p-10 border border-brand-800/80 shadow-md">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div className="space-y-3 max-w-2xl">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-800/60 border border-brand-700/60 text-xs font-semibold text-brand-300 uppercase tracking-wider">
+                Lead Architect &amp; Developer
+              </div>
+              <h2 className="text-2xl md:text-3xl font-bold font-serif text-brand-50">
+                Crafted by Matthew Aliu (<span className="text-emerald-400 font-mono">MattieTech</span>)
+              </h2>
+              <p className="text-brand-200 text-sm md:text-base leading-relaxed">
+                The CUSTECH FCI Student Guide Portal was engineered and developed by Matthew Aliu (MattieTech) to empower students of the Faculty of Computing &amp; Informatics with instantaneous access to academic schedules, past exam papers, CGPA calculators, timetables, and real-time department updates.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap md:flex-col gap-3 w-full md:w-auto shrink-0">
+              <a
+                href="https://mattie-web.vercel.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm transition-all shadow-sm shadow-emerald-950/40"
+              >
+                <span>View Developer Portfolio</span>
+                <ExternalLink size={15} />
+              </a>
+              <a
+                href="https://github.com/MattieTech"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-brand-800/80 hover:bg-brand-700 text-brand-100 font-medium text-sm transition-all border border-brand-700/60"
+              >
+                <span>GitHub Profile</span>
+                <ExternalLink size={15} />
+              </a>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   );

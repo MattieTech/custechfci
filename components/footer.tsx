@@ -62,6 +62,37 @@ export function Footer() {
       <div className="container mx-auto px-4 mt-12 pt-8 border-t border-brand-800 flex flex-col md:flex-row justify-between items-center gap-4 text-brand-400 text-xs">
         <p>&copy; {currentYear} Faculty of Computing and Informatics. All rights reserved.</p>
         <p>Built by MattieTech</p>
+      <div className="container mx-auto px-4 mt-12 pt-8 border-t border-brand-800 flex flex-col md:flex-row justify-between items-center gap-4 text-brand-300 text-xs">
+        <p>&copy; {currentYear} Faculty of Computing and Informatics, CUSTECH Osara. All rights reserved.</p>
+        <div className="flex flex-wrap items-center gap-2">
+          <span>Engineered with ❤️ by</span>
+          <a
+            href="https://mattie-web.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-emerald-400 hover:text-emerald-300 underline underline-offset-4 decoration-emerald-500/50 transition-colors"
+          >
+            Matthew Aliu (MattieTech)
+          </a>
+          <span className="text-brand-600 dark:text-brand-500">&middot;</span>
+          <a
+            href="https://mattie-web.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-brand-300 hover:text-brand-100 transition-colors"
+          >
+            Portfolio
+          </a>
+          <span className="text-brand-600 dark:text-brand-500">&middot;</span>
+          <a
+            href="https://github.com/MattieTech"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-brand-300 hover:text-brand-100 transition-colors"
+          >
+            GitHub
+          </a>
+        </div>
       </div>
     </footer>
   );

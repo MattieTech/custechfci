@@ -96,9 +96,14 @@ Since this application is built with standard Web technologies (HTML/CSS/JS), no
 ## 👨‍💻 Author & Credits
 
 - **Developer**: **MattieTech** (*Matthew Aliu*)
+- **Developer**: **Matthew Aliu** (*MattieTech*)
+- **Portfolio**: [https://mattie-web.vercel.app](https://mattie-web.vercel.app)
+- **GitHub**: [https://github.com/MattieTech](https://github.com/MattieTech)
 - **Email**: [matthewaliu001@gmail.com](mailto:matthewaliu001@gmail.com)
 - **Institution**: **Confluence University of Science and Technology (CUSTECH), Osara, Kogi State, Nigeria**
 
 ---
 
 © 2026 FCI Student Guide &middot; CUSTECH Osara &middot; Built with ❤️ by **MattieTech**
+© 2026 FCI Student Guide &middot; CUSTECH Osara &middot; Built with ❤️ by **Matthew Aliu (MattieTech)**
+
