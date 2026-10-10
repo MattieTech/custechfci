@@ -146,12 +146,48 @@ export default function CalendarPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Fresh Students Resumption */}
+            <div className="bg-white/80 dark:bg-brand-900/80 rounded-xl p-4 border border-blue-200/80 dark:border-blue-800/80 shadow-sm">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-bold uppercase tracking-wide text-blue-700 dark:text-blue-400 flex items-center gap-1.5">
+                  <CheckCircle2 size={14} /> 100L & DE Freshers
+                </span>
+                <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300">
+                  {SENATE_REGISTRATION_NOTE.freshersResumption.extension}
+                </span>
+              </div>
+              <p className="text-base font-bold text-brand-950 dark:text-brand-50">
+                {SENATE_REGISTRATION_NOTE.freshersResumption.dates}
+              </p>
+              <p className="text-xs text-brand-600 dark:text-brand-400 mt-1">
+                {SENATE_REGISTRATION_NOTE.freshersResumption.description}
+              </p>
+            </div>
+
+            {/* Returning Students Resumption */}
+            <div className="bg-white/80 dark:bg-brand-900/80 rounded-xl p-4 border border-indigo-200/80 dark:border-indigo-800/80 shadow-sm">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-bold uppercase tracking-wide text-indigo-700 dark:text-indigo-400 flex items-center gap-1.5">
+                  <CheckCircle2 size={14} /> 200L+ Returning
+                </span>
+                <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-950 text-indigo-800 dark:text-indigo-300">
+                  {SENATE_REGISTRATION_NOTE.returningResumption.extension}
+                </span>
+              </div>
+              <p className="text-base font-bold text-brand-950 dark:text-brand-50">
+                {SENATE_REGISTRATION_NOTE.returningResumption.dates}
+              </p>
+              <p className="text-xs text-brand-600 dark:text-brand-400 mt-1">
+                {SENATE_REGISTRATION_NOTE.returningResumption.description}
+              </p>
+            </div>
+
             {/* Normal Registration Window */}
             <div className="bg-white/80 dark:bg-brand-900/80 rounded-xl p-4 border border-emerald-200/80 dark:border-emerald-800/80 shadow-sm">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5">
-                  <CheckCircle2 size={14} /> Normal Registration Window
+                  <CheckCircle2 size={14} /> Normal Registration
                 </span>
                 <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300">
                   {SENATE_REGISTRATION_NOTE.normalRegistration.duration}
@@ -169,10 +205,10 @@ export default function CalendarPage() {
             <div className="bg-white/80 dark:bg-brand-900/80 rounded-xl p-4 border border-amber-300 dark:border-amber-800/80 shadow-sm">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs font-bold uppercase tracking-wide text-amber-700 dark:text-amber-400 flex items-center gap-1.5">
-                  <AlertCircle size={14} /> Late Registration Window
+                  <AlertCircle size={14} /> Late Registration
                 </span>
                 <span className="text-[11px] font-black px-2 py-0.5 rounded-full bg-rose-100 dark:bg-rose-950 text-rose-800 dark:text-rose-300 border border-rose-300 dark:border-rose-800">
-                  {SENATE_REGISTRATION_NOTE.lateRegistration.penaltyFee} Surcharge
+                  {SENATE_REGISTRATION_NOTE.lateRegistration.penaltyFee}
                 </span>
               </div>
               <p className="text-base font-bold text-rose-700 dark:text-rose-400">

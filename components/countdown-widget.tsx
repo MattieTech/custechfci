@@ -104,7 +104,7 @@ interface TimeLeft {
 
 export function CountdownWidget({
   variant = "hero",
-  defaultMilestoneId = "sem1-exam",
+  defaultMilestoneId = "sem1-resumption-fresh",
   showSelector = true,
   className = "",
 }: CountdownWidgetProps) {

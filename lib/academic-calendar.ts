@@ -15,115 +15,129 @@ export const INSTITUTION_ADDRESS = "Km 19, Okene-Lokoja Road, Osara, P.M.B. 1040
 export const ISSUED_BY = "Office of the Registrar";
 export const REGISTRAR_NAME = "Mrs. Yakubu Glory Ojochogu";
 export const MEMO_REF = "CUSTECH/RO/S.6";
-export const MEMO_DATE = "7th September, 2026";
-export const SENATE_APPROVAL = "Approved by Senate at its 32nd Meeting held on Tuesday, 2nd September 2026";
+export const MEMO_DATE = "25th September, 2026";
+export const SENATE_APPROVAL = "Announced by the Registrar & Secretary to Council, Mrs. Glory Ojochogu Yakubu";
 
 export const SENATE_REGISTRATION_NOTE = {
-  title: "Senate Resolution on Online Course Registration & Validation",
-  memoRef: "CUSTECH/RO/S.6",
-  dateIssued: "7th September, 2026",
-  meeting: "32nd Senate Meeting held on Tuesday, 2nd September 2026",
-  registrar: "Mrs. Yakubu Glory Ojochogu",
+  title: "Adjustment of Resumption Dates & Registration Schedule (2026/2027)",
+  memoRef: "CUSTECH/RO/PRP/2026/01",
+  dateIssued: "25th/26th September, 2026",
+  meeting: "Official Circular signed by Mrs. Glory Ojochogu Yakubu, Registrar & Secretary to Council",
+  registrar: "Mrs. Glory Ojochogu Yakubu",
+  freshersResumption: {
+    dates: "Monday, 12th October, 2026",
+    extension: "2 Weeks Extension",
+    description: "Arrival on campus, physical screening, credential documentation, and online course registration for 100L and Direct Entry students."
+  },
+  returningResumption: {
+    dates: "Monday, 19th October, 2026",
+    extension: "3 Weeks Extension",
+    description: "Physical return to campus for returning students (200L and above). Online portals remain open for fee payment and course registration prior to return."
+  },
   normalRegistration: {
-    dates: "28th September, 2026 – 31st October, 2026",
-    duration: "5 Weeks",
-    description: "Online Course Registration and Revalidation for all fresh and returning students without penalty."
+    dates: "28th September, 2026 – Friday, 13th November, 2026",
+    duration: "Extended to 13th Nov 2026",
+    description: "Extended regular registration window for all fresh and returning students without penalty."
   },
   lateRegistration: {
-    dates: "1st November, 2026 – 10th November, 2026",
-    duration: "10 Days",
+    dates: "Saturday, 14th November, 2026 – Monday, 23rd November, 2026",
+    duration: "10 Days Window",
     penaltyFee: "₦10,000 (Ten Thousand Naira Only)",
-    description: "Late registration window. Strictly attracts a mandatory penalty fee of ₦10,000 before portal closes."
+    description: "Late registration window. Strictly attracts the statutory late registration fee of ₦10,000."
   },
+  matriculationNote: "Supplementary academic calendar containing the new date for the Matriculation Ceremony will be issued by the Academic Planning Unit.",
   guidanceNotice: "All Faculties, Departments, and Units are to take note and be guided accordingly."
 };
 
 export const FIRST_SEMESTER_EVENTS: CalendarEvent[] = [
   {
-    id: "sem1-commencement",
-    activity: "Commencement of First Semester",
-    date: "Monday, 28th September 2026",
+    id: "sem1-resumption-fresh",
+    activity: "Fresh Students Resumption (100L & Direct Entry)",
+    date: "Monday, 12th October 2026",
     category: "registration",
     semester: 1,
-    duration: "19 Weeks Total",
+    duration: "New Date",
     isMilestone: true,
-    details: ["Official kickoff of the 2026/2027 Academic Session for all FCI departments"]
+    details: [
+      "Official resumption date for newly admitted 100L and Direct Entry students",
+      "Commence screening, physical documentation, and online course registration immediately upon arrival"
+    ]
   },
   {
-    id: "sem1-reg-screening",
-    activity: "Online Course Registration, Screening & Programme Transfer",
-    date: "Monday, 28th September – Friday, 9th October 2026",
+    id: "sem1-resumption-returning",
+    activity: "Returning Students Resumption (200L & Above)",
+    date: "Monday, 19th October 2026",
     category: "registration",
     semester: 1,
-    duration: "2 Weeks",
+    duration: "3-Week Extension",
+    isMilestone: true,
     details: [
-      "Online Course Registration and Revalidation",
-      "Screening & documentation of fresh students",
-      "Change of Programme / Inter-Departmental Transfer"
+      "Physical return to campus for all returning students (200L, 300L, 400L, 500L)",
+      "Fee payment and course registration continue seamlessly via student online portal prior to physical arrival"
     ]
   },
   {
     id: "sem1-orientation",
     activity: "Orientation Week (General and Department/Faculty)",
-    date: "Monday, 12th October – Saturday, 17th October 2026",
+    date: "Monday, 19th October – Saturday, 24th October 2026",
     category: "orientation",
     semester: 1,
     duration: "1 Week",
     details: [
-      "Monday, 12th October 2026: General University Orientation",
-      "Tuesday, 13th – Saturday, 17th October 2026: Faculty & Departmental Orientation"
+      "General University Orientation for fresh students",
+      "Faculty & Departmental Orientation sessions across FCI departments"
     ]
   },
   {
     id: "sem1-lectures-part1",
     activity: "Lectures (First Phase)",
-    date: "Tuesday, 13th October – Friday, 18th December 2026",
+    date: "Monday, 19th October – Friday, 18th December 2026",
     category: "lecture",
     semester: 1,
-    duration: "10 Weeks",
+    duration: "9 Weeks",
     details: ["Intensive classroom lectures, practical laboratory sessions, and attendance recording (75% mandatory)"]
   },
   {
     id: "sem1-reg-close-normal",
-    activity: "Close of Normal Registration for the Session",
-    date: "Saturday, 31st October 2026",
+    activity: "Close of Regular Course Registration (Extended)",
+    date: "Friday, 13th November 2026",
     category: "registration",
     semester: 1,
     isMilestone: true,
     details: [
-      "Senate deadline for normal course registration and revalidation",
-      "Registrations after this date attract ₦10,000 late penalty fee"
+      "Official extended deadline for standard course registration without penalty fee",
+      "Fresh & returning students must complete course validation on or before 11:59 PM"
     ]
   },
   {
     id: "sem1-reg-late",
-    activity: "Late Registration Period (Attracts ₦10,000 Late Surcharge)",
-    date: "Sunday, 1st November – Tuesday, 10th November 2026",
+    activity: "Late Registration Period (Attracts ₦10,000 Statutory Surcharge)",
+    date: "Saturday, 14th November – Monday, 23rd November 2026",
     category: "registration",
     semester: 1,
     details: [
-      "Mandatory late registration penalty fee of ₦10,000 applies to all late submissions",
-      "Final opportunity for student portal course endorsement"
+      "Late registration window strictly attracts the statutory late penalty fee of ₦10,000",
+      "Final opportunity for portal enrollment before final portal shutdown"
     ]
   },
   {
     id: "sem1-reg-close-late",
-    activity: "Close of Late Registration for the Session",
-    date: "Tuesday, 10th November 2026",
+    activity: "Final Portal Closure (End of Late Registration)",
+    date: "Monday, 23rd November 2026",
     category: "registration",
     semester: 1,
     isMilestone: true,
-    details: ["University registration portal strictly closes at 11:59 PM ahead of Matriculation"]
+    details: ["University registration portal strictly closes at 11:59 PM for the 2026/2027 academic session"]
   },
   {
     id: "sem1-matriculation",
-    activity: "Matriculation Ceremony",
-    date: "Wednesday, 11th November 2026",
+    activity: "Matriculation Ceremony (Supplementary Date Pending)",
+    date: "Date to be announced by Academic Planning Unit",
     category: "ceremony",
     semester: 1,
     duration: "1 Day",
     isMilestone: true,
-    details: ["Official induction and oath-taking ceremony of newly admitted 100L undergraduate students"]
+    details: ["Revised date for matriculation ceremony will be communicated via supplementary academic calendar"]
   },
   {
     id: "sem1-ca-test",
