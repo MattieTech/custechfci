@@ -108,26 +108,22 @@ export default function AdminGalleryPage() {
           body: formData,
         });
 
-        if (uploadRes.ok) {
-          const uploadData = await uploadRes.json();
-          if (uploadData.url) {
-            finalImageUrl = uploadData.url;
-          }
-        }
-      }
+        const uploadData = await uploadRes.json().catch(() => null);
 
-      // If upload route failed or returned empty, convert file to persistent data URL
-      if (!finalImageUrl && file) {
-        finalImageUrl = await fileToDataUrl(file);
+        if (!uploadRes.ok || !uploadData?.url) {
+          throw new Error(uploadData?.error || 'Server storage upload failed. Please verify network or try a smaller image.');
+        }
+
+        finalImageUrl = uploadData.url;
       }
 
       if (!finalImageUrl) {
-        setError('Could not process image file. Please choose another image.');
+        setError('Could not process image file. Please choose an image to upload.');
         setUploading(false);
         return;
       }
 
-      // 2. Save image details via API
+      // 2. Save image metadata via API
       const payload = {
         title: title.trim(),
         description: description.trim(),
@@ -142,21 +138,15 @@ export default function AdminGalleryPage() {
         body: JSON.stringify(payload),
       });
 
-      if (res.ok) {
-        const data = await res.json();
-        const updated = [data.image, ...images.filter((img) => img.id !== data.image.id)];
-        setImages(updated);
-        saveStoredGalleryImages(updated);
-      } else {
-        // Fallback local save
-        const fallbackImg: GalleryImage = {
-          id: `local_${Date.now()}`,
-          ...payload,
-        };
-        const updated = [fallbackImg, ...images];
-        setImages(updated);
-        saveStoredGalleryImages(updated);
+      const resData = await res.json().catch(() => null);
+
+      if (!res.ok || !resData?.image) {
+        throw new Error(resData?.error || 'Failed to publish photo to gallery');
       }
+
+      const updated = [resData.image, ...images.filter((img) => img.id !== resData.image.id)];
+      setImages(updated);
+      saveStoredGalleryImages(updated);
 
       setSuccess('Image successfully published to faculty gallery!');
       setTitle('');

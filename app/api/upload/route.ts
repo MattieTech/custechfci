@@ -20,47 +20,62 @@ export async function POST(request: NextRequest) {
 
     const fileExt = file.name.split('.').pop() || 'png';
     const rawName = file.name.substring(0, file.name.lastIndexOf('.')) || 'file';
-    const sanitizedName = rawName.replace(/[^a-zA-Z0-9_-]/g, '_').substring(0, 50);
+    const sanitizedName = rawName.replace(/[^a-zA-Z0-9_-]/g, '_').substring(0, 40);
     const uniqueFileName = `${Date.now()}_${Math.random().toString(36).substring(2, 8)}_${sanitizedName}.${fileExt}`;
 
     const buffer = Buffer.from(await file.arrayBuffer());
 
-    // 1. Write file to public/uploads on the local disk as permanent storage
-    const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
-    if (!fs.existsSync(uploadsDir)) {
-      fs.mkdirSync(uploadsDir, { recursive: true });
-    }
-    const localFilePath = path.join(uploadsDir, uniqueFileName);
-    await fs.promises.writeFile(localFilePath, buffer);
-    const localPublicUrl = `/uploads/${uniqueFileName}`;
+    let publicUrl = '';
 
-    let finalUrl = localPublicUrl;
-
-    // 2. Try Supabase storage if available
+    // 1. Primary: Upload to Supabase Storage (persists globally across all devices/Vercel/production)
     try {
       const supabaseAdmin = createAdminClient();
       const { error: uploadError } = await supabaseAdmin.storage
         .from(bucket)
         .upload(uniqueFileName, buffer, {
-          contentType: file.type || 'application/octet-stream',
+          contentType: file.type || 'image/jpeg',
           upsert: true,
         });
 
       if (!uploadError) {
         const {
-          data: { publicUrl },
+          data: { publicUrl: url },
         } = supabaseAdmin.storage.from(bucket).getPublicUrl(uniqueFileName);
-        if (publicUrl) {
-          finalUrl = publicUrl;
+        if (url) {
+          publicUrl = url;
         }
+      } else {
+        console.warn('Supabase storage upload returned error:', uploadError.message);
+      }
+    } catch (sbErr: any) {
+      console.warn('Supabase client error during upload:', sbErr?.message);
+    }
+
+    // 2. Secondary: If in local development with writable disk, cache to public/uploads
+    try {
+      const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
+      if (!fs.existsSync(uploadsDir)) {
+        fs.mkdirSync(uploadsDir, { recursive: true });
+      }
+      const localFilePath = path.join(uploadsDir, uniqueFileName);
+      await fs.promises.writeFile(localFilePath, buffer);
+      if (!publicUrl) {
+        publicUrl = `/uploads/${uniqueFileName}`;
       }
     } catch {
-      // Supabase storage unavailable; local disk file serves permanently!
+      // Read-only filesystem (e.g. Vercel deployment), safely ignored
+    }
+
+    if (!publicUrl) {
+      return NextResponse.json(
+        { error: 'Storage service temporarily unavailable. Please try again.' },
+        { status: 503 }
+      );
     }
 
     return NextResponse.json({
       success: true,
-      url: finalUrl,
+      url: publicUrl,
       fileName: file.name,
       path: uniqueFileName,
       size: file.size,
@@ -82,21 +97,21 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'No file path provided' }, { status: 400 });
     }
 
-    // 1. Remove from local uploads if present
+    // 1. Try Supabase storage remove
+    try {
+      const supabaseAdmin = createAdminClient();
+      await supabaseAdmin.storage.from(bucket).remove([filePath]);
+    } catch {
+      // Ignore
+    }
+
+    // 2. Try local disk remove if exists
     try {
       const filename = path.basename(filePath);
       const localFile = path.join(process.cwd(), 'public', 'uploads', filename);
       if (fs.existsSync(localFile)) {
         await fs.promises.unlink(localFile);
       }
-    } catch {
-      // Ignore local delete errors
-    }
-
-    // 2. Try Supabase storage delete
-    try {
-      const supabaseAdmin = createAdminClient();
-      await supabaseAdmin.storage.from(bucket).remove([filePath]);
     } catch {
       // Ignore
     }

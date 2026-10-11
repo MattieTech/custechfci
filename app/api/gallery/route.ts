@@ -6,8 +6,50 @@ import { INITIAL_GALLERY_IMAGES, GalleryImage } from '@/lib/gallery-data';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const GALLERY_JSON_PATH = path.join(DATA_DIR, 'gallery.json');
+const MANIFEST_PATH = 'gallery_manifest.json';
+const BUCKET_NAME = 'announcements';
 
-async function readPersistentGallery(): Promise<GalleryImage[]> {
+async function fetchRemoteManifest(): Promise<GalleryImage[] | null> {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  if (!supabaseUrl) return null;
+
+  try {
+    const manifestUrl = `${supabaseUrl}/storage/v1/object/public/${BUCKET_NAME}/${MANIFEST_PATH}?t=${Date.now()}`;
+    const res = await fetch(manifestUrl, { cache: 'no-store' });
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        return data;
+      }
+    }
+  } catch (err) {
+    console.warn('Could not fetch remote gallery manifest:', err);
+  }
+  return null;
+}
+
+async function saveRemoteManifest(images: GalleryImage[]): Promise<boolean> {
+  try {
+    const supabase = createAdminClient();
+    const buffer = Buffer.from(JSON.stringify(images, null, 2), 'utf-8');
+    const { error } = await supabase.storage
+      .from(BUCKET_NAME)
+      .upload(MANIFEST_PATH, buffer, {
+        contentType: 'application/json',
+        upsert: true,
+      });
+
+    if (!error) {
+      return true;
+    }
+    console.warn('Error saving remote gallery manifest:', error.message);
+  } catch (err: any) {
+    console.warn('Supabase client error saving manifest:', err?.message);
+  }
+  return false;
+}
+
+async function readLocalManifest(): Promise<GalleryImage[] | null> {
   try {
     if (fs.existsSync(GALLERY_JSON_PATH)) {
       const content = await fs.promises.readFile(GALLERY_JSON_PATH, 'utf-8');
@@ -16,53 +58,58 @@ async function readPersistentGallery(): Promise<GalleryImage[]> {
         return parsed;
       }
     }
-  } catch (err) {
-    console.error('Error reading data/gallery.json:', err);
+  } catch {
+    // Read-only or missing
   }
-
-  // If file doesn't exist yet, seed with initial images
-  try {
-    if (!fs.existsSync(DATA_DIR)) {
-      fs.mkdirSync(DATA_DIR, { recursive: true });
-    }
-    await fs.promises.writeFile(GALLERY_JSON_PATH, JSON.stringify(INITIAL_GALLERY_IMAGES, null, 2), 'utf-8');
-  } catch (err) {
-    console.error('Error creating data/gallery.json:', err);
-  }
-
-  return [...INITIAL_GALLERY_IMAGES];
+  return null;
 }
 
-async function writePersistentGallery(images: GalleryImage[]): Promise<void> {
+async function saveLocalManifest(images: GalleryImage[]): Promise<void> {
   try {
     if (!fs.existsSync(DATA_DIR)) {
       fs.mkdirSync(DATA_DIR, { recursive: true });
     }
     await fs.promises.writeFile(GALLERY_JSON_PATH, JSON.stringify(images, null, 2), 'utf-8');
-  } catch (err) {
-    console.error('Error writing to data/gallery.json:', err);
+  } catch {
+    // Read-only filesystem, safe to ignore
   }
 }
 
-export async function GET() {
-  // 1. Try Supabase first if available
-  try {
-    const supabase = createAdminClient();
-    const { data, error } = await supabase
-      .from('gallery')
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    if (!error && data && data.length > 0) {
-      return NextResponse.json({ images: data });
-    }
-  } catch {
-    // Fall through to filesystem persistent storage
+async function getGalleryList(): Promise<GalleryImage[]> {
+  // 1. Try remote manifest in cloud storage (shared everywhere)
+  const remote = await fetchRemoteManifest();
+  if (remote !== null) {
+    // Sync to local cache if local disk is writable
+    saveLocalManifest(remote).catch(() => {});
+    return remote;
   }
 
-  // 2. Read from persistent file on disk
-  const images = await readPersistentGallery();
-  return NextResponse.json({ images });
+  // 2. Try local cache file
+  const local = await readLocalManifest();
+  if (local !== null) {
+    return local;
+  }
+
+  // 3. Fallback to default verified initial images
+  return [...INITIAL_GALLERY_IMAGES];
+}
+
+async function persistGalleryList(images: GalleryImage[]): Promise<void> {
+  // Always save to cloud storage and local disk in parallel
+  await Promise.allSettled([
+    saveRemoteManifest(images),
+    saveLocalManifest(images),
+  ]);
+}
+
+export async function GET() {
+  try {
+    const images = await getGalleryList();
+    return NextResponse.json({ images });
+  } catch (err: any) {
+    console.error('Gallery GET error:', err);
+    return NextResponse.json({ images: INITIAL_GALLERY_IMAGES });
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -84,32 +131,9 @@ export async function POST(request: NextRequest) {
       featured: Boolean(featured),
     };
 
-    // 1. Try Supabase
-    try {
-      const supabase = createAdminClient();
-      const { data, error } = await supabase.from('gallery').insert([
-        {
-          id: newImage.id,
-          title: newImage.title,
-          description: newImage.description,
-          image_url: newImage.image_url,
-          category: newImage.category,
-          date: newImage.date,
-          featured: newImage.featured,
-        },
-      ]).select().single();
-
-      if (!error && data) {
-        newImage.id = data.id || newImage.id;
-      }
-    } catch {
-      // Supabase not configured or table missing
-    }
-
-    // 2. Persist to disk JSON storage
-    const currentImages = await readPersistentGallery();
+    const currentImages = await getGalleryList();
     const updatedImages = [newImage, ...currentImages.filter((img) => img.id !== newImage.id)];
-    await writePersistentGallery(updatedImages);
+    await persistGalleryList(updatedImages);
 
     return NextResponse.json({ success: true, image: newImage });
   } catch (err: any) {
@@ -127,18 +151,9 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'Image ID is required' }, { status: 400 });
     }
 
-    // 1. Try Supabase
-    try {
-      const supabase = createAdminClient();
-      await supabase.from('gallery').delete().eq('id', id);
-    } catch {
-      // Fall through
-    }
-
-    // 2. Persist deletion to disk JSON storage
-    const currentImages = await readPersistentGallery();
+    const currentImages = await getGalleryList();
     const filteredImages = currentImages.filter((img) => img.id !== id);
-    await writePersistentGallery(filteredImages);
+    await persistGalleryList(filteredImages);
 
     return NextResponse.json({ success: true, remaining: filteredImages.length });
   } catch (err: any) {
