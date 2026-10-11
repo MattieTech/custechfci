@@ -1,11 +1,51 @@
 import { NextRequest, NextResponse } from 'next/server';
+import fs from 'fs';
+import path from 'path';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { INITIAL_GALLERY_IMAGES, GalleryImage } from '@/lib/gallery-data';
 
-// Helper in-memory store for fallback if Supabase table is not configured
-let fallbackStore: GalleryImage[] = [...INITIAL_GALLERY_IMAGES];
+const DATA_DIR = path.join(process.cwd(), 'data');
+const GALLERY_JSON_PATH = path.join(DATA_DIR, 'gallery.json');
+
+async function readPersistentGallery(): Promise<GalleryImage[]> {
+  try {
+    if (fs.existsSync(GALLERY_JSON_PATH)) {
+      const content = await fs.promises.readFile(GALLERY_JSON_PATH, 'utf-8');
+      const parsed = JSON.parse(content);
+      if (Array.isArray(parsed)) {
+        return parsed;
+      }
+    }
+  } catch (err) {
+    console.error('Error reading data/gallery.json:', err);
+  }
+
+  // If file doesn't exist yet, seed with initial images
+  try {
+    if (!fs.existsSync(DATA_DIR)) {
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+    await fs.promises.writeFile(GALLERY_JSON_PATH, JSON.stringify(INITIAL_GALLERY_IMAGES, null, 2), 'utf-8');
+  } catch (err) {
+    console.error('Error creating data/gallery.json:', err);
+  }
+
+  return [...INITIAL_GALLERY_IMAGES];
+}
+
+async function writePersistentGallery(images: GalleryImage[]): Promise<void> {
+  try {
+    if (!fs.existsSync(DATA_DIR)) {
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+    await fs.promises.writeFile(GALLERY_JSON_PATH, JSON.stringify(images, null, 2), 'utf-8');
+  } catch (err) {
+    console.error('Error writing to data/gallery.json:', err);
+  }
+}
 
 export async function GET() {
+  // 1. Try Supabase first if available
   try {
     const supabase = createAdminClient();
     const { data, error } = await supabase
@@ -17,16 +57,18 @@ export async function GET() {
       return NextResponse.json({ images: data });
     }
   } catch {
-    // If Supabase table isn't present, safely return memory/fallback
+    // Fall through to filesystem persistent storage
   }
 
-  return NextResponse.json({ images: fallbackStore });
+  // 2. Read from persistent file on disk
+  const images = await readPersistentGallery();
+  return NextResponse.json({ images });
 }
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { title, description, image_url, category = 'campus', date } = body;
+    const { title, description, image_url, category = 'campus', date, featured } = body;
 
     if (!title || !image_url) {
       return NextResponse.json({ error: 'Title and image are required' }, { status: 400 });
@@ -34,14 +76,15 @@ export async function POST(request: NextRequest) {
 
     const newImage: GalleryImage = {
       id: `img_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
-      title,
-      description: description || '',
-      image_url,
+      title: title.trim(),
+      description: (description || '').trim(),
+      image_url: image_url.trim(),
       category: category || 'campus',
       date: date || new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
-      featured: Boolean(body.featured),
+      featured: Boolean(featured),
     };
 
+    // 1. Try Supabase
     try {
       const supabase = createAdminClient();
       const { data, error } = await supabase.from('gallery').insert([
@@ -57,15 +100,20 @@ export async function POST(request: NextRequest) {
       ]).select().single();
 
       if (!error && data) {
-        return NextResponse.json({ success: true, image: data });
+        newImage.id = data.id || newImage.id;
       }
     } catch {
-      // Fall through to memory
+      // Supabase not configured or table missing
     }
 
-    fallbackStore = [newImage, ...fallbackStore];
+    // 2. Persist to disk JSON storage
+    const currentImages = await readPersistentGallery();
+    const updatedImages = [newImage, ...currentImages.filter((img) => img.id !== newImage.id)];
+    await writePersistentGallery(updatedImages);
+
     return NextResponse.json({ success: true, image: newImage });
   } catch (err: any) {
+    console.error('Gallery POST error:', err);
     return NextResponse.json({ error: err?.message || 'Failed to save image' }, { status: 500 });
   }
 }
@@ -79,6 +127,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'Image ID is required' }, { status: 400 });
     }
 
+    // 1. Try Supabase
     try {
       const supabase = createAdminClient();
       await supabase.from('gallery').delete().eq('id', id);
@@ -86,9 +135,14 @@ export async function DELETE(request: NextRequest) {
       // Fall through
     }
 
-    fallbackStore = fallbackStore.filter((img) => img.id !== id);
-    return NextResponse.json({ success: true });
+    // 2. Persist deletion to disk JSON storage
+    const currentImages = await readPersistentGallery();
+    const filteredImages = currentImages.filter((img) => img.id !== id);
+    await writePersistentGallery(filteredImages);
+
+    return NextResponse.json({ success: true, remaining: filteredImages.length });
   } catch (err: any) {
+    console.error('Gallery DELETE error:', err);
     return NextResponse.json({ error: err?.message || 'Failed to delete image' }, { status: 500 });
   }
 }

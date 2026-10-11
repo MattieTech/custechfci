@@ -43,8 +43,9 @@ export default function AdminGalleryPage() {
       const res = await fetch('/api/gallery');
       if (res.ok) {
         const data = await res.json();
-        if (data.images && data.images.length > 0) {
+        if (Array.isArray(data.images)) {
           setImages(data.images);
+          saveStoredGalleryImages(data.images);
           setLoading(false);
           return;
         }
@@ -55,6 +56,15 @@ export default function AdminGalleryPage() {
     setImages(getStoredGalleryImages());
     setLoading(false);
   }
+
+  const fileToDataUrl = (fileObj: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(fileObj);
+    });
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files?.[0];
@@ -84,10 +94,10 @@ export default function AdminGalleryPage() {
     setError(null);
     setSuccess(null);
 
-    let finalImageUrl = previewUrl || '';
+    let finalImageUrl = '';
 
     try {
-      // 1. Upload to storage bucket if file selected
+      // 1. Upload to server storage
       if (file) {
         const formData = new FormData();
         formData.append('file', file);
@@ -104,6 +114,17 @@ export default function AdminGalleryPage() {
             finalImageUrl = uploadData.url;
           }
         }
+      }
+
+      // If upload route failed or returned empty, convert file to persistent data URL
+      if (!finalImageUrl && file) {
+        finalImageUrl = await fileToDataUrl(file);
+      }
+
+      if (!finalImageUrl) {
+        setError('Could not process image file. Please choose another image.');
+        setUploading(false);
+        return;
       }
 
       // 2. Save image details via API
@@ -123,7 +144,7 @@ export default function AdminGalleryPage() {
 
       if (res.ok) {
         const data = await res.json();
-        const updated = [data.image, ...images];
+        const updated = [data.image, ...images.filter((img) => img.id !== data.image.id)];
         setImages(updated);
         saveStoredGalleryImages(updated);
       } else {
@@ -153,14 +174,14 @@ export default function AdminGalleryPage() {
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to remove this photo from the gallery?')) return;
     try {
-      await fetch(`/api/gallery?id=${id}`, { method: 'DELETE' });
+      await fetch(`/api/gallery?id=${encodeURIComponent(id)}`, { method: 'DELETE' });
     } catch (e) {
       console.warn('API delete error', e);
     }
     const updated = images.filter((img) => img.id !== id);
     setImages(updated);
     saveStoredGalleryImages(updated);
-    setSuccess('Image removed from gallery');
+    setSuccess('Image permanently removed from gallery');
   };
 
   return (

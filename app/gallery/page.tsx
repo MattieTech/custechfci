@@ -16,7 +16,7 @@ import {
   Sparkles,
   Camera,
 } from 'lucide-react';
-import { GalleryImage, getStoredGalleryImages } from '@/lib/gallery-data';
+import { GalleryImage, getStoredGalleryImages, saveStoredGalleryImages } from '@/lib/gallery-data';
 
 const CATEGORIES = [
   { id: 'all', label: 'All Photos' },
@@ -38,8 +38,9 @@ export default function GalleryPage() {
         const res = await fetch('/api/gallery');
         if (res.ok) {
           const data = await res.json();
-          if (data.images && data.images.length > 0) {
+          if (Array.isArray(data.images)) {
             setImages(data.images);
+            saveStoredGalleryImages(data.images);
             setLoading(false);
             return;
           }

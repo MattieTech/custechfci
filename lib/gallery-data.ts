@@ -11,44 +11,44 @@ export interface GalleryImage {
 
 export const INITIAL_GALLERY_IMAGES: GalleryImage[] = [
   {
-    id: 'fci-complex-front',
-    title: 'FCI Academic Complex & Lecture Halls',
-    description: 'The modern faculty building hosting lecture theatres, computer laboratories, and administrative offices at CUSTECH Osara.',
-    image_url: '/images/faculty_complex_hero.png',
+    id: 'fci-complex-building',
+    title: 'FCI Academic Complex & Faculty Building',
+    description: 'The flagship faculty building housing lecture halls, computing facilities, and departmental offices at CUSTECH Osara.',
+    image_url: '/images/school-faculty.jpeg',
     category: 'campus',
-    date: 'September 2026',
+    date: 'October 2026',
     featured: true,
   },
   {
     id: 'custech-circular-notice',
-    title: '2026/2027 Academic Resumption Directive',
-    description: 'Official university circular signed by the Registrar, Mrs. Glory Ojochogu Yakubu, on resumption dates and registration guidelines.',
+    title: 'Official 2026/2027 Academic Resumption Circular',
+    description: 'University circular signed by the Registrar, Mrs. Glory Ojochogu Yakubu, on resumption dates and registration guidelines.',
     image_url: '/images/custech_resumption_adjustment_circular_2026.png',
     category: 'academics',
     date: '25th September 2026',
     featured: true,
   },
   {
-    id: 'computer-labs-fci',
-    title: 'Department of Computer Science Lab',
-    description: 'High-speed computing laboratory dedicated to hands-on software development, algorithm testing, and academic project work.',
-    image_url: '/images/fci_hero_lab.png',
-    category: 'academics',
-    date: 'August 2026',
-    featured: true,
+    id: 'custech-aerial-view',
+    title: 'CUSTECH Campus Aerial Panorama',
+    description: 'Panoramic aerial view of the expanding Confluence University of Science and Technology campus in Osara, Kogi State.',
+    image_url: '/images/campus-aerial-1.jpg',
+    category: 'campus',
+    date: 'September 2026',
+    featured: false,
   },
   {
-    id: 'fci-auditorium',
-    title: 'Faculty Multi-Purpose Auditorium',
-    description: 'Venue for departmental orientations, distinguished public lectures, and academic guild symposiums.',
-    image_url: '/images/fci_hall.png',
-    category: 'events',
-    date: 'July 2026',
+    id: 'custech-main-gate',
+    title: 'CUSTECH Main Campus Ceremonial Gate',
+    description: 'The primary ceremonial entrance and security checkpoint of Confluence University of Science and Technology, Osara.',
+    image_url: '/images/school-gate.jpeg',
+    category: 'campus',
+    date: 'August 2026',
     featured: false,
   },
 ];
 
-const STORAGE_KEY = 'fci_custom_gallery_images_v1';
+const STORAGE_KEY = 'fci_custom_gallery_images_v2';
 
 export function getStoredGalleryImages(): GalleryImage[] {
   if (typeof window === 'undefined') {
@@ -56,15 +56,16 @@ export function getStoredGalleryImages(): GalleryImage[] {
   }
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_GALLERY_IMAGES));
-      return INITIAL_GALLERY_IMAGES;
+    if (raw !== null) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) {
+        return parsed;
+      }
     }
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) && parsed.length > 0 ? parsed : INITIAL_GALLERY_IMAGES;
   } catch {
-    return INITIAL_GALLERY_IMAGES;
+    // Fall back to initial if corrupt
   }
+  return INITIAL_GALLERY_IMAGES;
 }
 
 export function saveStoredGalleryImages(images: GalleryImage[]): void {
