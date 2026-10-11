@@ -122,7 +122,6 @@ export default function HomePage() {
       {/* 2.5 Academic Milestone Countdown Timer */}
       <section className="py-8 bg-gradient-to-b from-brand-50/60 to-transparent dark:from-brand-950/60 dark:to-transparent border-b border-brand-200/70 dark:border-brand-800/70">
         <div className="container mx-auto px-4 sm:px-6">
-          <CountdownWidget variant="hero" defaultMilestoneId="sem1-resumption" />
           <CountdownWidget variant="hero" defaultMilestoneId="sem1-resumption-fresh" />
         </div>
       </section>
