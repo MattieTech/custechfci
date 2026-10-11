@@ -127,7 +127,7 @@ export default function AboutPage() {
 
             <div className="flex flex-wrap md:flex-col gap-3 w-full md:w-auto shrink-0">
               <a
-                href="https://mattie-web.vercel.app"
+                href="https://bit.ly/mattietech"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm transition-all shadow-sm shadow-emerald-950/40"

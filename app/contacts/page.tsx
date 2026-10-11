@@ -290,12 +290,22 @@ export default function ContactsPage() {
 
               <div className="space-y-3">
                 <p className="text-sm text-brand-300">Have suggestions or found a bug?</p>
-                <a
-                  href="mailto:contact@mattietech.com"
-                  className="inline-flex items-center justify-center rounded-md bg-brand-500 px-6 py-2.5 text-sm font-medium text-white shadow transition-colors hover:bg-brand-600 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-400"
-                >
-                  <Mail className="mr-2 h-4 w-4" /> Reach out to developer
-                </a>
+                <div className="flex flex-wrap gap-3">
+                  <a
+                    href="https://bit.ly/mattietech"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center rounded-md bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white shadow transition-colors hover:bg-emerald-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-400"
+                  >
+                    <ExternalLink className="mr-2 h-4 w-4" /> View Portfolio
+                  </a>
+                  <a
+                    href="mailto:contact@mattietech.com"
+                    className="inline-flex items-center justify-center rounded-md bg-brand-700/80 hover:bg-brand-600 px-5 py-2.5 text-sm font-medium text-white shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-400 border border-brand-600/70"
+                  >
+                    <Mail className="mr-2 h-4 w-4" /> Reach out to developer
+                  </a>
+                </div>
               </div>
             </div>
           </section>

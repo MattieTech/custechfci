@@ -64,7 +64,7 @@ export function Footer() {
         <div className="flex flex-wrap items-center gap-2">
           <span>Engineered with ❤️ by</span>
           <a
-            href="https://mattie-web.vercel.app"
+            href="https://bit.ly/mattietech"
             target="_blank"
             rel="noopener noreferrer"
             className="font-semibold text-emerald-400 hover:text-emerald-300 underline underline-offset-4 decoration-emerald-500/50 transition-colors"
@@ -73,7 +73,7 @@ export function Footer() {
           </a>
           <span className="text-brand-600 dark:text-brand-500">&middot;</span>
           <a
-            href="https://mattie-web.vercel.app"
+            href="https://bit.ly/mattietech"
             target="_blank"
             rel="noopener noreferrer"
             className="text-brand-300 hover:text-brand-100 transition-colors"
