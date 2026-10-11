@@ -36,6 +36,30 @@ const CATEGORIES = [
 
 const DEFAULT_ANNOUNCEMENTS: Announcement[] = [
   {
+    id: "ann-resumption-adjust-2026",
+    title: "CUSTECH Adjusts Resumption Dates for 2026/2027 Academic Session",
+    content: `The Confluence University of Science and Technology (CUSTECH), Osara, has announced an adjustment to the resumption dates for fresh and returning students for the 2026/2027 academic session.
+
+In a circular dated September 25th, 2026, and signed by the Registrar and Secretary to Council, Mrs. Glory Ojochogu Yakubu, the University explained that the adjustment was necessitated by unforeseen technical glitches and logistical challenges and is aimed at ensuring seamless administrative preparations for the new academic session.
+
+Under the new arrangement:
+• Fresh students comprising 100 Level and Direct Entry students will now resume on Monday, October 12th, 2026 (instead of September 28th, 2026).
+• Returning students from 200 Level and above will resume on Monday, October 19th, 2026, representing a three-week extension from the original resumption date.
+• Regular course registration deadline has been extended to Friday, November 13th, 2026.
+• Late registration window will run from Saturday, November 14th to Monday, November 23rd, 2026, with the statutory late registration fee of ₦10,000.
+
+CUSTECH advised fresh students to commence screening, physical documentation and online course registration immediately upon resumption, while returning students may continue with fee payment and course registration through the online portal before their physical return to campus.
+
+A supplementary academic calendar containing the new date for the matriculation ceremony and revised academic workload will be issued by the Academic Planning Unit.
+
+Signed: Information, Public Relations and Protocol Unit, CUSTECH, Osara. (26th September, 2026)`,
+    category: "general",
+    is_important: true,
+    is_published: true,
+    image_url: "/images/custech_resumption_adjustment_circular_2026.png",
+    created_at: "2026-09-26T10:00:00.000Z",
+  },
+  {
     id: "ann-cal-2026",
     title: "Official Approved Academic Calendar for 2026/2027 Session Released",
     content: `The University Community and all students of the Faculty of Computing and Informatics (FCI) are hereby informed that the Academic Calendar for the 2026/2027 Academic Session has been officially approved by Senate at its 32nd Meeting held on Tuesday, 2nd September 2026.
@@ -46,6 +70,11 @@ Key Session Highlights:
 • General & Faculty Orientation Week: 12th – 17th October 2026
 • Commencement of Lectures: Tuesday, 13th October 2026
 • Matriculation Ceremony: Wednesday, 11th November 2026
+Key Session Highlights (Adjusted):
+• Freshers (100L & DE) Resumption: Monday, 12th October 2026
+• Returning Students (200L+) Resumption: Monday, 19th October 2026
+• Regular Course Registration Closes: Friday, 13th November 2026
+• Late Registration (₦10k Surcharge): 14th – 23rd November 2026
 • Continuous Assessment (CA) Tests: 14th – 18th December 2026
 • Christmas & New Year Break: 21st December 2026 – 2nd January 2027
 • First Semester Examinations: Monday, 25th January – Saturday, 6th February 2027

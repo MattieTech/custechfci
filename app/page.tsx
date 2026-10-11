@@ -57,6 +57,7 @@ export default function HomePage() {
             </span>
             <span>
               <strong>2026/2027 Academic Calendar Approved</strong>: 1st Semester begins Mon 28th Sept. Course registration strictly closes 31st Oct (Late registration incurs ₦10,000 fee).
+              <strong>Resumption Adjusted for 2026/2027</strong>: Freshers (100L &amp; DE) resume Mon 12th Oct &middot; Returning students resume Mon 19th Oct. Regular registration extended to 13th Nov (Late fee: ₦10,000).
             </span>
           </div>
           <div className="flex items-center gap-2 shrink-0">

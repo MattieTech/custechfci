@@ -24,6 +24,7 @@ import {
   Clock,
   Bot,
   Search,
+  Image as ImageIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -361,6 +362,28 @@ export function MobileNav({ open, onOpenChange }: MobileNavProps) {
                   <span>Course Reps &amp; Directory</span>
                 </div>
                 <ChevronRight className={cn('w-4 h-4', pathname.startsWith('/contacts') ? 'text-white' : 'text-brand-400')} />
+              </Link>
+
+              <Link
+                href="/gallery"
+                onClick={() => onOpenChange(false)}
+                className={cn(
+                  'flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all min-h-[44px]',
+                  pathname === '/gallery'
+                    ? 'bg-brand-600 text-white shadow-md'
+                    : 'text-brand-800 dark:text-brand-200 hover:bg-brand-100/80 dark:hover:bg-brand-900/60'
+                )}
+              >
+                <div className="flex items-center gap-3">
+                  <ImageIcon className={cn("w-5 h-5", pathname === '/gallery' ? "text-white" : "text-rose-500")} />
+                  <span>Photo Gallery</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className={cn("text-[10px] font-bold px-1.5 py-0.5 rounded-md", pathname === '/gallery' ? "bg-brand-700 text-white" : "bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300")}>
+                    Photos
+                  </span>
+                  <ChevronRight className={cn('w-4 h-4', pathname === '/gallery' ? 'text-white' : 'text-brand-400')} />
+                </div>
               </Link>
 
               <Link

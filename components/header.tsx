@@ -20,7 +20,8 @@ import {
   Newspaper,
   Mail,
   Info,
-  BookOpen
+  BookOpen,
+  Image as ImageIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { HEADER_NAV_ITEMS, NavDropdownItem } from '@/lib/constants';
@@ -40,6 +41,7 @@ const DROPDOWN_ICONS: Record<string, React.ElementType> = {
   mail: Mail,
   info: Info,
   book: BookOpen,
+  image: ImageIcon,
 };
 
 export function Header() {

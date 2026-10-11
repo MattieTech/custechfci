@@ -21,10 +21,12 @@ import {
   PackageSearch,
   FileQuestion,
   MessageSquare,
+  Image as ImageIcon,
 } from 'lucide-react';
 
 const adminNavItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/admin/gallery', label: 'Photo Gallery', icon: ImageIcon },
   { href: '/admin/users', label: 'Onboard Reps & Staff', icon: UserCheck },
   { href: '/admin/cbt', label: 'CBT Question Bank', icon: FileQuestion },
   { href: '/admin/discussions', label: 'Discussions & QA', icon: MessageSquare },

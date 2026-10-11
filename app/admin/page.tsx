@@ -12,6 +12,7 @@ import {
   UserCheck,
   FileQuestion,
   MessageSquare,
+  Image as ImageIcon,
 } from 'lucide-react';
 import Link from 'next/link';
 import { CBT_COURSES, getMergedQuestionsForCourse } from '@/lib/cbt-banks';
@@ -97,6 +98,13 @@ export default function AdminDashboardPage() {
       icon: FileQuestion,
       href: '/admin/cbt',
       color: 'text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30',
+    },
+    {
+      label: 'Photo Gallery',
+      value: 'Manage',
+      icon: ImageIcon,
+      href: '/admin/gallery',
+      color: 'text-rose-600 bg-rose-50 dark:bg-rose-950/30',
     },
     {
       label: 'Past Question Discussions',

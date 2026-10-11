@@ -33,6 +33,7 @@ export function Footer() {
             <li><Link href="/resources?tab=cgpa" className="text-brand-300 hover:text-brand-100 transition-colors text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 rounded-sm">CGPA Calculator</Link></li>
             <li><Link href="/contacts" className="text-brand-300 hover:text-brand-100 transition-colors text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 rounded-sm">Contact Reps</Link></li>
             <li><Link href="/news" className="text-brand-300 hover:text-brand-100 transition-colors text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 rounded-sm">Faculty News</Link></li>
+            <li><Link href="/gallery" className="text-brand-300 hover:text-brand-100 transition-colors text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 rounded-sm">Photo Gallery</Link></li>
             <li><Link href="https://custech.edu.ng" target="_blank" rel="noopener noreferrer" className="text-brand-300 hover:text-brand-100 transition-colors text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 rounded-sm">CUSTECH Portal</Link></li>
           </ul>
         </div>
@@ -58,10 +59,6 @@ export function Footer() {
           </ul>
         </div>
       </div>
-      
-      <div className="container mx-auto px-4 mt-12 pt-8 border-t border-brand-800 flex flex-col md:flex-row justify-between items-center gap-4 text-brand-400 text-xs">
-        <p>&copy; {currentYear} Faculty of Computing and Informatics. All rights reserved.</p>
-        <p>Built by MattieTech</p>
       <div className="container mx-auto px-4 mt-12 pt-8 border-t border-brand-800 flex flex-col md:flex-row justify-between items-center gap-4 text-brand-300 text-xs">
         <p>&copy; {currentYear} Faculty of Computing and Informatics, CUSTECH Osara. All rights reserved.</p>
         <div className="flex flex-wrap items-center gap-2">

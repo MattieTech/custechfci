@@ -110,6 +110,13 @@ export const HEADER_NAV_ITEMS: HeaderNavItem[] = [
         iconName: 'mail',
       },
       {
+        href: '/gallery',
+        label: 'Photo Gallery',
+        description: 'Campus facilities, computer labs, event pictures & student highlights',
+        badge: 'Photos',
+        iconName: 'image',
+      },
+      {
         href: '/about',
         label: 'About Faculty',
         description: 'FCI leadership, history, degree programs & vision',

@@ -120,7 +120,7 @@ export default function CalendarPage() {
         {/* Academic Countdown Widget */}
         <CountdownWidget
           variant="hero"
-          defaultMilestoneId={selectedSemester === 1 ? "sem1-exam" : "sem2-resumption"}
+          defaultMilestoneId={selectedSemester === 1 ? "sem1-resumption-fresh" : "sem2-resumption"}
         />
 
         {/* Senate Resolution Banner on Online Course Registration & Deadlines */}
